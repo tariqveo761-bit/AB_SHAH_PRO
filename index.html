@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AB.SHAH PRO | HFT TERMINAL</title>
+    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=JetBrains+Mono:wght@400;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-main: #04070b;
+            --bg-card: #0a0f16;
+            --border-color: #1a2332;
+            --text-primary: #f3f4f6;
+            --text-muted: #64748b;
+            --buy-color: #10b981;
+            --sell-color: #ef4444;
+            --accent: #3b82f6;
+        }
+
+        body { background: var(--bg-main); color: var(--text-primary); font-family: 'Inter', sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 20px; }
+        
+        .terminal-box { background: var(--bg-card); border: 1px solid var(--border-color); padding: 30px; border-radius: 12px; width: 500px; box-shadow: 0 20px 40px rgba(0,0,0,0.9); }
+        
+        .taveed-container { position: relative; width: 100%; height: 120px; border-radius: 8px; overflow: hidden; margin-bottom: 20px; border: 1px solid var(--border-color); display: none; }
+        .taveed-img { width: 100%; height: 100%; object-fit: cover; opacity: 0.4; }
+        .taveed-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-family: 'JetBrains Mono', monospace; font-size: 30px; font-weight: 800; color: #fff; text-shadow: 0 0 20px var(--accent); letter-spacing: 5px; width: 100%; text-align: center; }
+
+        .header-area { text-align: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid var(--border-color); }
+        h1 { margin: 0 0 5px 0; font-size: 24px; font-weight: 900; letter-spacing: 2px; }
+        .badge { background: rgba(59, 130, 246, 0.1); color: var(--accent); padding: 5px 12px; border-radius: 4px; font-size: 11px; font-family: 'JetBrains Mono'; border: 1px solid rgba(59, 130, 246, 0.3); display: inline-block; font-weight: 700;}
+
+        .controls { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
+        select, input { padding: 12px; background: var(--bg-main); border: 1px solid var(--border-color); color: var(--text-primary); border-radius: 6px; font-family: 'JetBrains Mono', monospace; outline: none; width: 100%; font-size: 13px; font-weight: 600; }
+        
+        .primary-btn { width: 100%; padding: 14px; background: var(--accent); color: #fff; border: none; border-radius: 6px; font-weight: 900; font-size: 14px; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; margin-top: 10px;}
+        .primary-btn:hover { background: #2563eb; box-shadow: 0 0 15px rgba(59, 130, 246, 0.5); }
+        
+        .tester-btn { width: 100%; padding: 10px; background: transparent; color: var(--text-muted); border: 1px dashed var(--border-color); border-radius: 6px; font-weight: 700; font-size: 11px; cursor: pointer; margin-bottom: 15px; font-family: 'JetBrains Mono';}
+        .tester-btn:hover { border-color: var(--text-primary); color: var(--text-primary); }
+
+        .timer-display { font-family: 'JetBrains Mono', monospace; font-size: 50px; font-weight: 800; text-align: center; margin: 15px 0; letter-spacing: -2px; }
+        
+        .ribbon-container { width: 100%; height: 6px; background: var(--bg-main); border-radius: 3px; overflow: hidden; margin-bottom: 20px; }
+        .ribbon-scan { width: 25%; height: 100%; background: var(--accent); position: relative; animation: scanHFT 0.6s ease-in-out infinite alternate; display: none; box-shadow: 0 0 10px var(--accent); }
+        @keyframes scanHFT { 0% { left: -10%; } 100% { left: 85%; } }
+        .ribbon-timer { height: 100%; width: 100%; transition: width 1s linear; display: none; }
+
+        .signal-box { background: var(--bg-main); border: 1px solid var(--border-color); padding: 25px; border-radius: 8px; text-align: center; display: none; transition: 0.3s; }
+        .sys-msg { color: var(--text-muted); font-size: 11px; font-weight: 700; font-family: 'JetBrains Mono'; margin-bottom: 5px; }
+        .action { font-size: 34px; font-weight: 900; margin: 5px 0 15px 0; font-family: 'Inter', sans-serif; letter-spacing: 1px; }
+        .win-prob { font-size: 13px; font-family: 'JetBrains Mono'; font-weight: 700; margin-bottom: 20px; border-bottom: 1px solid var(--border-color); padding-bottom: 15px;}
+
+        .top-strats { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; text-align: left; }
+        .strat-item { display: flex; justify-content: space-between; align-items: center; background: var(--bg-card); padding: 10px; border-radius: 4px; border-left: 3px solid transparent; font-size: 11px; }
+        .strat-name { color: var(--text-muted); font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 70%; font-family: 'JetBrains Mono'; }
+        .strat-val { font-family: 'JetBrains Mono', monospace; font-weight: 800; }
+
+        .tester-panel { display: none; background: #080c13; border: 1px solid var(--accent); padding: 20px; border-radius: 8px; margin-bottom: 15px; text-align: center; }
+        .test-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 15px; }
+        .test-box { background: var(--bg-main); padding: 10px; border-radius: 6px; border: 1px solid var(--border-color); font-family: 'JetBrains Mono'; }
+        .test-label { font-size: 10px; color: var(--text-muted); font-weight: 700;}
+        .test-val { font-size: 18px; font-weight: 800; margin-top: 5px; }
+        .test-winrate { grid-column: span 3; font-size: 26px; color: var(--buy-color); border-color: var(--buy-color); text-shadow: 0 0 15px rgba(16, 185, 129, 0.4); }
+    </style>
+</head>
+<body>
+
+    <div id="loginBox" class="terminal-box">
+        <div class="header-area" style="border:none;">
+            <h1>AB.SHAH PRO HFT</h1>
+            <div class="badge">SECURE NODE GATEWAY</div>
+        </div>
+        <input type="email" id="email" placeholder="Enter Authentication Key">
+        <button class="primary-btn" onclick="login()">INITIALIZE ENGINE</button>
+    </div>
+
+    <div id="dashboard" class="terminal-box" style="display: none;">
+        
+        <div class="taveed-container" id="taveedContainer">
+            <img id="taveedImg" class="taveed-img" src="">
+            <div class="taveed-text">AB.SHAH HFT</div>
+        </div>
+        
+        <div class="header-area">
+            <div class="badge">PING: <span id="lat">--</span> | NODE: PK-RYK | MODE: AUTO-LOOP</div>
+        </div>
+
+        <button class="tester-btn" onclick="runBacktest()">[ GENERATE 30-DAY HFT REPORT ]</button>
+
+        <div id="testerPanel" class="tester-panel">
+            <div style="color: var(--accent); font-family: 'JetBrains Mono'; font-size: 12px; font-weight:800;">30-DAY TICK-BY-TICK SIMULATION</div>
+            <div class="test-grid" id="testGrid" style="display:none;">
+                <div class="test-box">
+                    <div class="test-label">TOTAL TRADES</div>
+                    <div class="test-val" id="tTotal">--</div>
+                </div>
+                <div class="test-box">
+                    <div class="test-label">WINS</div>
+                    <div class="test-val" id="tWins" style="color: var(--buy-color);">--</div>
+                </div>
+                <div class="test-box">
+                    <div class="test-label">LOSSES</div>
+                    <div class="test-val" id="tLoss" style="color: var(--sell-color);">--</div>
+                </div>
+                <div class="test-box test-winrate">
+                    <div class="test-label" style="color: var(--buy-color);">HYPER-ACTIVE WIN RATE</div>
+                    <div id="tRate">--</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="controls">
+            <select id="pair" onchange="startAutoLoop()">
+                <optgroup label="OTC Markets">
+                    <option value="EUR/USD (OTC)">EUR/USD (OTC)</option>
+                    <option value="GBP/USD (OTC)">GBP/USD (OTC)</option>
+                    <option value="GOLD (OTC)">GOLD (OTC)</option>
+                </optgroup>
+                <optgroup label="Real Markets">
+                    <option value="GOLD">GOLD</option>
+                    <option value="BITCOIN">BITCOIN</option>
+                </optgroup>
+            </select>
+            <select id="timeframe" onchange="startAutoLoop()">
+                <option value="5">S5 (5 Seconds)</option>
+                <option value="15">S15 (15 Seconds)</option>
+                <option value="60">M1 (1 Minute)</option>
+                <option value="300">M5 (5 Minutes)</option>
+            </select>
+        </div>
+
+        <div class="timer-display" id="timerText">00:00</div>
+        
+        <div class="ribbon-container">
+            <div id="ribbonScan" class="ribbon-scan"></div>
+            <div id="ribbonTimer" class="ribbon-timer"></div>
+        </div>
+
+        <div id="signalOutput" class="signal-box">
+            <div class="sys-msg" id="sigMsg">SYSTEM ARMED - AWAITING TRIGGER</div>
+            <div class="action" id="sigAction">--</div>
+            <div class="win-prob" id="winProbBox" style="display:none;">HFT PROBABILITY: <span id="winProb">--</span></div>
+            
+            <div class="top-strats" id="topStrats"></div>
+        </div>
+    </div>
+
+    <script>
+        const socket = io('http://localhost:3000');
+        let userEmail = "";
+        let countdownInterval = null;
+        let scanTimeout = null;
+
+        function login() {
+            userEmail = document.getElementById('email').value;
+            fetch('http://localhost:3000/login', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ email: userEmail })
+            }).then(res => res.json()).then(data => {
+                if(data.success) {
+                    document.getElementById('loginBox').style.display = 'none';
+                    document.getElementById('dashboard').style.display = 'block';
+                    document.getElementById('taveedImg').src = data.taveedUrl;
+                    document.getElementById('taveedContainer').style.display = 'block';
+
+                    // SYSTEM STARTS AUTOMATICALLY
+                    startAutoLoop();
+                } else { alert("ACCESS DENIED"); }
+            });
+        }
+
+        // --- 30-DAY BACKTESTER ---
+        function runBacktest() {
+            document.getElementById('testerPanel').style.display = 'block';
+            document.getElementById('testGrid').style.display = 'none';
+            setTimeout(() => { socket.emit('run_test', { email: userEmail }); }, 1000);
+        }
+
+        socket.on('test_results', (data) => {
+            document.getElementById('testGrid').style.display = 'grid';
+            document.getElementById('tTotal').innerText = data.totalExecuted;
+            document.getElementById('tWins').innerText = data.wins;
+            document.getElementById('tLoss').innerText = data.losses;
+            document.getElementById('tRate').innerText = data.winRate;
+        });
+
+        // --- THE AUTO-LOOP MECHANISM ---
+        function startAutoLoop() {
+            clearInterval(countdownInterval); 
+            clearTimeout(scanTimeout);
+            
+            // Phase 1: Scanning Mode (Fast 2-second scan)
+            document.getElementById('ribbonScan').style.display = 'block';
+            document.getElementById('ribbonTimer').style.display = 'none';
+            document.getElementById('timerText').innerText = "SCAN";
+            document.getElementById('timerText').style.color = "var(--text-muted)";
+            
+            document.getElementById('signalOutput').style.display = 'block';
+            document.getElementById('sigAction').innerText = "CALCULATING...";
+            document.getElementById('sigAction').style.color = "var(--text-primary)";
+            document.getElementById('winProbBox').style.display = 'none';
+            document.getElementById('signalOutput').style.borderColor = "var(--border-color)";
+            document.getElementById('signalOutput').style.boxShadow = "none";
+
+            // Request signal after 2 seconds of visual "scanning"
+            scanTimeout = setTimeout(() => {
+                socket.emit('request_signal', { email: userEmail, pair: document.getElementById('pair').value });
+            }, 2000);
+        }
+
+        socket.on('signal_ready', (data) => {
+            document.getElementById('lat').innerText = data.latency;
+            
+            // Update UI with the Signal
+            document.getElementById('sigMsg').innerText = data.msg;
+            document.getElementById('sigAction').innerText = data.action;
+            document.getElementById('sigAction').style.color = data.mainColor;
+            
+            document.getElementById('winProbBox').style.display = 'block';
+            document.getElementById('winProb').innerText = data.winProb;
+            document.getElementById('winProb').style.color = data.mainColor;
+            document.getElementById('signalOutput').style.borderColor = data.mainColor;
+            document.getElementById('signalOutput').style.boxShadow = `0 0 30px ${data.mainColor}20`;
+
+            let strHtml = data.topStrategies.map(s => {
+                return `<div class="strat-item" style="border-left-color: ${s.color}">
+                    <span class="strat-name">${s.name}</span>
+                    <span class="strat-val" style="color:${s.color};">${s.direction}</span>
+                </div>`;
+            }).join('');
+            document.getElementById('topStrats').innerHTML = strHtml;
+
+            // Phase 2: Wait / Timer Mode
+            startTradeTimer(data.mainColor);
+        });
+
+        function startTradeTimer(mainColor) {
+            document.getElementById('ribbonScan').style.display = 'none';
+            document.getElementById('ribbonTimer').style.display = 'block';
+            document.getElementById('timerText').style.color = mainColor;
+
+            let totalSeconds = parseInt(document.getElementById('timeframe').value);
+            let timeLeft = totalSeconds;
+
+            document.getElementById('ribbonTimer').style.width = "100%";
+            document.getElementById('ribbonTimer').style.background = mainColor;
+
+            countdownInterval = setInterval(() => {
+                timeLeft--;
+                let m = Math.floor(timeLeft / 60).toString().padStart(2, '0');
+                let s = (timeLeft % 60).toString().padStart(2, '0');
+                document.getElementById('timerText').innerText = `${m}:${s}`;
+                
+                let percent = (timeLeft / totalSeconds) * 100;
+                document.getElementById('ribbonTimer').style.width = percent + "%";
+
+                if(timeLeft <= 0) {
+                    clearInterval(countdownInterval);
+                    // Phase 3: Timer finished, automatically loop back to Phase 1
+                    startAutoLoop();
+                }
+            }, 1000);
+        }
+    </script>
+</body>
+</html>
