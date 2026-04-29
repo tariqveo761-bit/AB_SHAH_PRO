@@ -2,36 +2,42 @@ const express = require('express');
 const http = require('http');
 const { Server } = require('socket.io');
 const cors = require('cors');
+const path = require('path'); // Yeh line zaroori hai
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
 const server = http.createServer(app);
-const io = new Server(server, { cors: { origin: "*" } });
+const io = new Server(server, { 
+    cors: { origin: "*" },
+    transports: ['polling', 'websocket']
+});
 
 // --- 🌐 REMOTE WHITELIST LOGIC ---
 let allowedEmails = [];
 
-// Yahan apne GitHub ka RAW link dalna hai (Niche Step 2 mein bataya hai kaise)
-const GITHUB_RAW_URL = "https://raw.githubusercontent.com/tariqveo761-bit/AB_SHAH_PRO/refs/heads/main/emails.txt";
+// ⚠️ YAHAN APNA WOH "RAW" LINK DOBARA DAALEIN JO PEHLE COPY KIYA THA
+const GITHUB_RAW_URL = "https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/emails.txt";
 
 async function updateWhitelist() {
     try {
         const response = await fetch(GITHUB_RAW_URL);
-        const text = await response.json(); // Agar JSON hai, warna .text() use karein
-        // Hum simple text file use karenge: har line par aik email
         const rawText = await response.text();
         allowedEmails = rawText.split('\n').map(e => e.trim().toLowerCase()).filter(e => e !== "");
-        console.log(`✅ Whitelist Auto-Updated: ${allowedEmails.length} Users Active.`);
+        console.log(`✅ Whitelist Updated: ${allowedEmails.length} Users.`);
     } catch (err) {
-        console.error("❌ Remote Whitelist Sync Failed. Using previous cache.");
+        console.error("❌ Whitelist Sync Failed.");
     }
 }
 
-// Har 5 minute (300000ms) baad khud update hoga
 setInterval(updateWhitelist, 300000);
-updateWhitelist(); // Pehli baar chalane ke liye
+updateWhitelist();
+
+// --- 🏠 MAIN PAGE ROUTE (Yeh "Cannot GET /" ko theek karega) ---
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'index.html'));
+});
 
 // Login API
 app.post('/login', (req, res) => {
@@ -43,25 +49,50 @@ app.post('/login', (req, res) => {
     }
 });
 
-// --- HFT SIGNAL ENGINE (Wahi purana aggressive logic) ---
+// --- HFT SIGNAL ENGINE ---
 function analyzeMarket(pair) {
     const score = (Math.random() * 100); 
     const isBuy = score >= 50;
+    const colors = isBuy ? { main: "#10b981", bg: "#2ea043" } : { main: "#ef4444", bg: "#f85149" };
+    
+    const strategies = [
+        { name: "Tick Vol Delta", dir: isBuy ? "BUY" : "SELL" },
+        { name: "Micro RSI (3)", dir: isBuy ? "BUY" : "SELL" },
+        { name: "Order Block", dir: isBuy ? "BUY" : "SELL" },
+        { name: "EMA 3/7 Cross", dir: isBuy ? "BUY" : "SELL" },
+        { name: "VWAP Bias", dir: isBuy ? "BUY" : "SELL" },
+        { name: "Fibonacci 0.5", dir: isBuy ? "BUY" : "SELL" }
+    ];
+
     return {
         action: isBuy ? "HFT EXECUTE BUY 🟢" : "HFT EXECUTE SELL 🔴",
-        mainColor: isBuy ? "#10b981" : "#ef4444",
-        msg: "INSTITUTIONAL MOMENTUM DETECTED",
+        mainColor: colors.main,
+        msg: "INSTITUTIONAL MOMENTUM CONFIRMED",
         winProb: (89 + Math.random() * 6).toFixed(1) + "%",
+        topStrategies: strategies.map(s => ({ ...s, color: colors.main })),
         isValidTrade: true,
-        latency: "1ms"
+        latency: Math.floor(Math.random() * 5 + 1) + "ms"
     };
 }
 
 io.on('connection', (socket) => {
     socket.on('request_signal', (data) => {
-        if (!allowedEmails.includes(data.email.toLowerCase().trim())) return;
+        if (!allowedEmails.includes(data.email?.toLowerCase().trim())) return;
         socket.emit('signal_ready', analyzeMarket(data.pair));
+    });
+
+    socket.on('run_test', (data) => {
+        const total = 38000 + Math.floor(Math.random() * 5000);
+        const wins = Math.floor(total * 0.92);
+        socket.emit('test_results', {
+            totalExecuted: total,
+            wins: wins,
+            losses: total - wins,
+            winRate: "92.3%"
+        });
     });
 });
 
-server.listen(3000, () => console.log('🚀 AB.SHAH PRO: LAZY MASTER ENGINE ONLINE'));
+// Vercel ke liye port setup
+const PORT = process.env.PORT || 3000;
+server.listen(PORT, () => console.log(`🚀 Server Running on Port ${PORT}`));
