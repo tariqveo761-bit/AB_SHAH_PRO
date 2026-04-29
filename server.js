@@ -14,7 +14,7 @@ const GITHUB_RAW_URL = "https://raw.githubusercontent.com/tariqveo761-bit/AB_SHA
 
 async function updateWhitelist() {
     try {
-        const response = await fetch(GITHUB_RAW_URL);
+        const response = await fetch(GITHUB_RAW_URL, { cache: "no-store" });
         const rawText = await response.text();
         allowedEmails = rawText.split('\n').map(e => e.trim().toLowerCase()).filter(e => e !== "");
     } catch (err) {
@@ -42,13 +42,14 @@ function analyzeMarket(pair) {
     const isBuy = score >= 50;
     const colors = isBuy ? { main: "#10b981", bg: "#2ea043" } : { main: "#ef4444", bg: "#f85149" };
     
+    // Yahan 'direction' theek kar diya gaya hai (Pehle 'dir' tha jis se undefined aa raha tha)
     const strategies = [
-        { name: "Tick Vol Delta", dir: isBuy ? "BUY" : "SELL" },
-        { name: "Micro RSI (3)", dir: isBuy ? "BUY" : "SELL" },
-        { name: "Order Block", dir: isBuy ? "BUY" : "SELL" },
-        { name: "EMA 3/7 Cross", dir: isBuy ? "BUY" : "SELL" },
-        { name: "VWAP Bias", dir: isBuy ? "BUY" : "SELL" },
-        { name: "Fibonacci 0.5", dir: isBuy ? "BUY" : "SELL" }
+        { name: "Tick Vol Delta", direction: isBuy ? "BUY" : "SELL" },
+        { name: "Micro RSI (3)", direction: isBuy ? "BUY" : "SELL" },
+        { name: "Order Block", direction: isBuy ? "BUY" : "SELL" },
+        { name: "EMA 3/7 Cross", direction: isBuy ? "BUY" : "SELL" },
+        { name: "VWAP Bias", direction: isBuy ? "BUY" : "SELL" },
+        { name: "Fibonacci 0.5", direction: isBuy ? "BUY" : "SELL" }
     ];
 
     return {
