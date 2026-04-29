@@ -70,7 +70,7 @@
     <div id="loginBox" class="terminal-box">
         <div class="header-area" style="border:none;">
             <h1>AB.SHAH PRO HFT</h1>
-            <div class="badge">SECURE NODE GATEWAY</div>
+            <div class="badge">SECURE CLOUD NODE: VERCEL</div>
         </div>
         <input type="email" id="email" placeholder="Enter Authentication Key">
         <button class="primary-btn" onclick="login()">INITIALIZE ENGINE</button>
@@ -84,7 +84,7 @@
         </div>
         
         <div class="header-area">
-            <div class="badge">PING: <span id="lat">--</span> | NODE: PK-RYK | MODE: AUTO-LOOP</div>
+            <div class="badge">PING: <span id="lat">--</span> | NODE: PK-RYK (CLOUD) | MODE: AUTO-LOOP</div>
         </div>
 
         <button class="tester-btn" onclick="runBacktest()">[ GENERATE 30-DAY HFT REPORT ]</button>
@@ -148,14 +148,20 @@
     </div>
 
     <script>
-        const socket = io('http://localhost:3000');
+        // MAIN SERVER LINK CHANGED TO VERCEL APP
+        const SERVER_URL = 'https://ab-shah-pro.vercel.app'; 
+        
+        const socket = io(SERVER_URL, {
+            transports: ['polling', 'websocket'] // Added to support Vercel serverless environment
+        });
+        
         let userEmail = "";
         let countdownInterval = null;
         let scanTimeout = null;
 
         function login() {
             userEmail = document.getElementById('email').value;
-            fetch('http://localhost:3000/login', {
+            fetch(`${SERVER_URL}/login`, {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({ email: userEmail })
@@ -168,7 +174,10 @@
 
                     // SYSTEM STARTS AUTOMATICALLY
                     startAutoLoop();
-                } else { alert("ACCESS DENIED"); }
+                } else { alert("ACCESS DENIED: Your email is not in the Remote Whitelist."); }
+            }).catch(err => {
+                alert("SERVER OFFLINE or CONNECTING... Please try again.");
+                console.error(err);
             });
         }
 
@@ -205,7 +214,7 @@
             document.getElementById('signalOutput').style.borderColor = "var(--border-color)";
             document.getElementById('signalOutput').style.boxShadow = "none";
 
-            // Request signal after 2 seconds of visual "scanning"
+            // Request signal after 2 seconds
             scanTimeout = setTimeout(() => {
                 socket.emit('request_signal', { email: userEmail, pair: document.getElementById('pair').value });
             }, 2000);
