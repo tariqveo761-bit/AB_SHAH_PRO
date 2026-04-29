@@ -1,6 +1,4 @@
 const express = require('express');
-const http = require('http');
-const { Server } = require('socket.io');
 const cors = require('cors');
 const path = require('path'); 
 
@@ -8,16 +6,10 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const server = http.createServer(app);
-const io = new Server(server, { 
-    cors: { origin: "*" },
-    transports: ['polling', 'websocket']
-});
-
-// --- 🌐 REMOTE WHITELIST LOGIC (VERCEL OPTIMIZED) ---
+// --- 🌐 REMOTE WHITELIST LOGIC ---
 let allowedEmails = [];
 
-// 👇 APNA ASLI RAW LINK YAHAN DAALEIN INVERTED COMMAS KE ANDAR 👇
+// 👇 YAHAN APNA WOH RAW LINK DOBARA DAALEIN 👇
 const GITHUB_RAW_URL = "https://raw.githubusercontent.com/tariqveo761-bit/AB_SHAH_PRO/refs/heads/main/emails.txt";
 
 async function updateWhitelist() {
@@ -25,24 +17,18 @@ async function updateWhitelist() {
         const response = await fetch(GITHUB_RAW_URL);
         const rawText = await response.text();
         allowedEmails = rawText.split('\n').map(e => e.trim().toLowerCase()).filter(e => e !== "");
-        console.log(`✅ Whitelist Updated: ${allowedEmails.length} Users.`);
     } catch (err) {
         console.error("❌ Whitelist Sync Failed.");
     }
 }
 
-// --- 🏠 MAIN PAGE ROUTE ---
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-// --- 🔐 LOGIN API (AB YEH FORAN GITHUB CHECK KAREGA) ---
 app.post('/login', async (req, res) => {
     const { email } = req.body;
-    
-    // Login dabate hi pehle list update karega (Vercel ke liye best)
     await updateWhitelist();
-
     if (allowedEmails.includes(email.toLowerCase().trim())) {
         res.json({ success: true, taveedUrl: "https://images.unsplash.com/photo-1642543492481-44e81e3914a7?auto=format&fit=crop&w=800&q=80" });
     } else {
@@ -76,23 +62,21 @@ function analyzeMarket(pair) {
     };
 }
 
-io.on('connection', (socket) => {
-    socket.on('request_signal', (data) => {
-        if (!allowedEmails.includes(data.email?.toLowerCase().trim())) return;
-        socket.emit('signal_ready', analyzeMarket(data.pair));
-    });
+// Signal API
+app.post('/signal', (req, res) => {
+    const { email, pair } = req.body;
+    if (!allowedEmails.includes(email?.toLowerCase().trim())) return res.status(403).json({error: "Denied"});
+    res.json(analyzeMarket(pair));
+});
 
-    socket.on('run_test', (data) => {
-        const total = 38000 + Math.floor(Math.random() * 5000);
-        const wins = Math.floor(total * 0.92);
-        socket.emit('test_results', {
-            totalExecuted: total,
-            wins: wins,
-            losses: total - wins,
-            winRate: "92.3%"
-        });
-    });
+// Test API
+app.post('/test', (req, res) => {
+    const { email } = req.body;
+    if (!allowedEmails.includes(email?.toLowerCase().trim())) return res.status(403).json({error: "Denied"});
+    const total = 38000 + Math.floor(Math.random() * 5000);
+    const wins = Math.floor(total * 0.92);
+    res.json({ totalExecuted: total, wins, losses: total - wins, winRate: "92.3%" });
 });
 
 const PORT = process.env.PORT || 3000;
-server.listen(PORT, () => console.log(`🚀 Server Running on Port ${PORT}`));
+app.listen(PORT, () => console.log(`🚀 Server Running on Port ${PORT}`));
