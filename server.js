@@ -18,7 +18,7 @@ const io = new Server(server, {
 let allowedEmails = [];
 
 // 👇 APNA ASLI RAW LINK YAHAN DAALEIN INVERTED COMMAS KE ANDAR 👇
-const GITHUB_RAW_URL = "LINK_YAHAN_PASTE_KAREIN";
+const GITHUB_RAW_URL = "https://raw.githubusercontent.com/tariqveo761-bit/AB_SHAH_PRO/refs/heads/main/emails.txt";
 
 async function updateWhitelist() {
     try {
