@@ -14,7 +14,7 @@ const io = new Server(server, { cors: { origin: "*" } });
 let allowedEmails = [];
 
 // Yahan apne GitHub ka RAW link dalna hai (Niche Step 2 mein bataya hai kaise)
-const GITHUB_RAW_URL = "https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/emails.txt";
+const GITHUB_RAW_URL = "https://raw.githubusercontent.com/tariqveo761-bit/AB_SHAH_PRO/refs/heads/main/emails.txt";
 
 async function updateWhitelist() {
     try {
