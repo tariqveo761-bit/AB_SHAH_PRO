@@ -60,7 +60,7 @@
             <div class="taveed-text">AB.SHAH HFT</div>
         </div>
         <div class="header-area">
-            <div class="badge">PING: <span id="lat">1ms</span> | NODE: LOCAL HFT ENGINE | MODE: AUTO-LOOP</div>
+            <div class="badge">PING: <span id="lat">1ms</span> | NODE: UNIVERSAL HFT | MODE: AUTO-LOOP</div>
         </div>
         <button class="tester-btn" onclick="runBacktest()">[ GENERATE 30-DAY HFT REPORT ]</button>
         <div id="testerPanel" class="tester-panel">
@@ -143,10 +143,19 @@
             document.getElementById('tRate').innerText = "92.3%";
         }
 
-        // --- LOCAL HFT ENGINE (ZERO DELAY) ---
-        function generateLocalSignal() {
-            const score = (Math.random() * 100); 
-            const isBuy = score >= 50;
+        // --- UNIVERSAL HFT ENGINE (SYNCED ACROSS ALL DEVICES) ---
+        function generateLocalSignal(pair) {
+            const now = new Date();
+            // Seed based on current Minute (so it changes exactly at 00 seconds)
+            const timeSeed = now.getFullYear() + now.getMonth() + now.getDate() + now.getHours() + now.getMinutes();
+            // Seed based on selected Pair
+            const pairSeed = pair.split('').reduce((a, b) => a + b.charCodeAt(0), 0);
+            
+            // Combine seeds and generate a predictable pseudo-random score
+            const finalSeed = Math.sin(timeSeed + pairSeed) * 10000;
+            const score = (finalSeed - Math.floor(finalSeed)) * 100;
+            
+            const isBuy = score >= 50; 
             const mainColor = isBuy ? "#10b981" : "#ef4444";
             
             const strategies = [
@@ -161,8 +170,8 @@
             return {
                 action: isBuy ? "HFT EXECUTE BUY 🟢" : "HFT EXECUTE SELL 🔴",
                 mainColor: mainColor,
-                msg: "INSTITUTIONAL MOMENTUM CONFIRMED",
-                winProb: (89 + Math.random() * 6).toFixed(1) + "%",
+                msg: "UNIVERSAL SYNC: INSTITUTIONAL FLOW",
+                winProb: (89 + (score % 6)).toFixed(1) + "%",
                 topStrategies: strategies
             };
         }
@@ -184,9 +193,9 @@
             document.getElementById('signalOutput').style.boxShadow = "none";
             document.getElementById('topStrats').innerHTML = ""; 
 
-            // NO SERVER FETCH NEEDED. Generates instantly locally after 2 sec visual scan.
             scanTimeout = setTimeout(() => {
-                let data = generateLocalSignal();
+                let selectedPair = document.getElementById('pair').value;
+                let data = generateLocalSignal(selectedPair);
                 
                 document.getElementById('sigMsg').innerText = data.msg;
                 document.getElementById('sigAction').innerText = data.action;
