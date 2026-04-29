@@ -2,7 +2,7 @@ const express = require('express');
 const http = require('http');
 const { Server } = require('socket.io');
 const cors = require('cors');
-const path = require('path'); // Yeh line zaroori hai
+const path = require('path'); 
 
 const app = express();
 app.use(cors());
@@ -14,11 +14,11 @@ const io = new Server(server, {
     transports: ['polling', 'websocket']
 });
 
-// --- 🌐 REMOTE WHITELIST LOGIC ---
+// --- 🌐 REMOTE WHITELIST LOGIC (VERCEL OPTIMIZED) ---
 let allowedEmails = [];
 
-// ⚠️ YAHAN APNA WOH "RAW" LINK DOBARA DAALEIN JO PEHLE COPY KIYA THA
-const GITHUB_RAW_URL = "https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/emails.txt";
+// 👇 APNA ASLI RAW LINK YAHAN DAALEIN INVERTED COMMAS KE ANDAR 👇
+const GITHUB_RAW_URL = "LINK_YAHAN_PASTE_KAREIN";
 
 async function updateWhitelist() {
     try {
@@ -31,17 +31,18 @@ async function updateWhitelist() {
     }
 }
 
-setInterval(updateWhitelist, 300000);
-updateWhitelist();
-
-// --- 🏠 MAIN PAGE ROUTE (Yeh "Cannot GET /" ko theek karega) ---
+// --- 🏠 MAIN PAGE ROUTE ---
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-// Login API
-app.post('/login', (req, res) => {
+// --- 🔐 LOGIN API (AB YEH FORAN GITHUB CHECK KAREGA) ---
+app.post('/login', async (req, res) => {
     const { email } = req.body;
+    
+    // Login dabate hi pehle list update karega (Vercel ke liye best)
+    await updateWhitelist();
+
     if (allowedEmails.includes(email.toLowerCase().trim())) {
         res.json({ success: true, taveedUrl: "https://images.unsplash.com/photo-1642543492481-44e81e3914a7?auto=format&fit=crop&w=800&q=80" });
     } else {
@@ -93,6 +94,5 @@ io.on('connection', (socket) => {
     });
 });
 
-// Vercel ke liye port setup
 const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => console.log(`🚀 Server Running on Port ${PORT}`));
