@@ -109,7 +109,7 @@
     </div>
 
     <script>
-        const SERVER_URL = window.location.origin; // Ab yeh khud hi apna link utha lega!
+        const SERVER_URL = window.location.origin; 
         let userEmail = "";
         let countdownInterval = null;
         let scanTimeout = null;
@@ -162,14 +162,21 @@
             document.getElementById('winProbBox').style.display = 'none';
             document.getElementById('signalOutput').style.borderColor = "var(--border-color)";
             document.getElementById('signalOutput').style.boxShadow = "none";
+            document.getElementById('topStrats').innerHTML = ""; // Clear old undefined items
 
-            // DIRECT VERCEL API HIT (NO SOCKETS)
+            // VERCEL API HIT
             scanTimeout = setTimeout(() => {
                 fetch(`${SERVER_URL}/signal`, {
                     method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Cache-Control': 'no-cache' // Prevents Vercel from caching old answers
+                    },
                     body: JSON.stringify({ email: userEmail, pair: document.getElementById('pair').value })
-                }).then(res => res.json()).then(data => {
+                }).then(res => {
+                    if (!res.ok) throw new Error("Network Response Error");
+                    return res.json();
+                }).then(data => {
                     if(data.error) return alert("Session Expired");
                     
                     document.getElementById('lat').innerText = data.latency;
@@ -191,6 +198,12 @@
                     document.getElementById('topStrats').innerHTML = strHtml;
 
                     startTradeTimer(data.mainColor);
+                }).catch(err => {
+                    // AUTO RECOVERY SYSTEM: Agar fetch fail ho jaye toh phansega nahi, 3 sec baad dobara try karega!
+                    console.error("Signal Fetch Failed, Retrying...", err);
+                    document.getElementById('sigMsg').innerText = "NETWORK GLITCH - RETRYING...";
+                    document.getElementById('sigAction').innerText = "RE-SCANNING...";
+                    setTimeout(startAutoLoop, 3000); 
                 });
             }, 2000);
         }
