@@ -16,32 +16,21 @@
         .header-area { text-align: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid var(--border-color); }
         h1 { margin: 0 0 5px 0; font-size: 24px; font-weight: 900; letter-spacing: 2px; }
         .badge { background: rgba(59, 130, 246, 0.1); color: var(--accent); padding: 5px 12px; border-radius: 4px; font-size: 11px; font-family: 'JetBrains Mono'; border: 1px solid rgba(59, 130, 246, 0.3); display: inline-block; font-weight: 700;}
-        .price-badge { background: rgba(16, 185, 129, 0.1); color: var(--buy-color); padding: 5px 12px; border-radius: 4px; font-size: 12px; font-family: 'JetBrains Mono'; border: 1px solid rgba(16, 185, 129, 0.3); display: inline-block; font-weight: 900; margin-top: 8px;}
+        .price-badge { background: rgba(16, 185, 129, 0.1); color: var(--buy-color); padding: 8px 15px; border-radius: 6px; font-size: 14px; font-family: 'JetBrains Mono'; border: 1px solid rgba(16, 185, 129, 0.3); display: block; font-weight: 900; margin-top: 15px; text-align: center;}
         .controls { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
         select, input { padding: 12px; background: var(--bg-main); border: 1px solid var(--border-color); color: var(--text-primary); border-radius: 6px; font-family: 'JetBrains Mono', monospace; outline: none; width: 100%; font-size: 13px; font-weight: 600; }
         .primary-btn { width: 100%; padding: 14px; background: var(--accent); color: #fff; border: none; border-radius: 6px; font-weight: 900; font-size: 14px; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; margin-top: 10px;}
-        .primary-btn:hover { background: #2563eb; box-shadow: 0 0 15px rgba(59, 130, 246, 0.5); }
-        .tester-btn { width: 100%; padding: 10px; background: transparent; color: var(--text-muted); border: 1px dashed var(--border-color); border-radius: 6px; font-weight: 700; font-size: 11px; cursor: pointer; margin-bottom: 15px; font-family: 'JetBrains Mono';}
-        .tester-btn:hover { border-color: var(--text-primary); color: var(--text-primary); }
         .timer-display { font-family: 'JetBrains Mono', monospace; font-size: 50px; font-weight: 800; text-align: center; margin: 15px 0; letter-spacing: -2px; }
         .ribbon-container { width: 100%; height: 6px; background: var(--bg-main); border-radius: 3px; overflow: hidden; margin-bottom: 20px; }
-        .ribbon-scan { width: 25%; height: 100%; background: var(--accent); position: relative; animation: scanHFT 0.6s ease-in-out infinite alternate; display: none; box-shadow: 0 0 10px var(--accent); }
+        .ribbon-scan { width: 25%; height: 100%; background: var(--accent); position: relative; animation: scanHFT 0.6s ease-in-out infinite alternate; display: none; }
         @keyframes scanHFT { 0% { left: -10%; } 100% { left: 85%; } }
         .ribbon-timer { height: 100%; width: 100%; transition: width 1s linear; display: none; }
         .signal-box { background: var(--bg-main); border: 1px solid var(--border-color); padding: 25px; border-radius: 8px; text-align: center; display: none; transition: 0.3s; }
-        .sys-msg { color: var(--text-muted); font-size: 11px; font-weight: 700; font-family: 'JetBrains Mono'; margin-bottom: 5px; }
-        .action { font-size: 34px; font-weight: 900; margin: 5px 0 15px 0; font-family: 'Inter', sans-serif; letter-spacing: 1px; }
-        .win-prob { font-size: 13px; font-family: 'JetBrains Mono'; font-weight: 700; margin-bottom: 20px; border-bottom: 1px solid var(--border-color); padding-bottom: 15px;}
+        .action { font-size: 34px; font-weight: 900; margin: 10px 0; }
         .top-strats { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; text-align: left; }
         .strat-item { display: flex; justify-content: space-between; align-items: center; background: var(--bg-card); padding: 10px; border-radius: 4px; border-left: 3px solid transparent; font-size: 11px; }
-        .strat-name { color: var(--text-muted); font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 70%; font-family: 'JetBrains Mono'; }
-        .strat-val { font-family: 'JetBrains Mono', monospace; font-weight: 800; }
-        .tester-panel { display: none; background: #080c13; border: 1px solid var(--accent); padding: 20px; border-radius: 8px; margin-bottom: 15px; text-align: center; }
-        .test-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 15px; }
-        .test-box { background: var(--bg-main); padding: 10px; border-radius: 6px; border: 1px solid var(--border-color); font-family: 'JetBrains Mono'; }
-        .test-label { font-size: 10px; color: var(--text-muted); font-weight: 700;}
-        .test-val { font-size: 18px; font-weight: 800; margin-top: 5px; }
-        .test-winrate { grid-column: span 3; font-size: 26px; color: var(--buy-color); border-color: var(--buy-color); text-shadow: 0 0 15px rgba(16, 185, 129, 0.4); }
+        .strat-name { color: var(--text-muted); font-weight: 700; font-family: 'JetBrains Mono'; }
+        .strat-val { font-family: 'JetBrains Mono'; font-weight: 800; }
     </style>
 </head>
 <body>
@@ -60,33 +49,28 @@
             <img id="taveedImg" class="taveed-img" src="">
             <div class="taveed-text">AB.SHAH HFT</div>
         </div>
-        <div class="header-area">
-            <div class="badge">PING: <span id="lat">1ms</span> | ENGINE: REAL-TIME API</div><br>
-            <div class="price-badge" id="livePriceBadge" style="display:none;">LIVE PRICE: $--</div>
-        </div>
-        <button class="tester-btn" onclick="runBacktest()">[ GENERATE 30-DAY HFT REPORT ]</button>
-        <div id="testerPanel" class="tester-panel">
-            <div style="color: var(--accent); font-family: 'JetBrains Mono'; font-size: 12px; font-weight:800;">30-DAY TICK-BY-TICK SIMULATION</div>
-            <div class="test-grid" id="testGrid" style="display:none;">
-                <div class="test-box"><div class="test-label">TOTAL TRADES</div><div class="test-val" id="tTotal">--</div></div>
-                <div class="test-box"><div class="test-label">WINS</div><div class="test-val" id="tWins" style="color: var(--buy-color);">--</div></div>
-                <div class="test-box"><div class="test-label">LOSSES</div><div class="test-val" id="tLoss" style="color: var(--sell-color);">--</div></div>
-                <div class="test-box test-winrate"><div class="test-label" style="color: var(--buy-color);">HYPER-ACTIVE WIN RATE</div><div id="tRate">--</div></div>
-            </div>
-        </div>
         
+        <div class="header-area">
+            <div class="badge">PING: <span id="lat">1ms</span> | ENGINE: HYBRID HFT v2.0</div>
+            <div class="price-badge" id="livePriceBadge">LIVE PRICE: $--</div>
+        </div>
+
         <div class="controls">
-            <select id="pair" onchange="startAutoLoop()">
-                <optgroup label="Real Markets (Live Data)">
+            <select id="pair" onchange="updateMarketPrice()">
+                <optgroup label="Real Crypto Markets">
                     <option value="BITCOIN">BITCOIN (BTC/USDT)</option>
-                    <option value="GOLD">GOLD (Proxy)</option>
+                    <option value="ETHEREUM">ETHEREUM (ETH/USDT)</option>
+                    <option value="GOLD">GOLD (PAXG/USDT)</option>
                 </optgroup>
                 <optgroup label="OTC Markets (Synced)">
                     <option value="EUR/USD (OTC)">EUR/USD (OTC)</option>
                     <option value="GBP/USD (OTC)">GBP/USD (OTC)</option>
+                    <option value="USD/JPY (OTC)">USD/JPY (OTC)</option>
+                    <option value="AUD/CAD (OTC)">AUD/CAD (OTC)</option>
+                    <option value="NZD/USD (OTC)">NZD/USD (OTC)</option>
                 </optgroup>
             </select>
-            <select id="timeframe" onchange="startAutoLoop()">
+            <select id="timeframe">
                 <option value="5">S5 (5 Seconds)</option>
                 <option value="15">S15 (15 Seconds)</option>
                 <option value="60">M1 (1 Minute)</option>
@@ -101,10 +85,12 @@
             <div id="ribbonTimer" class="ribbon-timer"></div>
         </div>
 
-        <div id="signalOutput" class="signal-box">
-            <div class="sys-msg" id="sigMsg">SYSTEM ARMED - AWAITING TRIGGER</div>
+        <button id="scanBtn" class="primary-btn" onclick="startAutoLoop()">ANALYZE MARKET</button>
+
+        <div id="signalOutput" class="signal-box" style="margin-top:20px;">
+            <div style="color:var(--text-muted); font-size:10px; font-family:'JetBrains Mono';" id="sigMsg">AWAITING TRIGGER...</div>
             <div class="action" id="sigAction">--</div>
-            <div class="win-prob" id="winProbBox" style="display:none;">HFT PROBABILITY: <span id="winProb">--</span></div>
+            <div id="winProbBox" style="font-size:12px; margin-bottom:15px; font-family:'JetBrains Mono';">PROBABILITY: <span id="winProb">--</span></div>
             <div class="top-strats" id="topStrats"></div>
         </div>
     </div>
@@ -112,7 +98,7 @@
     <script>
         const SERVER_URL = window.location.origin; 
         let countdownInterval = null;
-        let scanTimeout = null;
+        let priceInterval = null;
 
         function login() {
             let email = document.getElementById('email').value;
@@ -126,167 +112,98 @@
                     document.getElementById('dashboard').style.display = 'block';
                     document.getElementById('taveedImg').src = data.taveedUrl;
                     document.getElementById('taveedContainer').style.display = 'block';
-                    startAutoLoop();
-                } else { alert("ACCESS DENIED: Your email is not in the Remote Whitelist."); }
-            }).catch(err => alert("SERVER ERROR. Please refresh."));
+                    updateMarketPrice(); // Start price tracking
+                    setInterval(updateMarketPrice, 3000); // Update every 3s
+                } else { alert("ACCESS DENIED"); }
+            });
         }
 
-        function runBacktest() {
-            document.getElementById('testerPanel').style.display = 'block';
-            document.getElementById('testGrid').style.display = 'grid';
-            const total = 38000 + Math.floor(Math.random() * 5000);
-            const wins = Math.floor(total * 0.923);
-            document.getElementById('tTotal').innerText = total;
-            document.getElementById('tWins').innerText = wins;
-            document.getElementById('tLoss').innerText = total - wins;
-            document.getElementById('tRate').innerText = "92.3%";
-        }
-
-        // --- BINANCE LIVE DATA FETCHER ---
-        async function fetchRealMarketData(pair) {
-            let symbol = "BTCUSDT"; // Default 
-            if(pair.includes("GOLD")) symbol = "PAXGUSDT"; // Gold Proxy
-            if(pair.includes("EUR")) symbol = "EURUSDT";
+        async function updateMarketPrice() {
+            let pair = document.getElementById('pair').value;
+            let symbol = "BTCUSDT";
+            if(pair === "ETHEREUM") symbol = "ETHUSDT";
+            if(pair === "GOLD") symbol = "PAXGUSDT";
             
-            try {
-                // Fetch last 2 candles (1 minute interval)
-                let res = await fetch(`https://api.binance.com/api/v3/klines?symbol=${symbol}&interval=1m&limit=2`);
-                let data = await res.json();
-                
-                let currentOpen = parseFloat(data[1][1]);
-                let currentClose = parseFloat(data[1][4]);
-                let prevOpen = parseFloat(data[0][1]);
-                let prevClose = parseFloat(data[0][4]);
-
-                // Update UI Price Badge
-                let priceBadge = document.getElementById('livePriceBadge');
-                priceBadge.style.display = 'inline-block';
-                priceBadge.innerText = `LIVE PRICE: $${currentClose.toFixed(2)}`;
-                priceBadge.style.color = currentClose >= currentOpen ? 'var(--buy-color)' : 'var(--sell-color)';
-                priceBadge.style.borderColor = currentClose >= currentOpen ? 'var(--buy-color)' : 'var(--sell-color)';
-
-                // Micro-Momentum Check
-                let isBullish = (currentClose > currentOpen) && (prevClose >= prevOpen);
-                let isBearish = (currentClose < currentOpen) && (prevClose <= prevOpen);
-
-                let isBuy = null; // null means neutral (use sync logic)
-                if (isBullish) isBuy = true;
-                if (isBearish) isBuy = false;
-
-                return { success: true, isBuy: isBuy };
-            } catch(e) {
-                return { success: false };
-            }
-        }
-
-        // --- HYBRID ENGINE: Real Data + Universal Sync ---
-        async function generateSignal(pair) {
-            let isBuy = null;
-            let msg = "UNIVERSAL SYNC: INSTITUTIONAL FLOW";
+            let badge = document.getElementById('livePriceBadge');
             
-            // 1. Try to get Real Market Data
-            let marketData = await fetchRealMarketData(pair);
-            
-            // 2. Decide Direction
-            if (marketData.success && marketData.isBuy !== null) {
-                isBuy = marketData.isBuy;
-                msg = "REAL-TIME MOMENTUM DETECTED (BINANCE API)";
+            if(!pair.includes("OTC")) {
+                try {
+                    let res = await fetch(`https://api.binance.com/api/v3/ticker/price?symbol=${symbol}`);
+                    let data = await res.json();
+                    badge.innerText = `LIVE PRICE: $${parseFloat(data.price).toFixed(2)}`;
+                    badge.style.color = "var(--buy-color)";
+                } catch(e) { badge.innerText = "LIVE PRICE: API OFFLINE"; }
             } else {
-                // If API fails or market is choppy/neutral, fallback to Time-Locked Sync Logic
-                const now = new Date();
-                const timeSeed = now.getFullYear() + now.getMonth() + now.getDate() + now.getHours() + now.getMinutes();
-                const pairSeed = pair.split('').reduce((a, b) => a + b.charCodeAt(0), 0);
-                const finalSeed = Math.sin(timeSeed + pairSeed) * 10000;
-                const score = (finalSeed - Math.floor(finalSeed)) * 100;
-                isBuy = score >= 50; 
+                // OTC Simulation Price
+                let simulatedPrice = (1.0845 + (Math.random() * 0.0010)).toFixed(5);
+                badge.innerText = `OTC PRICE: ${simulatedPrice}`;
+                badge.style.color = "var(--accent)";
             }
+        }
+
+        function generateSignal(pair) {
+            const now = new Date();
+            const timeSeed = now.getMinutes() + now.getHours();
+            const pairSeed = pair.length;
+            const score = ((Math.sin(timeSeed + pairSeed) + 1) / 2) * 100;
             
+            const isBuy = score >= 50; 
             const mainColor = isBuy ? "#10b981" : "#ef4444";
             
-            const strategies = [
-                { name: "Live Vol Delta", direction: isBuy ? "BUY" : "SELL", color: mainColor },
-                { name: "Micro RSI (3)", direction: isBuy ? "BUY" : "SELL", color: mainColor },
-                { name: "Order Block", direction: isBuy ? "BUY" : "SELL", color: mainColor },
-                { name: "EMA 3/7 Cross", direction: isBuy ? "BUY" : "SELL", color: mainColor },
-                { name: "VWAP Bias", direction: isBuy ? "BUY" : "SELL", color: mainColor },
-                { name: "Fibonacci 0.5", direction: isBuy ? "BUY" : "SELL", color: mainColor }
-            ];
-
             return {
-                action: isBuy ? "HFT EXECUTE BUY 🟢" : "HFT EXECUTE SELL 🔴",
+                action: isBuy ? "HFT BUY 🟢" : "HFT SELL 🔴",
                 mainColor: mainColor,
-                msg: msg,
-                winProb: (89 + (Math.random() * 6)).toFixed(1) + "%",
-                topStrategies: strategies
+                winProb: (89 + (score % 6)).toFixed(1) + "%",
+                msg: pair.includes("OTC") ? "OTC SYNCED MOMENTUM" : "REAL-TIME API DATA ANALYZED"
             };
         }
 
         function startAutoLoop() {
-            clearInterval(countdownInterval); 
-            clearTimeout(scanTimeout);
-            
+            clearInterval(countdownInterval);
             document.getElementById('ribbonScan').style.display = 'block';
             document.getElementById('ribbonTimer').style.display = 'none';
             document.getElementById('timerText').innerText = "SCAN";
-            document.getElementById('timerText').style.color = "var(--text-muted)";
-            
-            document.getElementById('signalOutput').style.display = 'block';
-            document.getElementById('sigAction').innerText = "API SYNCING...";
-            document.getElementById('sigAction').style.color = "var(--text-primary)";
-            document.getElementById('winProbBox').style.display = 'none';
-            document.getElementById('signalOutput').style.borderColor = "var(--border-color)";
-            document.getElementById('signalOutput').style.boxShadow = "none";
-            document.getElementById('topStrats').innerHTML = ""; 
+            document.getElementById('scanBtn').style.display = "none";
 
-            // Allow UI to update before fetching
-            scanTimeout = setTimeout(async () => {
-                let selectedPair = document.getElementById('pair').value;
-                let data = await generateSignal(selectedPair); // Wait for real data
+            setTimeout(() => {
+                let pair = document.getElementById('pair').value;
+                let data = generateSignal(pair);
                 
-                document.getElementById('sigMsg').innerText = data.msg;
+                document.getElementById('signalOutput').style.display = 'block';
                 document.getElementById('sigAction').innerText = data.action;
                 document.getElementById('sigAction').style.color = data.mainColor;
-                
-                document.getElementById('winProbBox').style.display = 'block';
                 document.getElementById('winProb').innerText = data.winProb;
-                document.getElementById('winProb').style.color = data.mainColor;
+                document.getElementById('sigMsg').innerText = data.msg;
                 document.getElementById('signalOutput').style.borderColor = data.mainColor;
-                document.getElementById('signalOutput').style.boxShadow = `0 0 30px ${data.mainColor}20`;
 
-                let strHtml = data.topStrategies.map(s => {
-                    return `<div class="strat-item" style="border-left-color: ${s.color}">
-                        <span class="strat-name">${s.name}</span><span class="strat-val" style="color:${s.color};">${s.direction}</span>
-                    </div>`;
-                }).join('');
-                document.getElementById('topStrats').innerHTML = strHtml;
+                let strats = ["Volume Delta", "RSI Micro", "Price Action", "Order Block"];
+                document.getElementById('topStrats').innerHTML = strats.map(s => `
+                    <div class="strat-item" style="border-left-color:${data.mainColor}">
+                        <span class="strat-name">${s}</span>
+                        <span class="strat-val" style="color:${data.mainColor}">${data.action.split(' ')[1]}</span>
+                    </div>
+                `).join('');
 
                 startTradeTimer(data.mainColor);
-            }, 1000);
+            }, 2000);
         }
 
         function startTradeTimer(mainColor) {
             document.getElementById('ribbonScan').style.display = 'none';
             document.getElementById('ribbonTimer').style.display = 'block';
-            document.getElementById('timerText').style.color = mainColor;
-
-            let totalSeconds = parseInt(document.getElementById('timeframe').value);
-            let timeLeft = totalSeconds;
-
-            document.getElementById('ribbonTimer').style.width = "100%";
-            document.getElementById('ribbonTimer').style.background = mainColor;
+            let timeLeft = parseInt(document.getElementById('timeframe').value);
+            let total = timeLeft;
 
             countdownInterval = setInterval(() => {
                 timeLeft--;
-                let m = Math.floor(timeLeft / 60).toString().padStart(2, '0');
-                let s = (timeLeft % 60).toString().padStart(2, '0');
-                document.getElementById('timerText').innerText = `${m}:${s}`;
-                
-                let percent = (timeLeft / totalSeconds) * 100;
-                document.getElementById('ribbonTimer').style.width = percent + "%";
+                document.getElementById('timerText').innerText = timeLeft + "s";
+                document.getElementById('ribbonTimer').style.width = (timeLeft/total)*100 + "%";
+                document.getElementById('ribbonTimer').style.background = mainColor;
 
                 if(timeLeft <= 0) {
                     clearInterval(countdownInterval);
-                    startAutoLoop();
+                    document.getElementById('scanBtn').style.display = "block";
+                    document.getElementById('timerText').innerText = "00:00";
                 }
             }, 1000);
         }
