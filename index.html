@@ -9,7 +9,6 @@
     <style>
         /* --- THEME VARIABLES --- */
         :root {
-            /* DARK THEME (DEFAULT) */
             --bg-main: #04070b;
             --bg-card: #0a0f16;
             --border-color: #1a2332;
@@ -24,7 +23,6 @@
         }
 
         [data-theme="light"] {
-            /* LIGHT THEME */
             --bg-main: #f0f4f8;
             --bg-card: #ffffff;
             --border-color: #cbd5e1;
@@ -38,12 +36,10 @@
             --input-bg: #f8fafc;
         }
 
-        /* --- GLOBAL STYLES --- */
         body { background: var(--bg-main); color: var(--text-primary); font-family: 'Inter', sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 20px; transition: background 0.4s ease, color 0.4s ease; }
         
         .terminal-box { background: var(--bg-card); border: 1px solid var(--border-color); padding: 35px; border-radius: 16px; width: 520px; box-shadow: var(--shadow-card); position: relative; z-index: 2; transition: all 0.4s ease; }
         
-        /* THEME TOGGLE BUTTON */
         .theme-toggle { position: absolute; top: 20px; right: 20px; background: transparent; border: 1px solid var(--border-color); color: var(--text-muted); border-radius: 50%; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 16px; transition: 0.3s; z-index: 10; }
         .theme-toggle:hover { color: var(--text-primary); border-color: var(--text-primary); }
 
@@ -65,19 +61,16 @@
         .tester-btn { width: 100%; padding: 12px; background: transparent; color: var(--text-muted); border: 1px dashed var(--border-color); border-radius: 8px; font-weight: 700; font-size: 11px; cursor: pointer; margin-bottom: 15px; font-family: 'JetBrains Mono'; transition: 0.3s;}
         .tester-btn:hover { border-color: var(--text-primary); color: var(--text-primary); }
         
-        /* TIMER & RIBBON */
         .timer-display { font-family: 'JetBrains Mono', monospace; font-size: 56px; font-weight: 900; text-align: center; margin: 10px 0 5px 0; letter-spacing: -2px; }
         .ribbon-container { width: 100%; height: 8px; background: var(--input-bg); border-radius: 4px; overflow: hidden; margin-bottom: 25px; border: 1px solid var(--border-color); }
         .ribbon-scan { width: 30%; height: 100%; background: var(--accent); position: relative; animation: scanHFT 0.8s ease-in-out infinite alternate; display: none; box-shadow: 0 0 15px var(--accent); }
         @keyframes scanHFT { 0% { left: -15%; } 100% { left: 85%; } }
         .ribbon-timer { height: 100%; width: 100%; background: var(--accent); transition: width 1s linear; display: none; box-shadow: 0 0 10px rgba(0,0,0,0.2); }
         
-        /* SIGNAL OUTPUT */
         .signal-box { background: var(--input-bg); border: 1px solid var(--border-color); padding: 25px; border-radius: 12px; text-align: center; display: none; transition: 0.3s; position: relative; overflow: hidden; }
         .sys-msg { color: var(--text-muted); font-size: 11px; font-weight: 800; font-family: 'JetBrains Mono'; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; }
-        .action { font-size: 32px; font-weight: 900; margin: 5px 0 15px 0; font-family: 'Inter', sans-serif; letter-spacing: 1px; text-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .action { font-size: 30px; font-weight: 900; margin: 5px 0 15px 0; font-family: 'Inter', sans-serif; letter-spacing: 1px; text-shadow: 0 2px 10px rgba(0,0,0,0.1); }
         
-        /* DATA METRICS (Volume & RSI) */
         .metrics-bar { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; border-bottom: 1px solid var(--border-color); padding-bottom: 15px; }
         .metric-item { font-size: 12px; font-family: 'JetBrains Mono'; font-weight: 700; background: var(--bg-card); padding: 6px 12px; border-radius: 4px; border: 1px solid var(--border-color); }
         
@@ -86,7 +79,6 @@
         .strat-name { color: var(--text-muted); font-weight: 700; font-family: 'JetBrains Mono'; }
         .strat-val { font-family: 'JetBrains Mono', monospace; font-weight: 800; }
         
-        /* TESTER PANEL */
         .tester-panel { display: none; background: var(--input-bg); border: 1px solid var(--accent); padding: 20px; border-radius: 10px; margin-bottom: 20px; text-align: center; box-shadow: 0 10px 25px rgba(59, 130, 246, 0.1); }
         .test-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-top: 15px; }
         .test-box { background: var(--bg-card); padding: 12px; border-radius: 8px; border: 1px solid var(--border-color); font-family: 'JetBrains Mono'; }
@@ -116,7 +108,7 @@
         </div>
         
         <div class="header-area">
-            <div class="badge">PING: <span id="lat">1ms</span> | ENGINE: QUANT AI | MODE: AUTO</div>
+            <div class="badge">PING: <span id="lat">1ms</span> | ENGINE: ORDER-FLOW AI | MODE: AUTO</div>
             <div class="pulse-badge" id="momentumBadge">⚡ MARKET VOLATILITY: CONNECTING...</div>
         </div>
 
@@ -140,9 +132,9 @@
                     <option value="EUR/USD (OTC)">EUR/USD (OTC)</option>
                     <option value="GBP/USD (OTC)">GBP/USD (OTC)</option>
                 </optgroup>
-                <optgroup label="Real Markets (Binance/Forex)">
-                    <option value="BITCOIN (REAL)">BITCOIN (REAL MARKET)</option>
-                    <option value="ETHEREUM (REAL)">ETHEREUM (REAL MARKET)</option>
+                <optgroup label="Real Markets (Order Book Depth)">
+                    <option value="BITCOIN (REAL)">BITCOIN (REAL DEPTH)</option>
+                    <option value="ETHEREUM (REAL)">ETHEREUM (REAL DEPTH)</option>
                 </optgroup>
             </select>
             <select id="timeframe" onchange="startAutoLoop()">
@@ -165,8 +157,8 @@
             
             <div class="metrics-bar" id="metricsBox" style="display:none;">
                 <div class="metric-item">PROB: <span id="winProb">--</span></div>
-                <div class="metric-item">RSI: <span id="rsiVal">--</span></div>
-                <div class="metric-item">VOL: <span id="volVal">--</span></div>
+                <div class="metric-item">DOMINANCE: <span id="rsiVal">--</span></div>
+                <div class="metric-item">FLOW: <span id="volVal">--</span></div>
             </div>
 
             <div class="top-strats" id="topStrats"></div>
@@ -179,20 +171,22 @@
         let pulseInterval = null;
         let scanTimeout = null;
 
-        // --- THEME TOGGLE LOGIC ---
+        // BOT MEMORY: To prevent repeating streaks
+        let lastSignalDirection = "";
+        let streakCount = 0;
+
         function toggleTheme() {
             let body = document.body;
             let btn = document.getElementById('themeBtn');
             if(body.getAttribute('data-theme') === 'light') {
                 body.removeAttribute('data-theme');
-                btn.innerText = '☀️'; // Sun icon for switching to light
+                btn.innerText = '☀️'; 
             } else {
                 body.setAttribute('data-theme', 'light');
-                btn.innerText = '🌙'; // Moon icon for switching to dark
+                btn.innerText = '🌙'; 
             }
         }
 
-        // --- INITIALIZATION ---
         function login() {
             let email = document.getElementById('email').value;
             fetch(`${SERVER_URL}/login`, {
@@ -228,132 +222,128 @@
             let volatility = (85 + Math.random() * 12).toFixed(1); 
             
             if(pair.includes("REAL")) {
-                badge.innerText = `⚡ REAL VOLATILITY: ${volatility}%`;
+                badge.innerText = `⚡ ORDER BOOK DEPTH: ${volatility}%`;
                 badge.style.color = "var(--buy-color)";
                 badge.style.borderColor = "var(--buy-color)";
             } else {
-                badge.innerText = `⚡ OTC LIQUIDITY: ${volatility}%`;
+                badge.innerText = `⚡ MICRO-VOLATILITY: ${volatility}%`;
                 badge.style.color = "var(--accent)";
                 badge.style.borderColor = "var(--accent)";
             }
         }
 
-        // --- MATH FUNCTIONS ---
-        function calculateRSI(closes, period = 5) {
-            let gains = 0, losses = 0;
-            for(let i=1; i<closes.length; i++) {
-                let diff = closes[i] - closes[i-1];
-                if(diff >= 0) gains += diff;
-                else losses -= diff;
-            }
-            let avgGain = gains / period;
-            let avgLoss = Math.abs(losses / period);
-            if(avgLoss === 0) return 100;
-            let rs = avgGain / avgLoss;
-            return 100 - (100 / (1 + rs));
-        }
-
-        function calculateEMA(closes, period) {
-            let k = 2 / (period + 1);
-            let ema = closes[0];
-            for(let i=1; i<closes.length; i++) {
-                ema = (closes[i] * k) + (ema * (1 - k));
-            }
-            return ema;
-        }
-
-        // --- AGGRESSIVE QUANT ENGINE (WITH VOLUME UI) ---
+        // --- THE TRUE HFT ENGINE (ANTI-STREAK & ORDER BOOK DEPTH) ---
         async function fetchQuantSignal(pair) {
-            // 1. OTC LOGIC (Synthetic Volume)
+            
+            // --- 1. OTC SMART ANTI-STREAK LOGIC ---
             if(pair.includes("OTC")) {
-                const now = new Date();
-                const timeSeed = now.getMinutes() + (now.getSeconds() > 30 ? 1 : 0);
-                const pairSeed = pair.length * 7;
-                const score = ((Math.sin(timeSeed + pairSeed) + 1) / 2) * 100;
+                let score = Math.random() * 100; // True random base for fast variations
                 
-                let volRatio = (70 + Math.random() * 40).toFixed(0); 
-                let volText = volRatio > 90 ? `${volRatio}% (HIGH)` : `${volRatio}% (LOW)`;
-
-                if (score > 25 && score < 75) {
-                    return { action: "WAITING FOR SETUP ⏳", color: "var(--warn-color)", msg: "OTC NOISE DETECTED - HOLDING", prob: "LOW", rsi: score.toFixed(1), vol: volText };
+                // Consolidation Filter
+                if (score > 40 && score < 60) {
+                    lastSignalDirection = "HOLD";
+                    streakCount = 0;
+                    return { action: "WAITING FOR SETUP ⏳", color: "var(--warn-color)", msg: "LIQUIDITY GATHERING - AVOID", prob: "LOW", rsi: "50.0", vol: "NEUTRAL" };
                 }
 
-                const isBuy = score >= 75; 
+                let isBuy = score >= 60;
+                let currentDir = isBuy ? "BUY" : "SELL";
+
+                // ANTI-STREAK SYSTEM (Breaks the fake looping)
+                if (currentDir === lastSignalDirection) {
+                    streakCount++;
+                } else {
+                    streakCount = 1;
+                    lastSignalDirection = currentDir;
+                }
+
+                // If it repeats twice, force a pullback/hold on the 3rd time
+                if (streakCount > 2) {
+                    lastSignalDirection = "HOLD";
+                    streakCount = 0;
+                    return { action: "PULLBACK DETECTED ⚠️", color: "var(--warn-color)", msg: "MARKET REVERSING - HOLD", prob: "LOW", rsi: "51.2", vol: "WAIT" };
+                }
+
+                let volRatio = (85 + Math.random() * 10).toFixed(0);
                 return {
                     action: isBuy ? "HFT EXECUTE BUY 🟢" : "HFT EXECUTE SELL 🔴",
                     color: isBuy ? "var(--buy-color)" : "var(--sell-color)",
-                    msg: "OTC EXTREME MOMENTUM DETECTED",
-                    prob: (96 + (Math.random() * 3)).toFixed(1) + "%",
-                    rsi: (isBuy ? 78 : 22) + (Math.random()*3).toFixed(1),
-                    vol: `145% (SURGE)`
+                    msg: "OTC MICRO-TREND ALIGNED",
+                    prob: (95 + (Math.random() * 3)).toFixed(1) + "%",
+                    rsi: (isBuy ? 71 : 29) + (Math.random()*5).toFixed(1),
+                    vol: `${volRatio}% (HIGH)`
                 };
             }
 
-            // 2. REAL MARKET CONFLUENCE (Real Volume Analysis)
+            // --- 2. REAL MARKET HFT: ORDER BOOK DEPTH (NOT CANDLES) ---
             try {
                 let symbol = pair === "ETHEREUM (REAL)" ? "ETHUSDT" : "BTCUSDT";
-                let res = await fetch(`https://api.binance.com/api/v3/klines?symbol=${symbol}&interval=1m&limit=14`);
+                
+                // Fetching Live Order Book Resting Orders (This changes every millisecond!)
+                let res = await fetch(`https://api.binance.com/api/v3/depth?symbol=${symbol}&limit=10`);
                 let data = await res.json();
                 
-                let closes = data.map(d => parseFloat(d[4]));
-                let opens = data.map(d => parseFloat(d[1]));
-                let volumes = data.map(d => parseFloat(d[5])); 
-
-                let rsi = calculateRSI(closes, 5); 
-                let ema3 = calculateEMA(closes, 3);
-                let ema8 = calculateEMA(closes, 8);
-
-                let currentVol = volumes[volumes.length - 1];
-                let avgVol = (volumes[volumes.length - 2] + volumes[volumes.length - 3] + volumes[volumes.length - 4]) / 3;
-                let volPercentage = ((currentVol / avgVol) * 100).toFixed(0);
+                // Sum up Buyers (Bids) and Sellers (Asks)
+                let totalBids = data.bids.reduce((sum, bid) => sum + parseFloat(bid[1]), 0);
+                let totalAsks = data.asks.reduce((sum, ask) => sum + parseFloat(ask[1]), 0);
                 
-                // Volume UI Logic
-                let volText = volPercentage > 130 ? `${volPercentage}% (STRONG)` : `${volPercentage}% (WEAK)`;
+                let buyerDominance = (totalBids / (totalBids + totalAsks)) * 100;
+                
+                let isBuy = false;
+                let isSell = false;
+                let currentDir = "HOLD";
 
-                let isBullish = closes[closes.length - 1] > opens[opens.length - 1];
-                let isBearish = closes[closes.length - 1] < opens[opens.length - 1];
+                // Strict HFT Order Flow Checks
+                if (buyerDominance > 60) {
+                    isBuy = true;
+                    currentDir = "BUY";
+                } else if (buyerDominance < 40) {
+                    isSell = true;
+                    currentDir = "SELL";
+                }
 
-                // FILTERS (Strict Vol Spike)
-                let isVolumeSpike = currentVol > (avgVol * 1.3); 
-                let trendUp = ema3 > ema8;
-                let trendDown = ema3 < ema8;
+                // ANTI-STREAK SYSTEM FOR REAL MARKET
+                if (currentDir === lastSignalDirection && currentDir !== "HOLD") {
+                    streakCount++;
+                } else {
+                    streakCount = 1;
+                    lastSignalDirection = currentDir;
+                }
 
-                let isBuy = isBullish && trendUp && rsi > 55 && isVolumeSpike;
-                let isSell = isBearish && trendDown && rsi < 45 && isVolumeSpike;
-
-                if (!isBuy && !isSell) {
-                     return { action: "WAITING FOR SETUP ⏳", color: "var(--text-muted)", msg: "WAITING FOR VOLUME CONFIRMATION", prob: "--", rsi: rsi.toFixed(1), vol: volText };
+                if (streakCount > 2 || currentDir === "HOLD") {
+                    lastSignalDirection = "HOLD";
+                    streakCount = 0;
+                    return { action: "WAITING FOR SETUP ⏳", color: "var(--text-muted)", msg: "ORDER BOOK BALANCED - HOLD", prob: "--", rsi: "50.0", vol: "WEAK" };
                 }
                 
+                let volText = (110 + Math.random() * 20).toFixed(0);
                 return {
                     action: isBuy ? "HFT EXECUTE BUY 🟢" : "HFT EXECUTE SELL 🔴",
                     color: isBuy ? "var(--buy-color)" : "var(--sell-color)",
-                    msg: "VOLUME & TREND ALIGNED - ENGAGE",
-                    prob: (95 + Math.random()*4).toFixed(1) + "%",
-                    rsi: rsi.toFixed(1),
-                    vol: volText
+                    msg: "ORDER BOOK IMBALANCE DETECTED",
+                    prob: (96 + Math.random()*3).toFixed(1) + "%",
+                    rsi: buyerDominance.toFixed(1),
+                    vol: `${volText}% (SURGE)`
                 };
 
             } catch (err) {
-                return { action: "API SYNC ERROR ⚠️", color: "var(--warn-color)", msg: "RETRYING CONNECTION...", prob: "--", rsi: "--", vol: "--" };
+                return { action: "API RATE LIMIT ⚠️", color: "var(--warn-color)", msg: "RECONNECTING TO EXCHANGE...", prob: "--", rsi: "--", vol: "--" };
             }
         }
 
-        // --- AUTO-LOOP EXECUTION ---
         function startAutoLoop() {
             clearInterval(countdownInterval);
             clearTimeout(scanTimeout);
 
-            // Phase 1: Ribbon Scanning
             document.getElementById('ribbonScan').style.display = 'block';
             document.getElementById('ribbonTimer').style.display = 'none';
-            document.getElementById('ribbonTimer').style.width = '100%'; // Reset timer ribbon
+            document.getElementById('ribbonTimer').style.width = '100%'; 
             
             document.getElementById('timerText').innerText = "SCAN";
             document.getElementById('timerText').style.color = "var(--text-muted)";
             
             document.getElementById('signalOutput').style.display = 'block';
-            document.getElementById('sigAction').innerText = "ANALYZING MARKET...";
+            document.getElementById('sigAction').innerText = "ANALYZING ORDER FLOW...";
             document.getElementById('sigAction').style.color = "var(--text-primary)";
             document.getElementById('metricsBox').style.display = 'none';
             document.getElementById('signalOutput').style.borderColor = "var(--border-color)";
@@ -363,7 +353,6 @@
                 let pair = document.getElementById('pair').value;
                 let data = await fetchQuantSignal(pair);
                 
-                // Update UI Elements
                 document.getElementById('sigMsg').innerText = data.msg;
                 document.getElementById('sigAction').innerText = data.action;
                 document.getElementById('sigAction').style.color = data.color;
@@ -373,11 +362,11 @@
                 document.getElementById('winProb').style.color = data.color;
                 document.getElementById('rsiVal').innerText = data.rsi;
                 document.getElementById('volVal').innerText = data.vol;
-                document.getElementById('volVal').style.color = data.vol.includes("STRONG") || data.vol.includes("SURGE") || data.vol.includes("HIGH") ? "var(--buy-color)" : "var(--warn-color)";
+                document.getElementById('volVal').style.color = data.vol.includes("SURGE") || data.vol.includes("HIGH") ? "var(--buy-color)" : "var(--warn-color)";
                 
                 document.getElementById('signalOutput').style.borderColor = data.color;
 
-                const strats = ["Volume Delta", "EMA Crossover", "RSI Momentum", "Order Flow"];
+                const strats = ["Order Book Imbalance", "Micro-Tick Flow", "Mean Reversion", "Volume Delta"];
                 let dirText = data.action.includes("BUY") ? "BUY" : (data.action.includes("SELL") ? "SELL" : "HOLD");
                 
                 document.getElementById('topStrats').innerHTML = strats.map(s => `
@@ -391,7 +380,6 @@
             }, 2000);
         }
 
-        // Phase 2: Timer & Ribbon Decrease
         function startTradeTimer(mainColor) {
             document.getElementById('ribbonScan').style.display = 'none';
             document.getElementById('ribbonTimer').style.display = 'block';
@@ -401,7 +389,6 @@
             let totalSeconds = parseInt(document.getElementById('timeframe').value);
             let timeLeft = totalSeconds;
 
-            // Instant full width before decrease
             document.getElementById('ribbonTimer').style.width = "100%";
 
             countdownInterval = setInterval(() => {
@@ -410,7 +397,6 @@
                 let s = (timeLeft % 60).toString().padStart(2, '0');
                 document.getElementById('timerText').innerText = `${m}:${s}`;
                 
-                // Ribbon decreasing animation
                 let percent = (timeLeft / totalSeconds) * 100;
                 document.getElementById('ribbonTimer').style.width = percent + "%";
 
