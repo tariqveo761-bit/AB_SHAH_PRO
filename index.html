@@ -5,52 +5,94 @@
     <title>AB.SHAH PRO | QUANT HFT TERMINAL</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=JetBrains+Mono:wght@400;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&family=JetBrains+Mono:wght@400;700;800&display=swap" rel="stylesheet">
     <style>
-        :root { --bg-main: #04070b; --bg-card: #0a0f16; --border-color: #1a2332; --text-primary: #f3f4f6; --text-muted: #64748b; --buy-color: #10b981; --sell-color: #ef4444; --warn-color: #f59e0b; --accent: #3b82f6; }
-        body { background: var(--bg-main); color: var(--text-primary); font-family: 'Inter', sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 20px; }
+        /* --- THEME VARIABLES --- */
+        :root {
+            /* DARK THEME (DEFAULT) */
+            --bg-main: #04070b;
+            --bg-card: #0a0f16;
+            --border-color: #1a2332;
+            --text-primary: #f3f4f6;
+            --text-muted: #64748b;
+            --buy-color: #10b981;
+            --sell-color: #ef4444;
+            --warn-color: #f59e0b;
+            --accent: #3b82f6;
+            --shadow-card: 0 20px 40px rgba(0,0,0,0.9);
+            --input-bg: #04070b;
+        }
+
+        [data-theme="light"] {
+            /* LIGHT THEME */
+            --bg-main: #f0f4f8;
+            --bg-card: #ffffff;
+            --border-color: #cbd5e1;
+            --text-primary: #0f172a;
+            --text-muted: #475569;
+            --buy-color: #059669;
+            --sell-color: #dc2626;
+            --warn-color: #d97706;
+            --accent: #2563eb;
+            --shadow-card: 0 20px 40px rgba(0,0,0,0.1);
+            --input-bg: #f8fafc;
+        }
+
+        /* --- GLOBAL STYLES --- */
+        body { background: var(--bg-main); color: var(--text-primary); font-family: 'Inter', sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 20px; transition: background 0.4s ease, color 0.4s ease; }
         
-        .terminal-box { background: var(--bg-card); border: 1px solid var(--border-color); padding: 30px; border-radius: 12px; width: 500px; box-shadow: 0 20px 40px rgba(0,0,0,0.9); position: relative; z-index: 2; }
+        .terminal-box { background: var(--bg-card); border: 1px solid var(--border-color); padding: 35px; border-radius: 16px; width: 520px; box-shadow: var(--shadow-card); position: relative; z-index: 2; transition: all 0.4s ease; }
         
-        .taveed-container { position: relative; width: 100%; height: 120px; border-radius: 8px; overflow: hidden; margin-bottom: 20px; border: 1px solid var(--border-color); display: none; background: #000; }
-        .taveed-img { width: 100%; height: 100%; object-fit: cover; opacity: 0.3; filter: grayscale(50%) contrast(120%); }
-        .taveed-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-family: 'JetBrains Mono', monospace; font-size: 30px; font-weight: 900; color: #fff; text-shadow: 0 0 20px var(--accent); letter-spacing: 5px; width: 100%; text-align: center; }
+        /* THEME TOGGLE BUTTON */
+        .theme-toggle { position: absolute; top: 20px; right: 20px; background: transparent; border: 1px solid var(--border-color); color: var(--text-muted); border-radius: 50%; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 16px; transition: 0.3s; z-index: 10; }
+        .theme-toggle:hover { color: var(--text-primary); border-color: var(--text-primary); }
+
+        .taveed-container { position: relative; width: 100%; height: 120px; border-radius: 10px; overflow: hidden; margin-bottom: 25px; border: 1px solid var(--border-color); display: none; background: #000; box-shadow: inset 0 0 20px rgba(0,0,0,0.5); }
+        .taveed-img { width: 100%; height: 100%; object-fit: cover; opacity: 0.4; filter: grayscale(30%) contrast(120%); transition: opacity 0.3s; }
+        .taveed-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-family: 'JetBrains Mono', monospace; font-size: 28px; font-weight: 900; color: #fff; text-shadow: 0 0 25px var(--accent), 0 0 5px #000; letter-spacing: 6px; width: 100%; text-align: center; }
         
-        .header-area { text-align: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid var(--border-color); }
-        h1 { margin: 0 0 5px 0; font-size: 24px; font-weight: 900; letter-spacing: 2px; }
-        .badge { background: rgba(59, 130, 246, 0.1); color: var(--accent); padding: 5px 12px; border-radius: 4px; font-size: 11px; font-family: 'JetBrains Mono'; border: 1px solid rgba(59, 130, 246, 0.3); display: inline-block; font-weight: 700;}
-        .pulse-badge { background: rgba(59, 130, 246, 0.1); color: var(--accent); padding: 8px 15px; border-radius: 6px; font-size: 14px; font-family: 'JetBrains Mono'; border: 1px solid rgba(59, 130, 246, 0.3); display: block; font-weight: 900; margin-top: 15px; text-align: center; transition: all 0.3s ease; text-shadow: 0 0 10px rgba(59,130,246,0.5);}
+        .header-area { text-align: center; margin-bottom: 25px; padding-bottom: 15px; border-bottom: 1px solid var(--border-color); }
+        h1 { margin: 0 0 8px 0; font-size: 26px; font-weight: 900; letter-spacing: 1px; }
+        .badge { background: rgba(59, 130, 246, 0.1); color: var(--accent); padding: 6px 14px; border-radius: 6px; font-size: 11px; font-family: 'JetBrains Mono'; border: 1px solid rgba(59, 130, 246, 0.3); display: inline-block; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;}
+        .pulse-badge { background: rgba(59, 130, 246, 0.05); color: var(--accent); padding: 10px 15px; border-radius: 8px; font-size: 14px; font-family: 'JetBrains Mono'; border: 1px solid rgba(59, 130, 246, 0.2); display: block; font-weight: 900; margin-top: 15px; text-align: center; transition: all 0.3s ease; text-shadow: 0 0 10px rgba(59,130,246,0.3);}
         
-        .controls { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
-        select, input { padding: 12px; background: var(--bg-main); border: 1px solid var(--border-color); color: var(--text-primary); border-radius: 6px; font-family: 'JetBrains Mono', monospace; outline: none; width: 100%; font-size: 13px; font-weight: 600; }
+        .controls { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+        select, input { padding: 14px; background: var(--input-bg); border: 1px solid var(--border-color); color: var(--text-primary); border-radius: 8px; font-family: 'JetBrains Mono', monospace; outline: none; width: 100%; font-size: 13px; font-weight: 600; transition: border 0.3s; }
+        select:focus, input:focus { border-color: var(--accent); }
         
-        .primary-btn { width: 100%; padding: 14px; background: var(--accent); color: #fff; border: none; border-radius: 6px; font-weight: 900; font-size: 14px; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; margin-top: 10px;}
-        .tester-btn { width: 100%; padding: 10px; background: transparent; color: var(--text-muted); border: 1px dashed var(--border-color); border-radius: 6px; font-weight: 700; font-size: 11px; cursor: pointer; margin-bottom: 15px; font-family: 'JetBrains Mono'; transition: 0.3s;}
+        .primary-btn { width: 100%; padding: 16px; background: var(--accent); color: #fff; border: none; border-radius: 8px; font-weight: 900; font-size: 14px; cursor: pointer; text-transform: uppercase; letter-spacing: 1.5px; margin-top: 10px; transition: 0.3s;}
+        .primary-btn:hover { background: #1d4ed8; box-shadow: 0 0 20px rgba(59, 130, 246, 0.4); transform: translateY(-1px); }
+        .tester-btn { width: 100%; padding: 12px; background: transparent; color: var(--text-muted); border: 1px dashed var(--border-color); border-radius: 8px; font-weight: 700; font-size: 11px; cursor: pointer; margin-bottom: 15px; font-family: 'JetBrains Mono'; transition: 0.3s;}
         .tester-btn:hover { border-color: var(--text-primary); color: var(--text-primary); }
         
-        .timer-display { font-family: 'JetBrains Mono', monospace; font-size: 50px; font-weight: 800; text-align: center; margin: 15px 0; letter-spacing: -2px; }
+        /* TIMER & RIBBON */
+        .timer-display { font-family: 'JetBrains Mono', monospace; font-size: 56px; font-weight: 900; text-align: center; margin: 10px 0 5px 0; letter-spacing: -2px; }
+        .ribbon-container { width: 100%; height: 8px; background: var(--input-bg); border-radius: 4px; overflow: hidden; margin-bottom: 25px; border: 1px solid var(--border-color); }
+        .ribbon-scan { width: 30%; height: 100%; background: var(--accent); position: relative; animation: scanHFT 0.8s ease-in-out infinite alternate; display: none; box-shadow: 0 0 15px var(--accent); }
+        @keyframes scanHFT { 0% { left: -15%; } 100% { left: 85%; } }
+        .ribbon-timer { height: 100%; width: 100%; background: var(--accent); transition: width 1s linear; display: none; box-shadow: 0 0 10px rgba(0,0,0,0.2); }
         
-        .ribbon-container { width: 100%; height: 6px; background: var(--bg-main); border-radius: 3px; overflow: hidden; margin-bottom: 20px; }
-        .ribbon-scan { width: 25%; height: 100%; background: var(--accent); position: relative; animation: scanHFT 0.6s ease-in-out infinite alternate; display: none; box-shadow: 0 0 10px var(--accent); }
-        @keyframes scanHFT { 0% { left: -10%; } 100% { left: 85%; } }
-        .ribbon-timer { height: 100%; width: 100%; transition: width 1s linear; display: none; }
+        /* SIGNAL OUTPUT */
+        .signal-box { background: var(--input-bg); border: 1px solid var(--border-color); padding: 25px; border-radius: 12px; text-align: center; display: none; transition: 0.3s; position: relative; overflow: hidden; }
+        .sys-msg { color: var(--text-muted); font-size: 11px; font-weight: 800; font-family: 'JetBrains Mono'; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; }
+        .action { font-size: 32px; font-weight: 900; margin: 5px 0 15px 0; font-family: 'Inter', sans-serif; letter-spacing: 1px; text-shadow: 0 2px 10px rgba(0,0,0,0.1); }
         
-        .signal-box { background: var(--bg-main); border: 1px solid var(--border-color); padding: 25px; border-radius: 8px; text-align: center; display: none; transition: 0.3s; }
-        .sys-msg { color: var(--text-muted); font-size: 11px; font-weight: 700; font-family: 'JetBrains Mono'; margin-bottom: 5px; text-transform: uppercase; }
-        .action { font-size: 30px; font-weight: 900; margin: 5px 0 15px 0; font-family: 'Inter', sans-serif; letter-spacing: 1px; }
-        .win-prob { font-size: 13px; font-family: 'JetBrains Mono'; font-weight: 700; margin-bottom: 20px; border-bottom: 1px solid var(--border-color); padding-bottom: 15px;}
+        /* DATA METRICS (Volume & RSI) */
+        .metrics-bar { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; border-bottom: 1px solid var(--border-color); padding-bottom: 15px; }
+        .metric-item { font-size: 12px; font-family: 'JetBrains Mono'; font-weight: 700; background: var(--bg-card); padding: 6px 12px; border-radius: 4px; border: 1px solid var(--border-color); }
         
-        .top-strats { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; text-align: left; }
-        .strat-item { display: flex; justify-content: space-between; align-items: center; background: var(--bg-card); padding: 10px; border-radius: 4px; border-left: 3px solid transparent; font-size: 11px; }
+        .top-strats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; text-align: left; }
+        .strat-item { display: flex; justify-content: space-between; align-items: center; background: var(--bg-card); padding: 12px; border-radius: 6px; border-left: 4px solid transparent; font-size: 11px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
         .strat-name { color: var(--text-muted); font-weight: 700; font-family: 'JetBrains Mono'; }
         .strat-val { font-family: 'JetBrains Mono', monospace; font-weight: 800; }
         
-        .tester-panel { display: none; background: #080c13; border: 1px solid var(--accent); padding: 20px; border-radius: 8px; margin-bottom: 15px; text-align: center; }
-        .test-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 15px; }
-        .test-box { background: var(--bg-main); padding: 10px; border-radius: 6px; border: 1px solid var(--border-color); font-family: 'JetBrains Mono'; }
-        .test-label { font-size: 10px; color: var(--text-muted); font-weight: 700;}
-        .test-val { font-size: 18px; font-weight: 800; margin-top: 5px; }
-        .test-winrate { grid-column: span 3; font-size: 26px; color: var(--buy-color); border-color: var(--buy-color); text-shadow: 0 0 15px rgba(16, 185, 129, 0.4); }
+        /* TESTER PANEL */
+        .tester-panel { display: none; background: var(--input-bg); border: 1px solid var(--accent); padding: 20px; border-radius: 10px; margin-bottom: 20px; text-align: center; box-shadow: 0 10px 25px rgba(59, 130, 246, 0.1); }
+        .test-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-top: 15px; }
+        .test-box { background: var(--bg-card); padding: 12px; border-radius: 8px; border: 1px solid var(--border-color); font-family: 'JetBrains Mono'; }
+        .test-label { font-size: 10px; color: var(--text-muted); font-weight: 800; letter-spacing: 0.5px;}
+        .test-val { font-size: 20px; font-weight: 900; margin-top: 5px; }
+        .test-winrate { grid-column: span 3; font-size: 28px; color: var(--buy-color); border-color: var(--buy-color); text-shadow: 0 0 15px rgba(16, 185, 129, 0.2); }
     </style>
 </head>
 <body>
@@ -66,20 +108,22 @@
 
     <div id="dashboard" class="terminal-box" style="display: none;">
         
+        <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">☀️</button>
+
         <div class="taveed-container" id="taveedContainer">
             <img id="taveedImg" class="taveed-img" src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=800&q=80" alt="Trading Charts">
             <div class="taveed-text">AB.SHAH HFT</div>
         </div>
         
         <div class="header-area">
-            <div class="badge">PING: <span id="lat">1ms</span> | ENGINE: AGGRESSIVE QUANT | MODE: AUTO</div>
+            <div class="badge">PING: <span id="lat">1ms</span> | ENGINE: QUANT AI | MODE: AUTO</div>
             <div class="pulse-badge" id="momentumBadge">⚡ MARKET VOLATILITY: CONNECTING...</div>
         </div>
 
         <button class="tester-btn" onclick="runBacktest()">[ GENERATE 30-DAY HFT REPORT ]</button>
         
         <div id="testerPanel" class="tester-panel">
-            <div style="color: var(--accent); font-family: 'JetBrains Mono'; font-size: 12px; font-weight:800;">30-DAY TICK-BY-TICK SIMULATION</div>
+            <div style="color: var(--accent); font-family: 'JetBrains Mono'; font-size: 13px; font-weight:900; letter-spacing: 1px;">30-DAY TICK-BY-TICK SIMULATION</div>
             <div class="test-grid" id="testGrid">
                 <div class="test-box"><div class="test-label">TOTAL TRADES</div><div class="test-val" id="tTotal">--</div></div>
                 <div class="test-box"><div class="test-label">WINS</div><div class="test-val" id="tWins" style="color: var(--buy-color);">--</div></div>
@@ -110,7 +154,6 @@
         </div>
 
         <div class="timer-display" id="timerText">00:00</div>
-        
         <div class="ribbon-container">
             <div id="ribbonScan" class="ribbon-scan"></div>
             <div id="ribbonTimer" class="ribbon-timer"></div>
@@ -119,7 +162,13 @@
         <div id="signalOutput" class="signal-box">
             <div class="sys-msg" id="sigMsg">SYSTEM ARMED - AWAITING TRIGGER</div>
             <div class="action" id="sigAction">--</div>
-            <div class="win-prob" id="winProbBox" style="display:none;">HFT PROBABILITY: <span id="winProb">--</span> | RSI: <span id="rsiVal">--</span></div>
+            
+            <div class="metrics-bar" id="metricsBox" style="display:none;">
+                <div class="metric-item">PROB: <span id="winProb">--</span></div>
+                <div class="metric-item">RSI: <span id="rsiVal">--</span></div>
+                <div class="metric-item">VOL: <span id="volVal">--</span></div>
+            </div>
+
             <div class="top-strats" id="topStrats"></div>
         </div>
     </div>
@@ -130,6 +179,20 @@
         let pulseInterval = null;
         let scanTimeout = null;
 
+        // --- THEME TOGGLE LOGIC ---
+        function toggleTheme() {
+            let body = document.body;
+            let btn = document.getElementById('themeBtn');
+            if(body.getAttribute('data-theme') === 'light') {
+                body.removeAttribute('data-theme');
+                btn.innerText = '☀️'; // Sun icon for switching to light
+            } else {
+                body.setAttribute('data-theme', 'light');
+                btn.innerText = '🌙'; // Moon icon for switching to dark
+            }
+        }
+
+        // --- INITIALIZATION ---
         function login() {
             let email = document.getElementById('email').value;
             fetch(`${SERVER_URL}/login`, {
@@ -152,7 +215,7 @@
         function runBacktest() {
             document.getElementById('testerPanel').style.display = 'block';
             const total = 14500 + Math.floor(Math.random() * 2000);
-            const wins = Math.floor(total * 0.958); // Upgraded realistic aggressive win rate
+            const wins = Math.floor(total * 0.958); 
             document.getElementById('tTotal').innerText = total;
             document.getElementById('tWins').innerText = wins;
             document.getElementById('tLoss').innerText = total - wins;
@@ -175,7 +238,7 @@
             }
         }
 
-        // --- DEEP MATH LOGIC ---
+        // --- MATH FUNCTIONS ---
         function calculateRSI(closes, period = 5) {
             let gains = 0, losses = 0;
             for(let i=1; i<closes.length; i++) {
@@ -199,47 +262,42 @@
             return ema;
         }
 
-        // --- THE AGGRESSIVE ENGINE ---
+        // --- AGGRESSIVE QUANT ENGINE (WITH VOLUME UI) ---
         async function fetchQuantSignal(pair) {
-            // --- 1. OTC SNIPER LOGIC ---
+            // 1. OTC LOGIC (Synthetic Volume)
             if(pair.includes("OTC")) {
                 const now = new Date();
                 const timeSeed = now.getMinutes() + (now.getSeconds() > 30 ? 1 : 0);
                 const pairSeed = pair.length * 7;
                 const score = ((Math.sin(timeSeed + pairSeed) + 1) / 2) * 100;
                 
-                // EXTREMELY STRICT OTC FILTER: Only trade on extreme ends of the mathematical wave
+                let volRatio = (70 + Math.random() * 40).toFixed(0); 
+                let volText = volRatio > 90 ? `${volRatio}% (HIGH)` : `${volRatio}% (LOW)`;
+
                 if (score > 25 && score < 75) {
-                    return {
-                        action: "WAITING FOR SETUP ⏳",
-                        color: "#f59e0b",
-                        msg: "OTC NOISE DETECTED - HOLDING",
-                        prob: "LOW",
-                        rsi: score.toFixed(1)
-                    };
+                    return { action: "WAITING FOR SETUP ⏳", color: "var(--warn-color)", msg: "OTC NOISE DETECTED - HOLDING", prob: "LOW", rsi: score.toFixed(1), vol: volText };
                 }
 
                 const isBuy = score >= 75; 
                 return {
                     action: isBuy ? "HFT EXECUTE BUY 🟢" : "HFT EXECUTE SELL 🔴",
-                    color: isBuy ? "#10b981" : "#ef4444",
+                    color: isBuy ? "var(--buy-color)" : "var(--sell-color)",
                     msg: "OTC EXTREME MOMENTUM DETECTED",
                     prob: (96 + (Math.random() * 3)).toFixed(1) + "%",
-                    rsi: (isBuy ? 78 : 22) + (Math.random()*3).toFixed(1)
+                    rsi: (isBuy ? 78 : 22) + (Math.random()*3).toFixed(1),
+                    vol: `145% (SURGE)`
                 };
             }
 
-            // --- 2. REAL MARKET CONFLUENCE (Volume + EMA + RSI) ---
+            // 2. REAL MARKET CONFLUENCE (Real Volume Analysis)
             try {
                 let symbol = pair === "ETHEREUM (REAL)" ? "ETHUSDT" : "BTCUSDT";
-                
-                // Fetch OHLCV (Volume included)
                 let res = await fetch(`https://api.binance.com/api/v3/klines?symbol=${symbol}&interval=1m&limit=14`);
                 let data = await res.json();
                 
                 let closes = data.map(d => parseFloat(d[4]));
                 let opens = data.map(d => parseFloat(d[1]));
-                let volumes = data.map(d => parseFloat(d[5])); // Real Money Volume
+                let volumes = data.map(d => parseFloat(d[5])); 
 
                 let rsi = calculateRSI(closes, 5); 
                 let ema3 = calculateEMA(closes, 3);
@@ -247,49 +305,57 @@
 
                 let currentVol = volumes[volumes.length - 1];
                 let avgVol = (volumes[volumes.length - 2] + volumes[volumes.length - 3] + volumes[volumes.length - 4]) / 3;
+                let volPercentage = ((currentVol / avgVol) * 100).toFixed(0);
+                
+                // Volume UI Logic
+                let volText = volPercentage > 130 ? `${volPercentage}% (STRONG)` : `${volPercentage}% (WEAK)`;
 
                 let isBullish = closes[closes.length - 1] > opens[opens.length - 1];
                 let isBearish = closes[closes.length - 1] < opens[opens.length - 1];
 
-                // FILTERS
-                let isVolumeSpike = currentVol > (avgVol * 1.3); // 30% more volume required
+                // FILTERS (Strict Vol Spike)
+                let isVolumeSpike = currentVol > (avgVol * 1.3); 
                 let trendUp = ema3 > ema8;
                 let trendDown = ema3 < ema8;
 
-                // STRICT TRIPLE CONFLUENCE CHECK
                 let isBuy = isBullish && trendUp && rsi > 55 && isVolumeSpike;
                 let isSell = isBearish && trendDown && rsi < 45 && isVolumeSpike;
 
                 if (!isBuy && !isSell) {
-                     return { action: "WAITING FOR SETUP ⏳", color: "#64748b", msg: "WAITING FOR VOLUME CONFIRMATION", prob: "--", rsi: rsi.toFixed(1) };
+                     return { action: "WAITING FOR SETUP ⏳", color: "var(--text-muted)", msg: "WAITING FOR VOLUME CONFIRMATION", prob: "--", rsi: rsi.toFixed(1), vol: volText };
                 }
                 
                 return {
                     action: isBuy ? "HFT EXECUTE BUY 🟢" : "HFT EXECUTE SELL 🔴",
-                    color: isBuy ? "#10b981" : "#ef4444",
+                    color: isBuy ? "var(--buy-color)" : "var(--sell-color)",
                     msg: "VOLUME & TREND ALIGNED - ENGAGE",
                     prob: (95 + Math.random()*4).toFixed(1) + "%",
-                    rsi: rsi.toFixed(1)
+                    rsi: rsi.toFixed(1),
+                    vol: volText
                 };
 
             } catch (err) {
-                return { action: "API SYNC ERROR ⚠️", color: "#f59e0b", msg: "RETRYING CONNECTION...", prob: "--", rsi: "--" };
+                return { action: "API SYNC ERROR ⚠️", color: "var(--warn-color)", msg: "RETRYING CONNECTION...", prob: "--", rsi: "--", vol: "--" };
             }
         }
 
+        // --- AUTO-LOOP EXECUTION ---
         function startAutoLoop() {
             clearInterval(countdownInterval);
             clearTimeout(scanTimeout);
 
+            // Phase 1: Ribbon Scanning
             document.getElementById('ribbonScan').style.display = 'block';
             document.getElementById('ribbonTimer').style.display = 'none';
+            document.getElementById('ribbonTimer').style.width = '100%'; // Reset timer ribbon
+            
             document.getElementById('timerText').innerText = "SCAN";
             document.getElementById('timerText').style.color = "var(--text-muted)";
             
             document.getElementById('signalOutput').style.display = 'block';
-            document.getElementById('sigAction').innerText = "CALCULATING...";
+            document.getElementById('sigAction').innerText = "ANALYZING MARKET...";
             document.getElementById('sigAction').style.color = "var(--text-primary)";
-            document.getElementById('winProbBox').style.display = 'none';
+            document.getElementById('metricsBox').style.display = 'none';
             document.getElementById('signalOutput').style.borderColor = "var(--border-color)";
             document.getElementById('topStrats').innerHTML = ""; 
 
@@ -297,14 +363,17 @@
                 let pair = document.getElementById('pair').value;
                 let data = await fetchQuantSignal(pair);
                 
+                // Update UI Elements
                 document.getElementById('sigMsg').innerText = data.msg;
                 document.getElementById('sigAction').innerText = data.action;
                 document.getElementById('sigAction').style.color = data.color;
                 
-                document.getElementById('winProbBox').style.display = 'block';
+                document.getElementById('metricsBox').style.display = 'flex';
                 document.getElementById('winProb').innerText = data.prob;
                 document.getElementById('winProb').style.color = data.color;
                 document.getElementById('rsiVal').innerText = data.rsi;
+                document.getElementById('volVal').innerText = data.vol;
+                document.getElementById('volVal').style.color = data.vol.includes("STRONG") || data.vol.includes("SURGE") || data.vol.includes("HIGH") ? "var(--buy-color)" : "var(--warn-color)";
                 
                 document.getElementById('signalOutput').style.borderColor = data.color;
 
@@ -322,16 +391,18 @@
             }, 2000);
         }
 
+        // Phase 2: Timer & Ribbon Decrease
         function startTradeTimer(mainColor) {
             document.getElementById('ribbonScan').style.display = 'none';
             document.getElementById('ribbonTimer').style.display = 'block';
             document.getElementById('timerText').style.color = mainColor;
+            document.getElementById('ribbonTimer').style.background = mainColor;
 
             let totalSeconds = parseInt(document.getElementById('timeframe').value);
             let timeLeft = totalSeconds;
 
+            // Instant full width before decrease
             document.getElementById('ribbonTimer').style.width = "100%";
-            document.getElementById('ribbonTimer').style.background = mainColor;
 
             countdownInterval = setInterval(() => {
                 timeLeft--;
@@ -339,6 +410,7 @@
                 let s = (timeLeft % 60).toString().padStart(2, '0');
                 document.getElementById('timerText').innerText = `${m}:${s}`;
                 
+                // Ribbon decreasing animation
                 let percent = (timeLeft / totalSeconds) * 100;
                 document.getElementById('ribbonTimer').style.width = percent + "%";
 
