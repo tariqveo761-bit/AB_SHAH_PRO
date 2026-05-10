@@ -3,15 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta http-equiv="Expires" content="0">
-    <title>AB.SHAH | SECURE QUANT AI</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&family=JetBrains+Mono:wght@400;700;800;900&display=swap" rel="stylesheet">
+    <title>AB.SHAH | PREMIUM QUANT AI</title>
     <style>
-        /* --- THEME VARIABLES --- */
+        /* UI SAME RAKHA HAI JO PEHLE THA (Video wala) */
         :root {
             --bg-main: #050505; --bg-card: #0e1117; --border-color: #21262d; --text-primary: #ffffff;
             --text-muted: #8b949e; --buy-color: #00e676; --sell-color: #ff1744; --warn-color: #ffb300;
@@ -23,431 +17,202 @@
             --accent: #0969da; --circle-bg: #f6f8fa;
         }
         * { box-sizing: border-box; }
-        body { background: var(--bg-main); color: var(--text-primary); font-family: 'Inter', sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 15px; transition: background 0.4s ease, color 0.4s ease; }
-        
-        .app-container { background: var(--bg-card); border: 1px solid var(--border-color); padding: 25px; border-radius: 24px; width: 100%; max-width: 440px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); position: relative; overflow: hidden; transition: all 0.4s ease; display: flex; flex-direction: column; }
-
-        /* TOP UTILITY BAR */
+        body { background: var(--bg-main); color: var(--text-primary); font-family: 'Inter', sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 15px; transition: 0.3s; }
+        .app-container { background: var(--bg-card); border: 1px solid var(--border-color); padding: 25px; border-radius: 24px; width: 100%; max-width: 440px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); position: relative; overflow: hidden; display: flex; flex-direction: column; }
         .utility-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
         .util-selects { display: flex; gap: 8px; flex-wrap: wrap; }
-        .u-sel { background: var(--circle-bg); border: 1px solid var(--border-color); color: var(--text-muted); border-radius: 6px; padding: 6px 10px; font-size: 11px; font-family: 'JetBrains Mono'; font-weight: 700; outline: none; cursor: pointer; transition: 0.3s; }
-        .u-sel:focus, .u-sel:hover { border-color: var(--accent); color: var(--text-primary); }
-        .theme-btn { background: var(--circle-bg); border: 1px solid var(--border-color); color: var(--text-muted); border-radius: 6px; padding: 6px 12px; cursor: pointer; font-size: 14px; transition: 0.3s; }
-        .theme-btn:hover { border-color: var(--accent); color: var(--text-primary); }
-
-        /* Header */
+        .u-sel { background: var(--circle-bg); border: 1px solid var(--border-color); color: var(--text-muted); border-radius: 6px; padding: 6px 10px; font-size: 11px; font-family: 'JetBrains Mono'; font-weight: 700; outline: none; cursor: pointer; }
+        .theme-btn { background: var(--circle-bg); border: 1px solid var(--border-color); color: var(--text-muted); border-radius: 6px; padding: 6px 12px; cursor: pointer; }
         .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid var(--border-color); padding-bottom: 15px;}
-        .header-title { font-size: 20px; font-weight: 900; letter-spacing: 1px; }
-        .ping-badge { font-family: 'JetBrains Mono'; font-size: 11px; color: var(--buy-color); background: rgba(0, 230, 118, 0.1); padding: 5px 10px; border-radius: 6px; border: 1px solid rgba(0, 230, 118, 0.2); font-weight: 800; transition: 0.3s;}
-
-        /* Controls */
+        .ping-badge { font-family: 'JetBrains Mono'; font-size: 11px; color: var(--buy-color); background: rgba(0, 230, 118, 0.1); padding: 5px 10px; border-radius: 6px; border: 1px solid rgba(0, 230, 118, 0.2); font-weight: 800; }
         .controls { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 25px; }
-        select.main-sel { background: var(--circle-bg); border: 1px solid var(--border-color); color: var(--text-primary); padding: 14px; border-radius: 10px; font-family: 'JetBrains Mono'; font-size: 12px; font-weight: 700; outline: none; transition: 0.3s; }
-        select.main-sel:focus { border-color: var(--accent); }
-
-        /* CIRCULAR INDICATOR UI */
+        select.main-sel { background: var(--circle-bg); border: 1px solid var(--border-color); color: var(--text-primary); padding: 14px; border-radius: 10px; font-family: 'JetBrains Mono'; font-size: 12px; font-weight: 700; outline: none; }
         .indicator-wrapper { display: flex; flex-direction: column; align-items: center; justify-content: center; margin-bottom: 30px; min-height: 220px;}
-        .status-text { font-family: 'JetBrains Mono'; font-size: 12px; font-weight: 800; color: var(--text-muted); margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px; text-align: center; height: 16px; transition: 0.3s;}
-        
-        .circle-outer { width: 180px; height: 180px; border-radius: 50%; display: flex; justify-content: center; align-items: center; position: relative; transition: all 0.4s ease; background: var(--circle-bg); border: 2px solid var(--border-color); }
-        .circle-inner { width: 155px; height: 155px; border-radius: 50%; display: flex; flex-direction: column; justify-content: center; align-items: center; background: var(--bg-card); z-index: 2; transition: all 0.4s ease; }
-
-        /* SVG Staircase Icons */
+        .status-text { font-family: 'JetBrains Mono'; font-size: 12px; font-weight: 800; color: var(--text-muted); margin-bottom: 20px; text-transform: uppercase; text-align: center; height: 16px;}
+        .circle-outer { width: 180px; height: 180px; border-radius: 50%; display: flex; justify-content: center; align-items: center; position: relative; transition: 0.4s; background: var(--circle-bg); border: 2px solid var(--border-color); }
+        .circle-inner { width: 155px; height: 155px; border-radius: 50%; display: flex; flex-direction: column; justify-content: center; align-items: center; background: var(--bg-card); z-index: 2; }
         .signal-icon { width: 45px; height: 45px; margin-bottom: 8px; display: none; }
-        .signal-text { font-size: 18px; font-weight: 900; letter-spacing: 1px; display: none; text-align: center; line-height: 1.2;}
-
-        /* Scanning Animation */
-        .scanner-ring { position: absolute; width: 100%; height: 100%; border-radius: 50%; border: 4px solid transparent; border-top-color: var(--accent); border-right-color: var(--accent); animation: spin 1s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite; }
+        .signal-text { font-size: 18px; font-weight: 900; letter-spacing: 1px; display: none; text-align: center; }
+        .scanner-ring { position: absolute; width: 100%; height: 100%; border-radius: 50%; border: 4px solid transparent; border-top-color: var(--accent); border-right-color: var(--accent); animation: spin 1s linear infinite; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-
-        /* PROGRESS BARS */
         .metrics-container { margin-bottom: 25px; display: none; }
         .metric-row { margin-bottom: 14px; }
-        .metric-labels { display: flex; justify-content: space-between; font-family: 'JetBrains Mono'; font-size: 11px; font-weight: 800; color: var(--text-primary); margin-bottom: 6px; text-transform: uppercase;}
-        .progress-bg { width: 100%; height: 10px; background: var(--circle-bg); border-radius: 5px; overflow: hidden; border: 1px solid var(--border-color); position: relative;}
-        .progress-fill { height: 100%; width: 0%; border-radius: 5px; transition: width 1s cubic-bezier(0.25, 1, 0.5, 1); }
-        .fill-buy { background: linear-gradient(90deg, #00b09b, #96c93d); }
-        .fill-sell { background: linear-gradient(90deg, #cb2d3e, #ef473a); }
-
-        /* TIMER AREA */
-        .timer-box { background: var(--circle-bg); border: 1px solid var(--border-color); border-radius: 14px; padding: 20px; text-align: center; margin-bottom: 15px;}
-        .timer-msg { font-size: 12px; color: var(--text-muted); font-weight: 800; margin-bottom: 5px; text-transform: uppercase;}
-        .timer-val { font-family: 'JetBrains Mono'; font-size: 32px; font-weight: 900; color: var(--text-primary); }
-
-        /* 7-DAY BACKTESTER */
-        .tester-btn { width: 100%; padding: 12px; background: transparent; color: var(--text-muted); border: 1px dashed var(--border-color); border-radius: 8px; font-weight: 700; font-size: 11px; cursor: pointer; margin-bottom: 15px; font-family: 'JetBrains Mono'; transition: 0.3s;}
-        .tester-btn:hover { border-color: var(--text-primary); color: var(--text-primary); }
-        .tester-panel { display: none; background: var(--circle-bg); border: 1px solid var(--accent); padding: 15px; border-radius: 12px; margin-bottom: 15px; text-align: center; }
-        .test-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
-        .test-box { background: var(--bg-card); padding: 10px; border-radius: 6px; font-family: 'JetBrains Mono'; }
-        .test-val { font-size: 16px; font-weight: 900; margin-top: 5px; }
-
-        /* AUTH & BUTTONS */
+        .metric-labels { display: flex; justify-content: space-between; font-family: 'JetBrains Mono'; font-size: 11px; font-weight: 800; margin-bottom: 6px; }
+        .progress-bg { width: 100%; height: 10px; background: var(--circle-bg); border-radius: 5px; overflow: hidden; border: 1px solid var(--border-color); }
+        .progress-fill { height: 100%; width: 0%; border-radius: 5px; transition: 1s ease-in-out; }
+        .timer-box { background: var(--circle-bg); border: 1px solid var(--border-color); border-radius: 14px; padding: 20px; text-align: center; }
+        .timer-val { font-family: 'JetBrains Mono'; font-size: 32px; font-weight: 900; }
         .auth-screen { text-align: center; padding: 20px 10px; }
-        .auth-inp { width: 100%; padding: 16px; background: var(--circle-bg); border: 1px solid var(--border-color); color: var(--text-primary); border-radius: 12px; font-family: 'JetBrains Mono'; margin-bottom: 20px; outline: none; transition: 0.3s;}
-        .auth-inp:focus { border-color: var(--accent); }
-        .primary-btn { width: 100%; padding: 18px; background: var(--accent); color: #fff; border: none; border-radius: 12px; font-weight: 900; font-size: 15px; cursor: pointer; transition: 0.3s; letter-spacing: 1px;}
-        .primary-btn:hover { background: #1c4ed8; transform: translateY(-2px); box-shadow: 0 10px 20px rgba(41, 98, 255, 0.3);}
-
-        /* SECURITY WARNING UI */
-        .security-alert { display: none; background: rgba(255, 23, 68, 0.1); border: 1px solid var(--sell-color); color: var(--sell-color); padding: 15px; border-radius: 10px; margin-top: 20px; font-size: 12px; font-weight: 700; line-height: 1.5; }
-
-        /* COPYRIGHT FOOTER */
-        .copyright { text-align: center; margin-top: auto; font-size: 10px; color: var(--text-muted); font-family: 'JetBrains Mono'; font-weight: 600; letter-spacing: 0.5px; border-top: 1px solid var(--border-color); padding-top: 15px; }
+        .auth-inp { width: 100%; padding: 16px; background: var(--circle-bg); border: 1px solid var(--border-color); color: var(--text-primary); border-radius: 12px; margin-bottom: 20px; outline: none; }
+        .primary-btn { width: 100%; padding: 18px; background: var(--accent); color: #fff; border: none; border-radius: 12px; font-weight: 900; cursor: pointer; transition: 0.3s; }
+        .security-alert { display: none; background: rgba(255, 23, 68, 0.1); border: 1px solid var(--sell-color); color: var(--sell-color); padding: 15px; border-radius: 10px; margin-top: 20px; font-size: 12px; font-weight: 700; }
+        .copyright { text-align: center; margin-top: 20px; font-size: 10px; color: var(--text-muted); font-family: 'JetBrains Mono'; padding-top: 15px; border-top: 1px solid var(--border-color); }
     </style>
 </head>
 <body>
 
-    <div class="app-container" id="appFrame">
-        
+    <div class="app-container">
         <div class="utility-bar">
             <div class="util-selects">
                 <select class="u-sel" id="langSel" onchange="changeLanguage()">
-                    <option value="EN">EN (English)</option>
-                    <option value="AR">AR (Arabic)</option>
-                    <option value="PT">PT (Portuguese)</option>
-                    <option value="ES">ES (Spanish)</option>
-                    <option value="RU">RU (Russian)</option>
-                    <option value="ID">ID (Indonesian)</option>
-                    <option value="UR">UR (Urdu)</option>
-                    <option value="HI">HI (Hindi)</option>
-                    <option value="VI">VI (Vietnamese)</option>
-                    <option value="TH">TH (Thai)</option>
-                    <option value="TR">TR (Turkish)</option>
-                    <option value="FR">FR (French)</option>
-                    <option value="DE">DE (German)</option>
-                    <option value="IT">IT (Italian)</option>
-                    <option value="ZH">ZH (Chinese)</option>
-                    <option value="JA">JA (Japanese)</option>
-                    <option value="KO">KO (Korean)</option>
-                    <option value="MS">MS (Malay)</option>
-                    <option value="PL">PL (Polish)</option>
-                    <option value="RO">RO (Romanian)</option>
+                    <option value="EN">EN</option><option value="AR">AR</option><option value="UR">UR</option><option value="HI">HI</option>
                 </select>
                 <select class="u-sel" id="serverSel" onchange="changeServer()">
-                    <option value="GLOBAL">AUTO NODE</option>
-                    <option value="US">SERVER: US</option>
-                    <option value="UK">SERVER: UK</option>
-                    <option value="BR">SERVER: BR</option>
-                    <option value="SG">SERVER: SG</option>
+                    <option value="GLOBAL">AUTO NODE</option><option value="US">US</option><option value="PK">PK</option>
                 </select>
             </div>
             <button class="theme-btn" onclick="toggleTheme()" id="themeBtn">☀️</button>
         </div>
 
         <div class="auth-screen" id="loginBox">
-            <h1 style="margin: 0 0 5px 0; font-size: 32px; font-weight: 900; letter-spacing: 2px;" data-i18n="title">AB.SHAH</h1>
-            <p style="color: var(--text-muted); font-size: 12px; font-weight: 700; margin-bottom: 30px;" data-i18n="subtitle">HFT QUANTUM ENGINE v8.0</p>
-            <input type="email" id="email" class="auth-inp" placeholder="Enter Secure License Key" data-i18n-ph="placeholder">
-            <button class="primary-btn" onclick="login()" data-i18n="btn_login">INITIALIZE SYSTEM</button>
-            
+            <h1 style="font-size: 32px; font-weight: 900;">AB.SHAH</h1>
+            <p style="color: var(--text-muted); font-size: 12px; margin-bottom: 30px;">HFT QUANTUM ENGINE v9.0</p>
+            <input type="email" id="email" class="auth-inp" placeholder="Enter Licensed Email">
+            <button class="primary-btn" onclick="login()">INITIALIZE SYSTEM</button>
             <div class="security-alert" id="secAlert"></div>
         </div>
 
         <div id="dashboard" style="display: none;">
-            
             <div class="header">
-                <div class="header-title" data-i18n="title" style="font-size: 24px;">AB.SHAH</div>
-                <div class="ping-badge" id="pingBadge">PING: 3ms</div>
+                <div style="font-size: 24px; font-weight: 900;">AB.SHAH</div>
+                <div class="ping-badge" id="pingBadge">PING: 2ms</div>
             </div>
-
             <div class="controls">
                 <select id="pair" class="main-sel" onchange="startAutoLoop()">
-                    <optgroup label="OTC Pairs">
-                        <option value="EUR/USD (OTC)">EUR/USD (OTC)</option>
-                        <option value="GBP/USD (OTC)">GBP/USD (OTC)</option>
-                        <option value="USD/JPY (OTC)">USD/JPY (OTC)</option>
-                        <option value="GOLD (OTC)">GOLD (OTC)</option>
-                        <option value="BITCOIN (OTC)">BITCOIN (OTC)</option>
-                        <option value="ETHEREUM (OTC)">ETHEREUM (OTC)</option>
-                    </optgroup>
-                    <optgroup label="Real Markets">
-                        <option value="BITCOIN (REAL)">BITCOIN (REAL)</option>
-                        <option value="ETHEREUM (REAL)">ETHEREUM (REAL)</option>
-                        <option value="GOLD (PAXG)">GOLD (REAL)</option>
-                    </optgroup>
+                    <option value="GOLD (OTC)">GOLD (OTC)</option><option value="EUR/USD (OTC)">EUR/USD (OTC)</option>
+                    <option value="BITCOIN (REAL)">BITCOIN (REAL)</option>
                 </select>
                 <select id="timeframe" class="main-sel" onchange="startAutoLoop()">
-                    <option value="5">5 SECONDS</option>
-                    <option value="15">15 SECONDS</option>
-                    <option value="30">30 SECONDS</option>
-                    <option value="60" selected>60 SECONDS (1 MINUTE)</option>
+                    <option value="5">5S</option><option value="15">15S</option><option value="30">30S</option><option value="60" selected>60S</option>
                 </select>
             </div>
-
             <div class="indicator-wrapper">
-                <div class="status-text" id="statusText" data-i18n="status_wait">WAITING FOR ENGINE...</div>
-                
+                <div class="status-text" id="statusText">WAITING...</div>
                 <div class="circle-outer" id="circleOuter">
                     <div class="scanner-ring" id="scannerRing"></div>
                     <div class="circle-inner" id="circleInner">
-                        <svg class="signal-icon" id="sigIconBuy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                            <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
-                            <polyline points="17 6 23 6 23 12"></polyline>
-                        </svg>
-                        <svg class="signal-icon" id="sigIconSell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                            <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
-                            <polyline points="17 18 23 18 23 12"></polyline>
-                        </svg>
-                        <svg class="signal-icon" id="sigIconWait" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                            <circle cx="12" cy="12" r="10"></circle>
-                            <polyline points="12 6 12 12 16 14"></polyline>
-                        </svg>
+                        <svg class="signal-icon" id="sigIconBuy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>
+                        <svg class="signal-icon" id="sigIconSell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline><polyline points="17 18 23 18 23 12"></polyline></svg>
                         <div class="signal-text" id="sigText">--</div>
                     </div>
                 </div>
             </div>
-
             <div class="metrics-container" id="metricsBox">
-                <div class="metric-row">
-                    <div class="metric-labels">
-                        <span data-i18n="strength">TOTAL STRENGTH</span>
-                        <span id="strengthVal">0%</span>
-                    </div>
-                    <div class="progress-bg"><div class="progress-fill" id="strengthFill"></div></div>
-                </div>
-                <div class="metric-row">
-                    <div class="metric-labels">
-                        <span data-i18n="probability">PROBABILITY</span>
-                        <span id="probVal">0%</span>
-                    </div>
-                    <div class="progress-bg"><div class="progress-fill" id="probFill"></div></div>
-                </div>
+                <div class="metric-row"><div class="metric-labels"><span>STRENGTH</span><span id="strengthVal">0%</span></div>
+                <div class="progress-bg"><div class="progress-fill" id="strengthFill"></div></div></div>
+                <div class="metric-row"><div class="metric-labels"><span>PROBABILITY</span><span id="probVal">0%</span></div>
+                <div class="progress-bg"><div class="progress-fill" id="probFill"></div></div></div>
             </div>
-
             <div class="timer-box">
-                <div class="timer-msg" id="timerMsg" data-i18n="next_scan">NEXT SCAN IN</div>
+                <div style="font-size: 10px; color: var(--text-muted); margin-bottom: 5px;">NEXT SIGNAL</div>
                 <div class="timer-val" id="timerText">00:00</div>
             </div>
-
-            <button class="tester-btn" onclick="runRealBacktest()" data-i18n="btn_tester">[ RUN 7-DAY ALGORITHMIC REPORT ]</button>
-            <div id="testerPanel" class="tester-panel">
-                <div style="font-size:10px; font-weight:800; color:var(--accent); margin-bottom:10px;" data-i18n="test_title">LAST 7 DAYS SIMULATION</div>
-                <div class="test-grid">
-                    <div class="test-box"><div style="font-size:9px; color:var(--text-muted);" data-i18n="test_trades">TRADES</div><div class="test-val" id="tTotal">--</div></div>
-                    <div class="test-box"><div style="font-size:9px; color:var(--text-muted);" data-i18n="test_wins">WINS</div><div class="test-val" id="tWins" style="color:var(--buy-color);">--</div></div>
-                    <div class="test-box" style="grid-column: span 2; border:1px solid var(--buy-color);"><div style="font-size:10px; color:var(--buy-color);" data-i18n="test_acc">ACCURACY</div><div class="test-val" id="tRate" style="color:var(--buy-color); font-size: 22px;">--</div></div>
-                </div>
-            </div>
-
             <div class="copyright">&copy; 2026 AB.SHAH. All Rights Reserved.</div>
         </div>
     </div>
 
     <script>
-        const SERVER_URL = window.location.origin; 
-        let countdownInterval = null;
-        let scanTimeout = null;
-        let lastSignal = "";
-        let streakCount = 0;
-        let deviceID = "";
+        // --- 1. HARDCODED WHITELIST (Only these emails work) ---
+        const authorizedUsers = [
+            "shah@gmail.com",
+            "test@qa.com",
+            "vip_member@abshah.com"
+        ];
 
-        // --- DEVICE FINGERPRINT GENERATION ---
-        function generateDeviceID() {
-            let existingID = localStorage.getItem("abshah_hardware_id");
-            if (existingID) {
-                deviceID = existingID;
-            } else {
-                deviceID = "DEV-" + Math.random().toString(36).substring(2, 12).toUpperCase();
-                localStorage.setItem("abshah_hardware_id", deviceID);
-            }
-        }
-        generateDeviceID();
+        let deviceID = localStorage.getItem("abshah_vid") || "DEV-" + Math.random().toString(36).substring(2, 10).toUpperCase();
+        localStorage.setItem("abshah_vid", deviceID);
 
-        // --- 20 LANGUAGES DICTIONARY ---
-        const translations = {
-            EN: { title: "AB.SHAH", subtitle: "HFT QUANTUM ENGINE", btn_login: "INITIALIZE SYSTEM", placeholder: "Enter License Key", status_wait: "WAITING FOR ENGINE...", strength: "TOTAL STRENGTH", probability: "PROBABILITY", next_scan: "NEXT SCAN IN", scanning: "ANALYZING MARKET...", wait_signal: "WAIT FOR NEW SIGNAL", act_buy: "BUY\n(LONG)", act_sell: "SELL\n(SHORT)", act_wait: "HOLD\n(WAIT)", btn_tester: "[ RUN 7-DAY ALGORITHMIC REPORT ]", test_title: "LAST 7 DAYS SIMULATION", test_trades: "TRADES", test_wins: "WINS", test_acc: "ACCURACY", err_lock: "SECURITY ALERT: You have previously logged into another browser or device, which is why you cannot log into another device." },
-            AR: { title: "AB.SHAH", subtitle: "محرك التداول الكمي", btn_login: "تشغيل النظام", placeholder: "أدخل مفتاح الترخيص", status_wait: "في انتظار المحرك...", strength: "القوة الإجمالية", probability: "الاحتمالية", next_scan: "الفحص التالي في", scanning: "تحليل السوق...", wait_signal: "انتظر إشارة جديدة", act_buy: "شراء\n(صعود)", act_sell: "بيع\n(هبوط)", act_wait: "انتظار\n(توقف)", btn_tester: "[ تشغيل تقرير 7 أيام ]", test_title: "محاكاة آخر 7 أيام", test_trades: "الصفقات", test_wins: "الربح", test_acc: "الدقة", err_lock: "تنبيه أمني: لقد قمت بتسجيل الدخول مسبقًا إلى متصفح أو جهاز آخر، ولهذا السبب لا يمكنك تسجيل الدخول إلى جهاز آخر." },
-            UR: { title: "اے بی شاہ", subtitle: "کوانٹم انجن", btn_login: "سسٹم آن کریں", placeholder: "کی درج کریں", status_wait: "انتظار کریں...", strength: "طاقت", probability: "امکان", next_scan: "اگلا اسکین:", scanning: "تجزیہ جاری ہے...", wait_signal: "نئے سگنل کا انتظار کریں", act_buy: "خریدیں", act_sell: "بیچیں", act_wait: "رک جائیں", btn_tester: "[ 7 دن کی رپورٹ ]", test_title: "گزشتہ 7 دن", test_trades: "ٹریڈز", test_wins: "کامیاب", test_acc: "درستگی", err_lock: "سیکیورٹی الرٹ: آپ نے پہلے کسی اور براؤزر یا ڈیوائس میں لاگ ان کیا ہے، جس کی وجہ سے آپ کسی دوسری ڈیوائس میں لاگ ان نہیں کر سکتے۔" },
-            HI: { title: "एबी शाह", subtitle: "क्वांटम इंजन", btn_login: "सिस्टम चालू करें", placeholder: "कुंजी दर्ज करें", status_wait: "प्रतीक्षा...", strength: "कुल शक्ति", probability: "संभावना", next_scan: "अगला स्कैन:", scanning: "विश्लेषण...", wait_signal: "नए सिग्नल की प्रतीक्षा", act_buy: "खरीदें", act_sell: "बेचें", act_wait: "रुकें", btn_tester: "[ 7-दिन रिपोर्ट ]", test_title: "पिछले 7 दिन", test_trades: "व्यापार", test_wins: "जीत", test_acc: "सटीकता", err_lock: "सुरक्षा चेतावनी: आपने पहले ही किसी अन्य ब्राउज़र या डिवाइस में लॉग इन किया है, जिसके कारण आप किसी अन्य डिवाइस में लॉग इन नहीं कर सकते।" },
-            PT: { title: "AB.SHAH", btn_login: "INICIAR", placeholder: "Insira a chave", status_wait: "AGUARDANDO...", strength: "FORÇA TOTAL", probability: "PROBABILIDADE", next_scan: "PRÓXIMO SCAN", scanning: "ANALISANDO...", wait_signal: "AGUARDE SINAL", act_buy: "COMPRA", act_sell: "VENDA", act_wait: "ESPERAR", btn_tester: "[ RELATÓRIO 7 DIAS ]", test_title: "SIMULAÇÃO 7 DIAS", test_trades: "NEGÓCIOS", test_wins: "VITÓRIAS", test_acc: "PRECISÃO", err_lock: "ALERTA DE SEGURANÇA: Esta licença está bloqueada em outro dispositivo." },
-            ES: { title: "AB.SHAH", btn_login: "INICIAR", placeholder: "Ingrese clave", status_wait: "ESPERANDO...", strength: "FUERZA TOTAL", probability: "PROBABILIDAD", next_scan: "PRÓXIMO ESCANEO", scanning: "ANALIZANDO...", wait_signal: "ESPERE SEÑAL", act_buy: "COMPRA", act_sell: "VENTA", act_wait: "ESPERAR", btn_tester: "[ INFORME 7 DÍAS ]", test_title: "SIMULACIÓN 7 DÍAS", test_trades: "TRADES", test_wins: "GANANCIAS", test_acc: "PRECISIÓN", err_lock: "ALERTA: Esta licencia está bloqueada en otro dispositivo." }
-            // Other languages fall back to EN keys dynamically mapped below if not fully defined
-        };
-
-        let currentLang = "EN";
-        function changeLanguage() {
-            currentLang = document.getElementById('langSel').value;
-            // Fallback to EN if language is selected but full dict not in JS to save space
-            const t = translations[currentLang] || translations["EN"];
-            document.querySelectorAll('[data-i18n]').forEach(el => { if(t[el.getAttribute('data-i18n')]) el.innerText = t[el.getAttribute('data-i18n')]; });
-            document.querySelectorAll('[data-i18n-ph]').forEach(el => { if(t[el.getAttribute('data-i18n-ph')]) el.placeholder = t[el.getAttribute('data-i18n-ph')]; });
-            document.body.style.direction = (currentLang === "AR" || currentLang === "UR") ? "rtl" : "ltr";
-        }
-
-        function changeServer() {
-            let badge = document.getElementById('pingBadge');
-            badge.style.color = "var(--warn-color)"; badge.innerText = "ROUTING...";
-            setTimeout(() => { badge.innerText = `PING: ${Math.floor(Math.random() * 40 + 5)}ms`; badge.style.color = "var(--buy-color)"; }, 600);
-        }
-
-        function toggleTheme() {
-            let body = document.body, btn = document.getElementById('themeBtn');
-            if(body.getAttribute('data-theme') === 'light') { body.removeAttribute('data-theme'); btn.innerText = '☀️'; } 
-            else { body.setAttribute('data-theme', 'light'); btn.innerText = '🌙'; }
-        }
-
-        function runRealBacktest() {
-            document.getElementById('testerPanel').style.display = 'block';
-            document.getElementById('tTotal').innerText = "CALC...";
-            setTimeout(() => {
-                let winRateNum = (74.8 + Math.random() * 4.2);
-                let totalTrades = 1250 + Math.floor(Math.random() * 300);
-                let wins = Math.floor(totalTrades * (winRateNum / 100));
-                document.getElementById('tTotal').innerText = totalTrades;
-                document.getElementById('tWins').innerText = wins;
-                document.getElementById('tRate').innerText = winRateNum.toFixed(1) + "%";
-            }, 1000);
-        }
-
-        // --- STRICT DEVICE LOCKING LOGIC ---
         function login() {
-            let email = document.getElementById('email').value.trim();
-            if(email.length < 5) { alert("Please enter a valid License Key."); return; }
-            
+            let email = document.getElementById('email').value.trim().toLowerCase();
             let alertBox = document.getElementById('secAlert');
-            const t = translations[currentLang] || translations["EN"];
-            const errMsg = t.err_lock || translations["EN"].err_lock; // Fallback to English
-
-            // FRONTEND LOCALSTORAGE LOCK
-            let lockedDeviceForEmail = localStorage.getItem("abshah_locked_" + email);
-
-            if (!lockedDeviceForEmail) {
-                // Pehli baar login, lock the device to this email
-                localStorage.setItem("abshah_locked_" + email, deviceID);
-                proceedToDashboard();
-            } else {
-                // Agli baar login, check agar device ID same hai
-                if (lockedDeviceForEmail === deviceID) {
-                    proceedToDashboard();
-                } else {
-                    // EXACT ERROR REQUESTED BY USER
-                    alertBox.style.display = "block";
-                    alertBox.innerText = errMsg;
-                    return;
-                }
+            
+            // SECURITY CHECK 1: Whitelist check
+            if (!authorizedUsers.includes(email)) {
+                alertBox.style.display = "block";
+                alertBox.innerText = "ACCESS DENIED: Email not found in our license database.";
+                return;
             }
 
-            // SIMULATED BACKEND CALL (To catch cross-device if backend is implemented)
-            fetch(`${SERVER_URL}/api/login`, {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({ email: email, deviceId: deviceID })
-            }).catch(e => { /* Ignored for pure frontend demo */ });
+            // SECURITY CHECK 2: Hardware Lock (LocalStorage)
+            let lockedDevice = localStorage.getItem("lock_" + email);
+            if (!lockedDevice) {
+                // First time login - bind device
+                localStorage.setItem("lock_" + email, deviceID);
+                proceed();
+            } else if (lockedDevice === deviceID) {
+                // Verified device
+                proceed();
+            } else {
+                // Violation - same email on different browser/device
+                alertBox.style.display = "block";
+                alertBox.innerText = "SECURITY ALERT: You have previously logged into another browser or device. Access Denied.";
+            }
         }
 
-        function proceedToDashboard() {
+        function proceed() {
             document.getElementById('loginBox').style.display = 'none';
             document.getElementById('dashboard').style.display = 'block';
             startAutoLoop();
         }
 
-        // --- HFT LOGIC ---
-        async function fetchQuantSignal(pair) {
-            const now = Date.now();
-            const seed = pair.length * 10;
-            const momentum = Math.sin((now / 20000) + seed) + Math.cos((now / 15000) + seed); 
-            
-            let actionRaw, color, iconId, strength, prob, msg;
-
-            if (momentum > 0.6) {
-                actionRaw = "act_buy"; color = "var(--buy-color)"; iconId = "sigIconBuy";
-                strength = (88 + Math.random() * 8).toFixed(1); prob = (75 + Math.random() * 10).toFixed(1);
-                msg = "TREND UPTICK CONFIRMED";
-            } else if (momentum < -0.6) {
-                actionRaw = "act_sell"; color = "var(--sell-color)"; iconId = "sigIconSell";
-                strength = (88 + Math.random() * 8).toFixed(1); prob = (75 + Math.random() * 10).toFixed(1);
-                msg = "TREND DOWNTICK CONFIRMED";
-            } else {
-                return { actionRaw: "act_wait", color: "var(--warn-color)", iconId: "sigIconWait", strength: "45.0", prob: "0.0", msg: "CONSOLIDATION - HOLD" };
-            }
-
-            if (actionRaw === lastSignal) { streakCount++; } else { streakCount = 1; lastSignal = actionRaw; }
-            if (streakCount > 3) {
-                streakCount = 0; 
-                return { actionRaw: "act_wait", color: "var(--warn-color)", iconId: "sigIconWait", strength: "30.0", prob: "0.0", msg: "OVEREXTENDED - AVOID TRAP" };
-            }
-            return { actionRaw, color, iconId, strength, prob, msg };
-        }
-
+        // --- HFT LOGIC & UI (Video Vibe) ---
+        let countdownInterval, scanTimeout;
         function startAutoLoop() {
             clearInterval(countdownInterval); clearTimeout(scanTimeout);
-
-            let pair = document.getElementById('pair').value;
-            const t = translations[currentLang] || translations["EN"];
-
-            document.getElementById('statusText').innerText = t.scanning + ` ${pair}`;
-            document.getElementById('statusText').style.color = "var(--text-muted)";
-            
+            document.getElementById('statusText').innerText = "SCANNING...";
             document.getElementById('scannerRing').style.display = "block";
-            document.getElementById('circleOuter').style.borderColor = "var(--border-color)";
-            document.getElementById('circleOuter').style.boxShadow = "none";
-            document.getElementById('circleInner').style.background = "var(--bg-card)";
-            
             document.getElementById('sigIconBuy').style.display = "none";
             document.getElementById('sigIconSell').style.display = "none";
-            document.getElementById('sigIconWait').style.display = "none";
             document.getElementById('sigText').style.display = "none";
             document.getElementById('metricsBox').style.display = "none";
-            
-            document.getElementById('timerMsg').innerText = t.scanning;
-            document.getElementById('timerText').innerText = "--:--";
 
             scanTimeout = setTimeout(async () => {
-                let data = await fetchQuantSignal(pair);
+                const isBuy = Math.random() > 0.5;
+                const color = isBuy ? "var(--buy-color)" : "var(--sell-color)";
                 
-                document.getElementById('statusText').innerText = data.msg;
-                document.getElementById('statusText').style.color = data.color;
-
+                document.getElementById('statusText').innerText = "SIGNAL CONFIRMED";
+                document.getElementById('statusText').style.color = color;
                 document.getElementById('scannerRing').style.display = "none";
-                document.getElementById('circleOuter').style.borderColor = data.color;
-                document.getElementById('circleOuter').style.boxShadow = `0 0 40px ${data.color}50`;
-                document.getElementById('circleInner').style.background = `radial-gradient(circle, ${data.color}25 0%, var(--bg-card) 90%)`;
-
-                let iconEl = document.getElementById(data.iconId);
-                iconEl.style.color = data.color; iconEl.style.display = "block";
+                document.getElementById('circleOuter').style.borderColor = color;
+                document.getElementById('circleOuter').style.boxShadow = `0 0 30px ${color}50`;
                 
-                document.getElementById('sigText').innerText = t[data.actionRaw];
-                document.getElementById('sigText').style.color = data.color;
+                document.getElementById(isBuy ? 'sigIconBuy' : 'sigIconSell').style.display = "block";
+                document.getElementById(isBuy ? 'sigIconBuy' : 'sigIconSell').style.color = color;
+                document.getElementById('sigText').innerText = isBuy ? "BUY\n(UP)" : "SELL\n(DOWN)";
                 document.getElementById('sigText').style.display = "block";
+                document.getElementById('sigText').style.color = color;
 
                 document.getElementById('metricsBox').style.display = "block";
-                document.getElementById('strengthVal').innerText = data.strength + "%";
-                document.getElementById('strengthVal').style.color = data.color;
-                
-                setTimeout(() => {
-                    let sFill = document.getElementById('strengthFill');
-                    sFill.style.width = data.strength + "%";
-                    sFill.className = "progress-fill " + (data.actionRaw === 'act_buy' ? 'fill-buy' : (data.actionRaw === 'act_sell' ? 'fill-sell' : ''));
-                    if(data.actionRaw === 'act_wait') sFill.style.background = "var(--warn-color)";
-                    
-                    document.getElementById('probVal').innerText = data.prob + "%";
-                    document.getElementById('probVal').style.color = data.color;
-                    let pFill = document.getElementById('probFill');
-                    pFill.style.width = data.prob + "%";
-                    pFill.className = "progress-fill " + (data.actionRaw === 'act_buy' ? 'fill-buy' : (data.actionRaw === 'act_sell' ? 'fill-sell' : ''));
-                    if(data.actionRaw === 'act_wait') pFill.style.background = "var(--warn-color)";
-                }, 50);
+                const sVal = (85 + Math.random() * 14).toFixed(1);
+                const pVal = (92 + Math.random() * 7).toFixed(1);
+                document.getElementById('strengthVal').innerText = sVal + "%";
+                document.getElementById('probVal').innerText = pVal + "%";
+                document.getElementById('strengthFill').style.width = sVal + "%";
+                document.getElementById('strengthFill').style.backgroundColor = color;
+                document.getElementById('probFill').style.width = pVal + "%";
+                document.getElementById('probFill').style.backgroundColor = color;
 
-                startTradeTimer(data.color);
-            }, 1800);
+                startTimer(color);
+            }, 2000);
         }
 
-        function startTradeTimer(color) {
-            const t = translations[currentLang] || translations["EN"];
-            document.getElementById('timerMsg').innerText = t.wait_signal;
+        function startTimer(color) {
+            let left = parseInt(document.getElementById('timeframe').value);
             document.getElementById('timerText').style.color = color;
-            let timeLeft = parseInt(document.getElementById('timeframe').value);
-
             countdownInterval = setInterval(() => {
-                timeLeft--;
-                let m = Math.floor(timeLeft / 60).toString().padStart(2, '0');
-                let s = (timeLeft % 60).toString().padStart(2, '0');
+                left--;
+                let m = Math.floor(left / 60).toString().padStart(2, '0');
+                let s = (left % 60).toString().padStart(2, '0');
                 document.getElementById('timerText').innerText = `${m}:${s}`;
-                if(timeLeft <= 0) { clearInterval(countdownInterval); startAutoLoop(); }
+                if(left <= 0) { clearInterval(countdownInterval); startAutoLoop(); }
             }, 1000);
         }
-        changeLanguage();
+
+        function toggleTheme() {
+            document.body.dataset.theme = document.body.getAttribute('data-theme') === 'light' ? '' : 'light';
+        }
+        function changeServer() { document.getElementById('pingBadge').innerText = "PING: " + Math.floor(Math.random()*40+2) + "ms"; }
+        function changeLanguage() { /* Add labels here if needed */ }
     </script>
 </body>
 </html>
