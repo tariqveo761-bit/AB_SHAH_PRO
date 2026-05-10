@@ -1,6 +1,6 @@
 // AB.SHAH Authorized Users List
 const authorizedUsers = [
-    "shah@gmail.com",
+    "tariqveo761@gmail.com",
     "test@qa.com",
     "vip_member@abshah.com"
 ];
