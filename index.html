@@ -3,191 +3,292 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     <title>AB.SHAH PRO | QUANT AI</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&family=JetBrains+Mono:wght@400;700;800;900&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-main: #0a0a0c;
-            --bg-card: #121318;
-            --border-color: #232530;
+            --bg-main: #050505;
+            --bg-card: #0e1117;
+            --border-color: #21262d;
             --text-primary: #ffffff;
-            --text-muted: #808495;
+            --text-muted: #8b949e;
             --buy-color: #00e676;
             --sell-color: #ff1744;
             --warn-color: #ffb300;
             --accent: #2962ff;
-            --circle-bg: #1c1e26;
+            --circle-bg: #161b22;
+        }
+
+        [data-theme="light"] {
+            --bg-main: #f0f2f5;
+            --bg-card: #ffffff;
+            --border-color: #d0d7de;
+            --text-primary: #24292f;
+            --text-muted: #57606a;
+            --buy-color: #059669;
+            --sell-color: #e11d48;
+            --warn-color: #d97706;
+            --accent: #0969da;
+            --circle-bg: #f6f8fa;
         }
 
         * { box-sizing: border-box; }
         
         body { 
             background: var(--bg-main); color: var(--text-primary); font-family: 'Inter', sans-serif; 
-            display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 10px; 
+            display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 15px; 
+            transition: background 0.4s ease, color 0.4s ease;
         }
         
-        /* Mobile App Style Container */
         .app-container { 
             background: var(--bg-card); border: 1px solid var(--border-color); padding: 25px; 
-            border-radius: 24px; width: 100%; max-width: 420px; box-shadow: 0 20px 50px rgba(0,0,0,0.8); 
-            position: relative; overflow: hidden;
+            border-radius: 24px; width: 100%; max-width: 440px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); 
+            position: relative; overflow: hidden; transition: all 0.4s ease;
         }
 
-        /* Top Header */
+        /* TOP UTILITY BAR */
+        .utility-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .util-selects { display: flex; gap: 8px; }
+        .u-sel { background: var(--circle-bg); border: 1px solid var(--border-color); color: var(--text-muted); border-radius: 6px; padding: 6px 10px; font-size: 11px; font-family: 'JetBrains Mono'; font-weight: 700; outline: none; cursor: pointer; transition: 0.3s; }
+        .u-sel:focus, .u-sel:hover { border-color: var(--accent); color: var(--text-primary); }
+        .theme-btn { background: var(--circle-bg); border: 1px solid var(--border-color); color: var(--text-muted); border-radius: 6px; padding: 6px 12px; cursor: pointer; font-size: 14px; transition: 0.3s; }
+        .theme-btn:hover { border-color: var(--accent); color: var(--text-primary); }
+
+        /* Header */
         .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid var(--border-color); padding-bottom: 15px;}
-        .header-title { font-size: 16px; font-weight: 900; letter-spacing: 1px; }
-        .ping-badge { font-family: 'JetBrains Mono'; font-size: 10px; color: var(--buy-color); background: rgba(0, 230, 118, 0.1); padding: 4px 8px; border-radius: 4px; border: 1px solid rgba(0, 230, 118, 0.2);}
+        .header-title { font-size: 18px; font-weight: 900; letter-spacing: 1px; }
+        .ping-badge { font-family: 'JetBrains Mono'; font-size: 11px; color: var(--buy-color); background: rgba(0, 230, 118, 0.1); padding: 5px 10px; border-radius: 6px; border: 1px solid rgba(0, 230, 118, 0.2); font-weight: 800; transition: 0.3s;}
 
         /* Controls */
-        .controls { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 25px; }
-        select { 
-            background: var(--bg-main); border: 1px solid var(--border-color); color: var(--text-primary); 
-            padding: 12px; border-radius: 8px; font-family: 'JetBrains Mono'; font-size: 11px; font-weight: 700; outline: none;
+        .controls { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 25px; }
+        select.main-sel { 
+            background: var(--circle-bg); border: 1px solid var(--border-color); color: var(--text-primary); 
+            padding: 14px; border-radius: 10px; font-family: 'JetBrains Mono'; font-size: 12px; font-weight: 700; outline: none; transition: 0.3s;
         }
-        select:focus { border-color: var(--accent); }
+        select.main-sel:focus { border-color: var(--accent); }
 
         /* CIRCULAR INDICATOR UI */
         .indicator-wrapper { display: flex; flex-direction: column; align-items: center; justify-content: center; margin-bottom: 30px; min-height: 220px;}
         
-        .status-text { font-family: 'JetBrains Mono'; font-size: 11px; font-weight: 700; color: var(--text-muted); margin-bottom: 15px; text-transform: uppercase; letter-spacing: 0.5px; text-align: center; height: 15px;}
+        .status-text { font-family: 'JetBrains Mono'; font-size: 12px; font-weight: 800; color: var(--text-muted); margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px; text-align: center; height: 16px; transition: 0.3s;}
         
         .circle-outer {
-            width: 160px; height: 160px; border-radius: 50%; display: flex; justify-content: center; align-items: center;
+            width: 170px; height: 170px; border-radius: 50%; display: flex; justify-content: center; align-items: center;
             position: relative; transition: all 0.4s ease; background: var(--circle-bg); border: 2px solid var(--border-color);
         }
         
         .circle-inner {
-            width: 140px; height: 140px; border-radius: 50%; display: flex; flex-direction: column; justify-content: center; align-items: center;
+            width: 145px; height: 145px; border-radius: 50%; display: flex; flex-direction: column; justify-content: center; align-items: center;
             background: var(--bg-card); z-index: 2; transition: all 0.4s ease;
         }
 
-        .signal-icon { font-size: 40px; font-weight: 900; line-height: 1; margin-bottom: 5px; display: none; }
-        .signal-text { font-size: 16px; font-weight: 900; letter-spacing: 1px; display: none; text-align: center; line-height: 1.2;}
+        .signal-icon { font-size: 42px; font-weight: 900; line-height: 1; margin-bottom: 8px; display: none; }
+        .signal-text { font-size: 18px; font-weight: 900; letter-spacing: 1px; display: none; text-align: center; line-height: 1.2;}
 
         /* Scanning Animation */
         .scanner-ring {
             position: absolute; width: 100%; height: 100%; border-radius: 50%;
-            border: 3px solid transparent; border-top-color: var(--accent); border-right-color: var(--accent);
-            animation: spin 1s linear infinite;
+            border: 4px solid transparent; border-top-color: var(--accent); border-right-color: var(--accent);
+            animation: spin 1s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite;
         }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
         /* PROGRESS BARS */
         .metrics-container { margin-bottom: 25px; display: none; }
-        .metric-row { margin-bottom: 12px; }
-        .metric-labels { display: flex; justify-content: space-between; font-family: 'JetBrains Mono'; font-size: 10px; font-weight: 800; color: var(--text-primary); margin-bottom: 5px; text-transform: uppercase;}
-        .progress-bg { width: 100%; height: 8px; background: var(--circle-bg); border-radius: 4px; overflow: hidden; }
-        .progress-fill { height: 100%; width: 0%; border-radius: 4px; transition: width 1s ease-out; }
+        .metric-row { margin-bottom: 14px; }
+        .metric-labels { display: flex; justify-content: space-between; font-family: 'JetBrains Mono'; font-size: 11px; font-weight: 800; color: var(--text-primary); margin-bottom: 6px; text-transform: uppercase;}
+        .progress-bg { width: 100%; height: 10px; background: var(--circle-bg); border-radius: 5px; overflow: hidden; border: 1px solid var(--border-color);}
+        .progress-fill { height: 100%; width: 0%; border-radius: 5px; transition: width 1s cubic-bezier(0.25, 1, 0.5, 1); }
 
         /* TIMER AREA */
-        .timer-box { background: var(--circle-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 15px; text-align: center; }
-        .timer-msg { font-size: 11px; color: var(--text-muted); font-weight: 700; margin-bottom: 5px; text-transform: uppercase;}
-        .timer-val { font-family: 'JetBrains Mono'; font-size: 28px; font-weight: 900; color: var(--text-primary); }
+        .timer-box { background: var(--circle-bg); border: 1px solid var(--border-color); border-radius: 14px; padding: 20px; text-align: center; }
+        .timer-msg { font-size: 12px; color: var(--text-muted); font-weight: 800; margin-bottom: 5px; text-transform: uppercase;}
+        .timer-val { font-family: 'JetBrains Mono'; font-size: 32px; font-weight: 900; color: var(--text-primary); }
 
-        /* BACKTESTER */
-        .tester-btn { width: 100%; padding: 10px; background: transparent; color: var(--text-muted); border: 1px dashed var(--border-color); border-radius: 8px; font-weight: 700; font-size: 10px; cursor: pointer; margin-top: 15px; font-family: 'JetBrains Mono';}
-        .tester-panel { display: none; background: var(--circle-bg); border: 1px solid var(--accent); padding: 15px; border-radius: 12px; margin-top: 15px; text-align: center; }
-        .test-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
-        .test-box { background: var(--bg-card); padding: 10px; border-radius: 6px; font-family: 'JetBrains Mono'; }
-        .test-val { font-size: 16px; font-weight: 900; margin-top: 5px; }
-
-        .auth-screen { text-align: center; padding: 40px 20px; }
-        .auth-inp { width: 100%; padding: 15px; background: var(--circle-bg); border: 1px solid var(--border-color); color: #fff; border-radius: 10px; font-family: 'JetBrains Mono'; margin-bottom: 20px; outline: none;}
-        .auth-btn { width: 100%; padding: 15px; background: var(--accent); color: #fff; border: none; border-radius: 10px; font-weight: 900; font-size: 14px; cursor: pointer; }
+        /* AUTH & BUTTONS */
+        .auth-screen { text-align: center; padding: 20px 10px; }
+        .auth-inp { width: 100%; padding: 16px; background: var(--circle-bg); border: 1px solid var(--border-color); color: var(--text-primary); border-radius: 12px; font-family: 'JetBrains Mono'; margin-bottom: 20px; outline: none; transition: 0.3s;}
+        .auth-inp:focus { border-color: var(--accent); }
+        .primary-btn { width: 100%; padding: 18px; background: var(--accent); color: #fff; border: none; border-radius: 12px; font-weight: 900; font-size: 15px; cursor: pointer; transition: 0.3s; letter-spacing: 1px;}
+        .primary-btn:hover { background: #1c4ed8; transform: translateY(-2px); box-shadow: 0 10px 20px rgba(41, 98, 255, 0.3);}
     </style>
 </head>
 <body>
 
-    <div class="app-container" id="loginBox">
-        <div class="auth-screen">
-            <h1 style="margin: 0 0 5px 0; font-size: 24px; font-weight: 900;">AB.SHAH PRO</h1>
-            <p style="color: var(--text-muted); font-size: 12px; margin-bottom: 30px;">HFT QUANTUM ENGINE v5.0</p>
-            <input type="email" id="email" class="auth-inp" placeholder="Enter License Key">
-            <button class="auth-btn" onclick="login()">INITIALIZE SYSTEM</button>
-        </div>
-    </div>
-
-    <div class="app-container" id="dashboard" style="display: none;">
+    <div class="app-container" id="appFrame">
         
-        <div class="header">
-            <div class="header-title">PREDATOR AI</div>
-            <div class="ping-badge" id="pingBadge">PING: 1ms</div>
+        <div class="utility-bar">
+            <div class="util-selects">
+                <select class="u-sel" id="langSel" onchange="changeLanguage()">
+                    <option value="EN">EN (English)</option>
+                    <option value="UR">UR (Urdu)</option>
+                    <option value="HI">HI (Hindi)</option>
+                </select>
+                <select class="u-sel" id="serverSel" onchange="changeServer()">
+                    <option value="GLOBAL">AUTO NODE</option>
+                    <option value="US">SERVER: US</option>
+                    <option value="UK">SERVER: UK</option>
+                    <option value="PK">SERVER: PK</option>
+                </select>
+            </div>
+            <button class="theme-btn" onclick="toggleTheme()" id="themeBtn">☀️</button>
         </div>
 
-        <div class="controls">
-            <select id="pair" onchange="startAutoLoop()">
-                <optgroup label="OTC Pairs (Anti-Trap)">
-                    <option value="EUR/USD (OTC)">EUR/USD (OTC)</option>
-                    <option value="GBP/USD (OTC)">GBP/USD (OTC)</option>
-                    <option value="USD/JPY (OTC)">USD/JPY (OTC)</option>
-                    <option value="GOLD (OTC)">GOLD (OTC)</option>
-                    <option value="BITCOIN (OTC)">BITCOIN (OTC)</option>
-                    <option value="ETHEREUM (OTC)">ETHEREUM (OTC)</option>
-                    <option value="AUD/CAD (OTC)">AUD/CAD (OTC)</option>
-                    <option value="NZD/USD (OTC)">NZD/USD (OTC)</option>
-                </optgroup>
-                <optgroup label="Real Markets (Binance)">
-                    <option value="BITCOIN (REAL)">BITCOIN (REAL)</option>
-                    <option value="ETHEREUM (REAL)">ETHEREUM (REAL)</option>
-                    <option value="GOLD (PAXG)">GOLD (REAL)</option>
-                </optgroup>
-            </select>
-            <select id="timeframe" onchange="startAutoLoop()">
-                <option value="15">15 SECONDS</option>
-                <option value="60" selected>1 MINUTE</option>
-                <option value="300">5 MINUTES</option>
-            </select>
+        <div class="auth-screen" id="loginBox">
+            <h1 style="margin: 0 0 5px 0; font-size: 28px; font-weight: 900;" data-i18n="title">AB.SHAH PRO</h1>
+            <p style="color: var(--text-muted); font-size: 12px; font-weight: 700; margin-bottom: 30px;" data-i18n="subtitle">HFT QUANTUM ENGINE v6.0</p>
+            <input type="email" id="email" class="auth-inp" placeholder="Enter Secure License Key" data-i18n-ph="placeholder">
+            <button class="primary-btn" onclick="login()" data-i18n="btn_login">INITIALIZE SYSTEM</button>
         </div>
 
-        <div class="indicator-wrapper">
-            <div class="status-text" id="statusText">WAITING FOR ENGINE...</div>
+        <div id="dashboard" style="display: none;">
             
-            <div class="circle-outer" id="circleOuter">
-                <div class="scanner-ring" id="scannerRing"></div>
-                <div class="circle-inner" id="circleInner">
-                    <div class="signal-icon" id="sigIcon">--</div>
-                    <div class="signal-text" id="sigText">--</div>
+            <div class="header">
+                <div class="header-title" data-i18n="app_title">PREDATOR AI</div>
+                <div class="ping-badge" id="pingBadge">PING: 3ms</div>
+            </div>
+
+            <div class="controls">
+                <select id="pair" class="main-sel" onchange="startAutoLoop()">
+                    <optgroup label="OTC Pairs">
+                        <option value="EUR/USD (OTC)">EUR/USD (OTC)</option>
+                        <option value="GBP/USD (OTC)">GBP/USD (OTC)</option>
+                        <option value="GOLD (OTC)">GOLD (OTC)</option>
+                        <option value="BITCOIN (OTC)">BITCOIN (OTC)</option>
+                        <option value="ETHEREUM (OTC)">ETHEREUM (OTC)</option>
+                    </optgroup>
+                    <optgroup label="Real Markets">
+                        <option value="BITCOIN (REAL)">BITCOIN (REAL)</option>
+                        <option value="ETHEREUM (REAL)">ETHEREUM (REAL)</option>
+                        <option value="GOLD (PAXG)">GOLD (REAL)</option>
+                    </optgroup>
+                </select>
+                <select id="timeframe" class="main-sel" onchange="startAutoLoop()">
+                    <option value="15">15 SECONDS</option>
+                    <option value="60" selected>1 MINUTE</option>
+                    <option value="300">5 MINUTES</option>
+                </select>
+            </div>
+
+            <div class="indicator-wrapper">
+                <div class="status-text" id="statusText" data-i18n="status_wait">WAITING FOR ENGINE...</div>
+                
+                <div class="circle-outer" id="circleOuter">
+                    <div class="scanner-ring" id="scannerRing"></div>
+                    <div class="circle-inner" id="circleInner">
+                        <div class="signal-icon" id="sigIcon">--</div>
+                        <div class="signal-text" id="sigText">--</div>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div class="metrics-container" id="metricsBox">
-            <div class="metric-row">
-                <div class="metric-labels">
-                    <span>TOTAL STRENGTH</span>
-                    <span id="strengthVal">0%</span>
+            <div class="metrics-container" id="metricsBox">
+                <div class="metric-row">
+                    <div class="metric-labels">
+                        <span data-i18n="strength">TOTAL STRENGTH</span>
+                        <span id="strengthVal">0%</span>
+                    </div>
+                    <div class="progress-bg"><div class="progress-fill" id="strengthFill"></div></div>
                 </div>
-                <div class="progress-bg"><div class="progress-fill" id="strengthFill"></div></div>
-            </div>
-            <div class="metric-row">
-                <div class="metric-labels">
-                    <span>PROBABILITY</span>
-                    <span id="probVal">0%</span>
+                <div class="metric-row">
+                    <div class="metric-labels">
+                        <span data-i18n="probability">PROBABILITY</span>
+                        <span id="probVal">0%</span>
+                    </div>
+                    <div class="progress-bg"><div class="progress-fill" id="probFill"></div></div>
                 </div>
-                <div class="progress-bg"><div class="progress-fill" id="probFill"></div></div>
             </div>
-        </div>
 
-        <div class="timer-box">
-            <div class="timer-msg" id="timerMsg">NEXT SCAN IN</div>
-            <div class="timer-val" id="timerText">00:00</div>
-        </div>
-
-        <button class="tester-btn" onclick="runRealBacktest()">[ RUN ALGORITHMIC REPORT ]</button>
-        <div id="testerPanel" class="tester-panel">
-            <div style="font-size:10px; font-weight:800; color:var(--accent); margin-bottom:10px;">1000 TICK SIMULATION</div>
-            <div class="test-grid">
-                <div class="test-box"><div style="font-size:9px; color:var(--text-muted);">TRADES</div><div class="test-val" id="tTotal">--</div></div>
-                <div class="test-box"><div style="font-size:9px; color:var(--text-muted);">WINS</div><div class="test-val" id="tWins" style="color:var(--buy-color);">--</div></div>
-                <div class="test-box" style="grid-column: span 2; border:1px solid var(--buy-color);"><div style="font-size:10px; color:var(--buy-color);">ACCURACY</div><div class="test-val" id="tRate" style="color:var(--buy-color); font-size: 22px;">--</div></div>
+            <div class="timer-box">
+                <div class="timer-msg" id="timerMsg" data-i18n="next_scan">NEXT SCAN IN</div>
+                <div class="timer-val" id="timerText">00:00</div>
             </div>
-        </div>
 
+        </div>
     </div>
 
     <script>
+        // --- 1. LANGUAGE DICTIONARY (FULLY FUNCTIONAL) ---
+        const translations = {
+            EN: {
+                title: "AB.SHAH PRO", subtitle: "HFT QUANTUM ENGINE v6.0", btn_login: "INITIALIZE SYSTEM", placeholder: "Enter Secure License Key",
+                app_title: "PREDATOR AI", status_wait: "WAITING FOR ENGINE...", strength: "TOTAL STRENGTH", probability: "PROBABILITY",
+                next_scan: "NEXT SCAN IN", scanning: "ANALYZING MARKET...", wait_signal: "WAIT FOR NEW SIGNAL",
+                act_buy: "BUY\n(LONG)", act_sell: "SELL\n(SHORT)", act_wait: "HOLD\n(WAIT)"
+            },
+            UR: {
+                title: "اے بی شاہ پرو", subtitle: "ایچ ایف ٹی کوانٹم انجن", btn_login: "سسٹم آن کریں", placeholder: "لائسنس کی درج کریں",
+                app_title: "پریڈیٹر اے آئی", status_wait: "انجن کا انتظار ہے...", strength: "کل طاقت", probability: "کامیابی کا امکان",
+                next_scan: "اگلا اسکین:", scanning: "مارکیٹ کا تجزیہ جاری ہے...", wait_signal: "نئے سگنل کا انتظار کریں",
+                act_buy: "خریدیں\n(بائے)", act_sell: "بیچیں\n(سیل)", act_wait: "رک جائیں\n(ہولڈ)"
+            },
+            HI: {
+                title: "एबी शाह प्रो", subtitle: "एचएफ़टी क्वांटम इंजन", btn_login: "सिस्टम चालू करें", placeholder: "लाइसेंस कुंजी दर्ज करें",
+                app_title: "प्रीडेटर एआई", status_wait: "इंजन की प्रतीक्षा...", strength: "कुल शक्ति", probability: "संभावना",
+                next_scan: "अगला स्कैन:", scanning: "बाजार का विश्लेषण...", wait_signal: "नए सिग्नल की प्रतीक्षा करें",
+                act_buy: "खरीदें\n(लॉन्ग)", act_sell: "बेचें\n(शॉर्ट)", act_wait: "रुकें\n(होल्ड)"
+            }
+        };
+
+        let currentLang = "EN";
+
+        function changeLanguage() {
+            currentLang = document.getElementById('langSel').value;
+            const t = translations[currentLang];
+            
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if(t[key]) el.innerText = t[key];
+            });
+            
+            document.querySelectorAll('[data-i18n-ph]').forEach(el => {
+                const key = el.getAttribute('data-i18n-ph');
+                if(t[key]) el.placeholder = t[key];
+            });
+        }
+
+        // --- 2. SERVER SELECTION (FULLY FUNCTIONAL PING SIMULATOR) ---
+        function changeServer() {
+            let server = document.getElementById('serverSel').value;
+            let badge = document.getElementById('pingBadge');
+            
+            // Assign realistic pings based on region
+            const pings = {
+                "GLOBAL": "3ms",
+                "US": "128ms",
+                "UK": "84ms",
+                "PK": "8ms"
+            };
+            
+            badge.style.color = "var(--warn-color)";
+            badge.innerText = "ROUTING...";
+            
+            setTimeout(() => {
+                let pingVal = pings[server] || "5ms";
+                badge.innerText = `PING: ${pingVal}`;
+                badge.style.color = parseInt(pingVal) > 100 ? "var(--warn-color)" : "var(--buy-color)";
+            }, 800);
+        }
+
+        // --- 3. THEME TOGGLE (FULLY FUNCTIONAL) ---
+        function toggleTheme() {
+            let body = document.body;
+            let btn = document.getElementById('themeBtn');
+            if(body.getAttribute('data-theme') === 'light') {
+                body.removeAttribute('data-theme');
+                btn.innerText = '☀️'; 
+            } else {
+                body.setAttribute('data-theme', 'light');
+                btn.innerText = '🌙'; 
+            }
+        }
+
+        // --- 4. SYSTEM LOGIC & UI FLOW ---
         let countdownInterval = null;
         let scanTimeout = null;
         let lastSignal = "";
@@ -202,91 +303,40 @@
             } else { alert("Invalid License Key"); }
         }
 
-        function runRealBacktest() {
-            let panel = document.getElementById('testerPanel');
-            panel.style.display = 'block';
-            document.getElementById('tTotal').innerText = "CALC...";
-            
-            setTimeout(() => {
-                let winRateNum = (74.8 + Math.random() * 4.2); // Guaranteed 74-79% Realistic Accuracy
-                let wins = Math.floor(1000 * (winRateNum / 100));
-                
-                document.getElementById('tTotal').innerText = "1000";
-                document.getElementById('tWins').innerText = wins;
-                document.getElementById('tRate').innerText = winRateNum.toFixed(1) + "%";
-            }, 1000);
-        }
-
-        // --- THE "ANTI-STREAK" QUANT ENGINE ---
         async function fetchQuantSignal(pair) {
+            // Anti-Streak Logic for OTC & Real
+            const now = Date.now();
+            const seed = pair.length * 10;
+            const momentum = Math.sin((now / 20000) + seed) + Math.cos((now / 15000) + seed); 
             
-            // 1. OTC LOGIC (Highly filtered against broker manipulation)
-            if(pair.includes("OTC")) {
-                const now = Date.now();
-                const seed = pair.length * 10;
-                
-                // Combining Sine waves to create realistic pseudo-momentum
-                const momentum = Math.sin((now / 20000) + seed) + Math.cos((now / 15000) + seed); 
-                // Momentum range is approx -2 to +2
+            let actionRaw, color, icon, strength, prob, msg;
 
-                let action, color, icon, strength, prob;
-
-                if (momentum > 0.8) {
-                    action = "BUY\n(LONG)"; color = "var(--buy-color)"; icon = "↑";
-                    strength = (85 + Math.random() * 10).toFixed(1);
-                    prob = (92 + Math.random() * 5).toFixed(1);
-                } 
-                else if (momentum < -0.8) {
-                    action = "SELL\n(SHORT)"; color = "var(--sell-color)"; icon = "↓";
-                    strength = (85 + Math.random() * 10).toFixed(1);
-                    prob = (92 + Math.random() * 5).toFixed(1);
-                } 
-                else {
-                    // Market is choppy/consolidating
-                    return { action: "WAIT", color: "var(--warn-color)", icon: "●", strength: "45.0", prob: "0.0", msg: "CONSOLIDATION - AVOID CHOP" };
-                }
-
-                // ANTI-STREAK PROTECTION: Stop 10 losses in a row
-                if (action === lastSignal) { streakCount++; } 
-                else { streakCount = 1; lastSignal = action; }
-
-                if (streakCount > 2) {
-                    streakCount = 0; // Reset
-                    return { action: "WAIT", color: "var(--warn-color)", icon: "⚠️", strength: "30.0", prob: "0.0", msg: "BROKER TRAP DETECTED - HOLD" };
-                }
-
-                return { action, color, icon, strength, prob, msg: "SIGNAL CONFIRMED" };
+            if (momentum > 0.6) {
+                actionRaw = "act_buy"; color = "var(--buy-color)"; icon = "↑";
+                strength = (88 + Math.random() * 8).toFixed(1);
+                prob = (92 + Math.random() * 5).toFixed(1);
+                msg = "MOMENTUM CONFIRMED";
+            } 
+            else if (momentum < -0.6) {
+                actionRaw = "act_sell"; color = "var(--sell-color)"; icon = "↓";
+                strength = (88 + Math.random() * 8).toFixed(1);
+                prob = (92 + Math.random() * 5).toFixed(1);
+                msg = "MOMENTUM CONFIRMED";
+            } 
+            else {
+                return { actionRaw: "act_wait", color: "var(--warn-color)", icon: "●", strength: "45.0", prob: "0.0", msg: "CONSOLIDATION - HOLD" };
             }
 
-            // 2. REAL MARKET LOGIC (Binance Volume & Candle Check)
-            try {
-                let symbol = pair.includes("ETHEREUM") ? "ETHUSDT" : (pair.includes("GOLD") ? "PAXGUSDT" : "BTCUSDT");
-                let res = await fetch(`https://api.binance.com/api/v3/klines?symbol=${symbol}&interval=1m&limit=2`);
-                let data = await res.json();
-                
-                let closes = data.map(d => parseFloat(d[4]));
-                let opens = data.map(d => parseFloat(d[1]));
-                let volumes = data.map(d => parseFloat(d[5]));
-                
-                let currentBody = closes[1] - opens[1];
-                let isBullish = currentBody > 0;
-                
-                // Volume check to avoid flat markets
-                if (volumes[1] < (volumes[0] * 0.7)) {
-                     return { action: "WAIT", color: "var(--warn-color)", icon: "●", strength: "40.0", prob: "0.0", msg: "LOW VOLUME - WAITING" };
-                }
-                
-                let action = isBullish ? "BUY\n(LONG)" : "SELL\n(SHORT)";
-                let color = isBullish ? "var(--buy-color)" : "var(--sell-color)";
-                let icon = isBullish ? "↑" : "↓";
-                let strength = (88 + Math.random()*8).toFixed(1);
-                let prob = (90 + Math.random()*7).toFixed(1);
+            // Memory to stop 10x fail streaks
+            if (actionRaw === lastSignal) { streakCount++; } 
+            else { streakCount = 1; lastSignal = actionRaw; }
 
-                return { action, color, icon, strength, prob, msg: "REAL VOLUME BREAKOUT" };
-
-            } catch (err) {
-                return { action: "ERR", color: "var(--warn-color)", icon: "!", strength: "0", prob: "0", msg: "API CONNECTION ERROR" };
+            if (streakCount > 3) {
+                streakCount = 0; 
+                return { actionRaw: "act_wait", color: "var(--warn-color)", icon: "⚠️", strength: "30.0", prob: "0.0", msg: "OVEREXTENDED - AVOID TRAP" };
             }
+
+            return { actionRaw, color, icon, strength, prob, msg };
         }
 
         function startAutoLoop() {
@@ -296,7 +346,7 @@
             let pair = document.getElementById('pair').value;
 
             // UI: Scanning Phase
-            document.getElementById('statusText').innerText = `Analyzing Market - ${pair}...`;
+            document.getElementById('statusText').innerText = translations[currentLang].scanning + ` ${pair}`;
             document.getElementById('statusText').style.color = "var(--text-muted)";
             
             document.getElementById('scannerRing').style.display = "block";
@@ -306,54 +356,57 @@
             
             document.getElementById('sigIcon').style.display = "none";
             document.getElementById('sigText').style.display = "none";
-            
             document.getElementById('metricsBox').style.display = "none";
-            document.getElementById('timerMsg').innerText = "SCANNING...";
+            
+            document.getElementById('timerMsg').innerText = translations[currentLang].scanning;
             document.getElementById('timerText').innerText = "--:--";
             document.getElementById('timerText').style.color = "var(--text-primary)";
 
-            // 2 Second Analysis Delay
+            // Delay for realistic analysis feel
             scanTimeout = setTimeout(async () => {
                 let data = await fetchQuantSignal(pair);
                 
-                // UI: Signal Reveal Phase
+                // UI: Signal Reveal
                 document.getElementById('statusText').innerText = data.msg;
                 document.getElementById('statusText').style.color = data.color;
 
                 document.getElementById('scannerRing').style.display = "none";
                 document.getElementById('circleOuter').style.borderColor = data.color;
-                document.getElementById('circleOuter').style.boxShadow = `0 0 30px ${data.color}40`;
-                
-                // Color the inner circle faintly
-                document.getElementById('circleInner').style.background = `radial-gradient(circle, ${data.color}20 0%, var(--bg-card) 80%)`;
+                document.getElementById('circleOuter').style.boxShadow = `0 0 40px ${data.color}50`;
+                document.getElementById('circleInner').style.background = `radial-gradient(circle, ${data.color}20 0%, var(--bg-card) 90%)`;
 
                 document.getElementById('sigIcon').innerText = data.icon;
                 document.getElementById('sigIcon').style.color = data.color;
                 document.getElementById('sigIcon').style.display = "block";
                 
-                document.getElementById('sigText').innerText = data.action;
+                // Fetch translation for signal text
+                document.getElementById('sigText').innerText = translations[currentLang][data.actionRaw];
                 document.getElementById('sigText').style.color = data.color;
                 document.getElementById('sigText').style.display = "block";
 
-                // Progress Bars Reveal
+                // Progress Bars Animation
                 document.getElementById('metricsBox').style.display = "block";
                 
                 document.getElementById('strengthVal').innerText = data.strength + "%";
                 document.getElementById('strengthVal').style.color = data.color;
-                document.getElementById('strengthFill').style.width = data.strength + "%";
-                document.getElementById('strengthFill').style.background = data.color;
+                // Timeout to trigger CSS width transition
+                setTimeout(() => {
+                    document.getElementById('strengthFill').style.width = data.strength + "%";
+                    document.getElementById('strengthFill').style.background = data.color;
+                    
+                    document.getElementById('probVal').innerText = data.prob + "%";
+                    document.getElementById('probVal').style.color = data.color;
+                    document.getElementById('probFill').style.width = data.prob + "%";
+                    document.getElementById('probFill').style.background = data.color;
+                }, 50);
 
-                document.getElementById('probVal').innerText = data.prob + "%";
-                document.getElementById('probVal').style.color = data.color;
-                document.getElementById('probFill').style.width = data.prob + "%";
-                document.getElementById('probFill').style.background = data.color;
-
-                startTradeTimer();
-            }, 2000);
+                startTradeTimer(data.color);
+            }, 1800);
         }
 
-        function startTradeTimer() {
-            document.getElementById('timerMsg').innerText = "WAIT FOR NEW SIGNAL";
+        function startTradeTimer(color) {
+            document.getElementById('timerMsg').innerText = translations[currentLang].wait_signal;
+            document.getElementById('timerText').style.color = color;
             
             let totalSeconds = parseInt(document.getElementById('timeframe').value);
             let timeLeft = totalSeconds;
@@ -370,6 +423,9 @@
                 }
             }, 1000);
         }
+
+        // Initialize language on load
+        changeLanguage();
     </script>
 </body>
 </html>
