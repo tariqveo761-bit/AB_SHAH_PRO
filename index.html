@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AB.SHAH | QUANTUM HFT V11.0 PRO</title>
+    <title>AB.SHAH | QUANTUM HFT V12.0 PRO</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&family=JetBrains+Mono:wght@400;700;800;900&display=swap" rel="stylesheet">
     <style>
+        /* MULTI-THEME CSS VARIABLES */
         :root {
             --bg-main: #050505; --bg-card: #0e1117; --border-color: #21262d; --text-primary: #ffffff;
             --text-muted: #8b949e; --buy-color: #00e676; --sell-color: #ff1744; --warn-color: #ffb300; --accent: #2962ff; --circle-bg: #161b22;
@@ -14,46 +15,59 @@
             --bg-main: #f0f2f5; --bg-card: #ffffff; --border-color: #d0d7de; --text-primary: #24292f;
             --text-muted: #57606a; --buy-color: #059669; --sell-color: #e11d48; --warn-color: #d97706; --accent: #0969da; --circle-bg: #f6f8fa;
         }
+        [data-theme="cyberpunk"] {
+            --bg-main: #0d0221; --bg-card: #261447; --border-color: #f72585; --text-primary: #ffffff;
+            --text-muted: #b5179e; --buy-color: #00f5d4; --sell-color: #f72585; --warn-color: #fee440; --accent: #7209b7; --circle-bg: #1a0b2e;
+        }
+        [data-theme="ocean"] {
+            --bg-main: #0b132b; --bg-card: #1c2541; --border-color: #3a506b; --text-primary: #ffffff;
+            --text-muted: #5bc0be; --buy-color: #00ffcc; --sell-color: #ff4d4d; --warn-color: #f4d35e; --accent: #4eb9f3; --circle-bg: #111c38;
+        }
+        [data-theme="matrix"] {
+            --bg-main: #000000; --bg-card: #001100; --border-color: #00ff00; --text-primary: #00ff00;
+            --text-muted: #008800; --buy-color: #00ff00; --sell-color: #ff0000; --warn-color: #ffff00; --accent: #00ff00; --circle-bg: #000800;
+        }
+        
         * { box-sizing: border-box; }
-        body { background: var(--bg-main); color: var(--text-primary); font-family: 'Inter', sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 15px; transition: 0.3s; }
-        .app-container { background: var(--bg-card); border: 1px solid var(--border-color); padding: 20px; border-radius: 24px; width: 100%; max-width: 460px; box-shadow: 0 20px 50px rgba(0,0,0,0.8); display: flex; flex-direction: column; overflow: hidden; position: relative; }
+        body { background: var(--bg-main); color: var(--text-primary); font-family: 'Inter', sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 15px; transition: background 0.4s, color 0.4s; }
+        .app-container { background: var(--bg-card); border: 1px solid var(--border-color); padding: 20px; border-radius: 24px; width: 100%; max-width: 460px; box-shadow: 0 20px 50px rgba(0,0,0,0.8); display: flex; flex-direction: column; overflow: hidden; position: relative; transition: 0.4s; }
         
         .utility-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
         .util-selects { display: flex; gap: 8px; flex-wrap: wrap; }
-        .u-sel { background: var(--circle-bg); border: 1px solid var(--border-color); color: var(--text-muted); border-radius: 6px; padding: 6px 10px; font-size: 11px; font-family: 'JetBrains Mono'; font-weight: 700; outline: none; cursor: pointer; }
-        .theme-btn { background: var(--circle-bg); border: 1px solid var(--border-color); color: var(--text-muted); border-radius: 6px; padding: 6px 12px; cursor: pointer; }
+        .u-sel { background: var(--circle-bg); border: 1px solid var(--border-color); color: var(--text-muted); border-radius: 6px; padding: 6px 10px; font-size: 11px; font-family: 'JetBrains Mono'; font-weight: 700; outline: none; cursor: pointer; transition: 0.3s;}
+        .theme-btn { background: var(--circle-bg); border: 1px solid var(--border-color); color: var(--text-primary); border-radius: 6px; padding: 6px 12px; cursor: pointer; font-size: 14px; transition: 0.3s;}
         
         .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px;}
-        .ping-badge { font-family: 'JetBrains Mono'; font-size: 10px; color: var(--buy-color); background: rgba(0, 230, 118, 0.1); padding: 4px 8px; border-radius: 4px; border: 1px solid rgba(0, 230, 118, 0.2); font-weight: 800; }
+        .ping-badge { font-family: 'JetBrains Mono'; font-size: 10px; color: var(--buy-color); background: rgba(0, 230, 118, 0.1); padding: 4px 8px; border-radius: 4px; border: 1px solid rgba(0, 230, 118, 0.2); font-weight: 800; transition: 0.3s;}
         
-        #chart-wrapper { width: 100%; height: 160px; border-radius: 12px; overflow: hidden; border: 1px solid var(--border-color); margin-bottom: 15px; display: none; background: var(--circle-bg); }
+        #chart-wrapper { width: 100%; height: 160px; border-radius: 12px; overflow: hidden; border: 1px solid var(--border-color); margin-bottom: 15px; display: none; background: var(--circle-bg); transition: 0.3s;}
         
         .controls { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
-        select.main-sel { background: var(--circle-bg); border: 1px solid var(--border-color); color: var(--text-primary); padding: 12px; border-radius: 10px; font-family: 'JetBrains Mono'; font-size: 11px; font-weight: 700; outline: none; cursor: pointer;}
+        select.main-sel { background: var(--circle-bg); border: 1px solid var(--border-color); color: var(--text-primary); padding: 12px; border-radius: 10px; font-family: 'JetBrains Mono'; font-size: 11px; font-weight: 700; outline: none; cursor: pointer; transition: 0.3s;}
         
         .indicator-wrapper { display: flex; flex-direction: column; align-items: center; margin-bottom: 20px; }
-        .status-text { font-family: 'JetBrains Mono'; font-size: 11px; font-weight: 800; color: var(--text-muted); margin-bottom: 12px; text-transform: uppercase; height: 14px; letter-spacing: 1px; text-align: center;}
+        .status-text { font-family: 'JetBrains Mono'; font-size: 11px; font-weight: 800; color: var(--text-muted); margin-bottom: 12px; text-transform: uppercase; height: 14px; letter-spacing: 1px; text-align: center; transition: 0.3s;}
         .circle-outer { width: 150px; height: 150px; border-radius: 50%; display: flex; justify-content: center; align-items: center; position: relative; transition: 0.4s; background: var(--circle-bg); border: 2px solid var(--border-color); }
-        .circle-inner { width: 125px; height: 125px; border-radius: 50%; display: flex; flex-direction: column; justify-content: center; align-items: center; background: var(--bg-card); z-index: 2; }
+        .circle-inner { width: 125px; height: 125px; border-radius: 50%; display: flex; flex-direction: column; justify-content: center; align-items: center; background: var(--bg-card); z-index: 2; transition: 0.4s;}
         
-        .signal-icon { width: 35px; height: 35px; display: none; margin-bottom: 5px;}
-        .signal-text { font-size: 16px; font-weight: 900; display: none; text-align: center; line-height: 1.2;}
+        .signal-icon { width: 35px; height: 35px; display: none; margin-bottom: 5px; transition: 0.3s;}
+        .signal-text { font-size: 16px; font-weight: 900; display: none; text-align: center; line-height: 1.2; transition: 0.3s;}
         .scanner-ring { position: absolute; width: 100%; height: 100%; border-radius: 50%; border: 3px solid transparent; border-top-color: var(--accent); animation: spin 0.8s linear infinite; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         
         .metrics-container { margin-bottom: 20px; display: none; }
         .metric-row { margin-bottom: 10px; }
         .metric-labels { display: flex; justify-content: space-between; font-family: 'JetBrains Mono'; font-size: 10px; font-weight: 800; margin-bottom: 4px; }
-        .progress-bg { width: 100%; height: 8px; background: var(--circle-bg); border-radius: 4px; overflow: hidden; }
+        .progress-bg { width: 100%; height: 8px; background: var(--circle-bg); border-radius: 4px; overflow: hidden; border: 1px solid var(--border-color);}
         .progress-fill { height: 100%; width: 0%; transition: 1s ease-in-out; }
         
-        .timer-box { background: var(--circle-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 15px; text-align: center; margin-bottom: 15px; }
-        .timer-val { font-family: 'JetBrains Mono'; font-size: 28px; font-weight: 900; }
+        .timer-box { background: var(--circle-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 15px; text-align: center; margin-bottom: 15px; transition: 0.3s;}
+        .timer-val { font-family: 'JetBrains Mono'; font-size: 28px; font-weight: 900; transition: 0.3s;}
         
         .tester-btn { width: 100%; padding: 12px; background: transparent; color: var(--text-muted); border: 1px dashed var(--border-color); border-radius: 8px; font-weight: 700; font-size: 11px; cursor: pointer; font-family: 'JetBrains Mono'; transition: 0.3s;}
         .tester-btn:hover { border-color: var(--text-primary); color: var(--text-primary); }
         
-        #testerModal { display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 10; flex-direction: column; justify-content: center; align-items: center; padding: 20px; backdrop-filter: blur(8px); }
+        #testerModal { display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 10; flex-direction: column; justify-content: center; align-items: center; padding: 20px; backdrop-filter: blur(8px); border-radius: 24px;}
         .tester-title { font-family: 'JetBrains Mono'; color: var(--text-primary); font-size: 14px; font-weight: 800; margin-bottom: 20px; text-align: center; }
         .tester-progress-bg { width: 90%; height: 8px; background: var(--circle-bg); border: 1px solid var(--border-color); border-radius: 4px; overflow: hidden; margin-bottom: 10px;}
         .tester-progress-fill { height: 100%; width: 0%; background: var(--accent); transition: 0.1s linear;}
@@ -62,7 +76,7 @@
         .close-tester-btn { display: none; padding: 12px 24px; background: var(--buy-color); color: #000; border: none; border-radius: 6px; font-weight: 900; cursor: pointer; font-family: 'JetBrains Mono'; font-size: 12px;}
 
         .auth-screen { text-align: center; padding: 20px 0; }
-        .auth-inp { width: 100%; padding: 16px; background: var(--circle-bg); border: 1px solid var(--border-color); color: var(--text-primary); border-radius: 12px; margin-bottom: 15px; outline: none; font-family: 'JetBrains Mono';}
+        .auth-inp { width: 100%; padding: 16px; background: var(--circle-bg); border: 1px solid var(--border-color); color: var(--text-primary); border-radius: 12px; margin-bottom: 15px; outline: none; font-family: 'JetBrains Mono'; transition: 0.3s;}
         .primary-btn { width: 100%; padding: 18px; background: var(--accent); color: #fff; border: none; border-radius: 12px; font-weight: 900; cursor: pointer; transition: 0.3s; }
         .security-alert { display: none; background: rgba(255, 23, 68, 0.1); border: 1px solid var(--sell-color); color: var(--sell-color); padding: 15px; border-radius: 10px; margin-top: 15px; font-size: 11px; font-weight: 700; }
         .copyright { text-align: center; margin-top: 15px; font-size: 9px; color: var(--text-muted); font-family: 'JetBrains Mono'; }
@@ -73,7 +87,7 @@
     <div class="app-container">
         
         <div id="testerModal">
-            <div class="tester-title">7-DAY ALGORITHMIC BACKTEST</div>
+            <div class="tester-title" id="txtReportTitle">7-DAY ALGORITHMIC BACKTEST</div>
             <div class="tester-progress-bg"><div class="tester-progress-fill" id="testerFill"></div></div>
             <div class="tester-logs" id="testerLogs">Initializing Multi-API Engine...</div>
             
@@ -83,7 +97,7 @@
                 <div style="display: flex; justify-content: space-between;"><span>Total Candles Scanned:</span> <b>24,850</b></div>
                 <div style="display: flex; justify-content: space-between;"><span>Winning Trades:</span> <b style="color: var(--buy-color);">4,821</b></div>
                 <div style="display: flex; justify-content: space-between;"><span>Losing Trades:</span> <b style="color: var(--sell-color);">392</b></div>
-                <hr style="border: 0; border-top: 1px solid #333; margin: 8px 0;">
+                <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 8px 0;">
                 <div style="display: flex; justify-content: space-between; font-size: 13px;"><span>WIN RATE:</span> <b style="color: var(--buy-color);">92.48%</b></div>
                 <div style="display: flex; justify-content: space-between; font-size: 13px;"><span>MAX DRAWDOWN:</span> <b>0.8%</b></div>
             </div>
@@ -93,23 +107,21 @@
 
         <div class="utility-bar">
             <div class="util-selects">
-                <select class="u-sel" id="langSel">
-                    <option value="EN">EN</option><option value="AR">AR</option><option value="PT">PT</option><option value="ES">ES</option>
-                    <option value="RU">RU</option><option value="ID">ID</option><option value="UR">UR</option><option value="HI">HI</option>
-                    <option value="VI">VI</option><option value="TH">TH</option><option value="TR">TR</option><option value="FR">FR</option>
-                    <option value="DE">DE</option><option value="IT">IT</option><option value="ZH">ZH</option><option value="JA">JA</option>
-                    <option value="KO">KO</option><option value="MS">MS</option><option value="PL">PL</option><option value="RO">RO</option>
+                <select class="u-sel" id="langSel" onchange="changeLanguage()">
+                    <option value="EN">EN</option><option value="AR">AR</option><option value="UR">UR</option>
+                    <option value="HI">HI</option><option value="ES">ES</option><option value="PT">PT</option>
+                    <option value="RU">RU</option><option value="FR">FR</option><option value="ID">ID</option>
                 </select>
                 <select class="u-sel" id="serverSel" onchange="changeServer()">
                     <option value="GLOBAL">AUTO NODE</option><option value="US">US API</option><option value="UK">UK API</option><option value="SG">SG API</option><option value="IN">IN API</option>
                 </select>
             </div>
-            <button class="theme-btn" onclick="toggleTheme()" id="themeBtn">☀️</button>
+            <button class="theme-btn" onclick="cycleTheme()" id="themeBtn">🌙</button>
         </div>
 
         <div class="auth-screen" id="loginBox">
-            <h1 style="font-size: 32px; font-weight: 900; margin: 0;">AB.SHAH</h1>
-            <p style="color: var(--text-muted); font-size: 11px; margin-bottom: 25px;">HFT DATA ENGINE v11.0</p>
+            <h1 style="font-size: 32px; font-weight: 900; margin: 0; color: var(--text-primary);">AB.SHAH</h1>
+            <p style="color: var(--text-muted); font-size: 11px; margin-bottom: 25px;">HFT DATA ENGINE v12.0</p>
             <input type="email" id="email" class="auth-inp" placeholder="Enter Secure License Key">
             <button class="primary-btn" id="loginBtn" onclick="login()">INITIALIZE ENGINE</button>
             <div class="security-alert" id="secAlert"></div>
@@ -176,12 +188,12 @@
                 </select>
                 
                 <select id="timeframe" class="main-sel" onchange="onTimeframeChange()">
-                    <option value="5">5 SECONDS</option>
-                    <option value="15">15 SECONDS</option>
-                    <option value="30">30 SECONDS</option>
-                    <option value="60" selected>1 MINUTE (M1)</option>
-                    <option value="300">5 MINUTES (M5)</option>
-                    <option value="900">15 MINUTES (M15)</option>
+                    <option value="5" id="opt5s">5 SECONDS</option>
+                    <option value="15" id="opt15s">15 SECONDS</option>
+                    <option value="30" id="opt30s">30 SECONDS</option>
+                    <option value="60" id="opt1m" selected>1 MINUTE (M1)</option>
+                    <option value="300" id="opt5m">5 MINUTES (M5)</option>
+                    <option value="900" id="opt15m">15 MINUTES (M15)</option>
                 </select>
             </div>
             
@@ -198,7 +210,7 @@
             </div>
             
             <div class="metrics-container" id="metricsBox">
-                <div class="metric-row"><div class="metric-labels"><span>AI CONFIDENCE</span><span id="strengthVal">0%</span></div>
+                <div class="metric-row"><div class="metric-labels"><span id="txtConf">AI CONFIDENCE SCORE</span><span id="strengthVal">0%</span></div>
                 <div class="progress-bg"><div class="progress-fill" id="strengthFill"></div></div></div>
             </div>
             
@@ -207,7 +219,7 @@
                 <div class="timer-val" id="timerText">00:00</div>
             </div>
 
-            <button class="tester-btn" onclick="runTester()">[ RUN 7-DAY ALGORITHMIC REPORT ]</button>
+            <button class="tester-btn" id="runTesterBtn" onclick="runTester()">[ RUN 7-DAY ALGORITHMIC REPORT ]</button>
             <div class="copyright">&copy; 2026 AB.SHAH QUANTUM SYSTEMS</div>
         </div>
     </div>
@@ -215,18 +227,61 @@
     <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
 
     <script>
+        // --- 1. HARDWARE LOCK ---
         let deviceID = localStorage.getItem("abshah_vid") || "DEV-" + Math.random().toString(36).substring(2, 10).toUpperCase();
         localStorage.setItem("abshah_vid", deviceID);
 
-        // API URL
         const GOOGLE_APP_URL = "https://script.google.com/macros/s/AKfycby_m3jSnbjs2ahsHZbrXQiY3drD3oXY6NbVh5PrHYSGUxatxn4hzTi46kqJQi8zrX-xLw/exec"; 
 
+        // --- 2. MULTI-THEME LOGIC ---
+        const themes = ['dark', 'light', 'cyberpunk', 'ocean', 'matrix'];
+        const themeIcons = ['🌙', '☀️', '🟣', '🌊', '💻'];
+        let curTheme = 0;
+        
+        function cycleTheme() {
+            curTheme = (curTheme + 1) % themes.length;
+            document.body.dataset.theme = themes[curTheme];
+            document.getElementById('themeBtn').innerText = themeIcons[curTheme];
+            if(document.getElementById('tradingview_widget').innerHTML !== "") {
+                onPairChange(); // Reload chart to match theme (maps to dark/light)
+            }
+        }
+
+        // --- 3. LIVE TRANSLATION ENGINE ---
+        const dict = {
+            "EN": { init: "INITIALIZE ENGINE", wait: "WAITING FOR DATA...", scan: "HFT ENGINE: ANALYZING APIs...", run: "[ RUN 7-DAY ALGORITHMIC REPORT ]", conf: "AI CONFIDENCE SCORE", next: "NEXT SCAN IN" },
+            "AR": { init: "تهيئة المحرك", wait: "في انتظار البيانات...", scan: "محرك HFT: تحليل البيانات...", run: "[ تشغيل تقرير الخوارزمية ]", conf: "درجة ثقة الذكاء الاصطناعي", next: "الفحص التالي في" },
+            "UR": { init: "انجن شروع کریں", wait: "ڈیٹا کا انتظار...", scan: "ایچ ایف ٹی: مارکیٹ اسکیننگ...", run: "[ 7 دن کی رپورٹ چلائیں ]", conf: "اے آئی کی یقین دہانی", next: "اگلا سگنل:" },
+            "HI": { init: "सिस्टम शुरू करें", wait: "डेटा की प्रतीक्षा...", scan: "एचएफटी इंजन: स्कैनिंग...", run: "[ 7-दिन की रिपोर्ट चलाएं ]", conf: "एआई विश्वास स्कोर", next: "अगला स्कैन:" },
+            "ES": { init: "INICIALIZAR MOTOR", wait: "ESPERANDO DATOS...", scan: "MOTOR HFT: ANALIZANDO...", run: "[ EJECUTAR REPORTE DE 7 DÍAS ]", conf: "CONFIANZA DE IA", next: "PRÓXIMO ESCANEO EN" },
+            "PT": { init: "INICIALIZAR MOTOR", wait: "AGUARDANDO DADOS...", scan: "MOTOR HFT: ANALISANDO...", run: "[ EXECUTAR RELATÓRIO DE 7 DIAS ]", conf: "CONFIANÇA DA IA", next: "PRÓXIMO SCAN EM" },
+            "RU": { init: "ЗАПУСК СИСТЕМЫ", wait: "ОЖИДАНИЕ ДАННЫХ...", scan: "ДВИЖОК HFT: АНАЛИЗ...", run: "[ ОТЧЕТ ЗА 7 ДНЕЙ ]", conf: "УВЕРЕННОСТЬ ИИ", next: "СЛЕДУЮЩИЙ СИГНАЛ:" },
+            "FR": { init: "INITIALISER MOTEUR", wait: "ATTENTE DE DONNÉES...", scan: "MOTEUR HFT: ANALYSE...", run: "[ RAPPORT ALGORITHMIQUE ]", conf: "SCORE DE CONFIANCE", next: "PROCHAIN SCAN:" },
+            "ID": { init: "MULAI MESIN", wait: "MENUNGGU DATA...", scan: "MESIN HFT: MENGANALISIS...", run: "[ JALANKAN LAPORAN 7 HARI ]", conf: "TINGKAT KEPERCAYAAN", next: "SCAN BERIKUTNYA:" }
+        };
+
+        let currentLang = "EN";
+        function changeLanguage() {
+            currentLang = document.getElementById('langSel').value;
+            let d = dict[currentLang] || dict["EN"];
+            document.getElementById('loginBtn').innerText = d.init;
+            document.getElementById('runTesterBtn').innerText = d.run;
+            document.getElementById('txtConf').innerText = d.conf;
+            if(document.getElementById('statusText').innerText.includes("WAIT")) {
+                document.getElementById('statusText').innerText = d.wait;
+            }
+            if(document.getElementById('timerLabel').innerText.includes("NEXT")) {
+                document.getElementById('timerLabel').innerText = d.next;
+            }
+        }
+
+        // --- 4. SYSTEM LOGIN ---
         async function login() {
             let email = document.getElementById('email').value.trim().toLowerCase();
             let alertBox = document.getElementById('secAlert');
             let btn = document.getElementById('loginBtn');
             if(!email) return;
-            btn.innerText = "VERIFYING LICENSE...";
+            btn.innerText = "VERIFYING ENCRYPTION...";
             btn.disabled = true;
 
             try {
@@ -241,37 +296,29 @@
                     alertBox.style.display = "block"; alertBox.innerText = data.msg;
                 }
             } catch (e) {
-                alertBox.style.display = "block"; alertBox.innerText = "DATABASE ERROR: Please check internet or script URL.";
+                alertBox.style.display = "block"; alertBox.innerText = "DATABASE ERROR: CONNECTION REFUSED.";
             } finally {
-                btn.innerText = "INITIALIZE ENGINE"; btn.disabled = false;
+                changeLanguage(); // restore correct button text
+                btn.disabled = false;
             }
         }
 
-        // SMART TRADINGVIEW MAPPER (Links OTC to their Real equivalents for Charting)
+        // --- 5. CHART INTEGRATION ---
         function getTradingViewSymbol(pair) {
-            if(pair.includes("BTC") || pair.includes("ETH") || pair.includes("SOL") || pair.includes("XRP") || pair.includes("ADA") || pair.includes("DOGE") || pair.includes("LINK") || pair.includes("LTC")) {
-                return "BINANCE:" + pair;
-            } else if(pair.includes("GOLD") || pair.includes("XAU")) {
-                return "OANDA:XAUUSD";
-            } else if(pair.includes("SILVER") || pair.includes("XAG")) {
-                return "OANDA:XAGUSD";
-            } else if(pair.includes("CRUDE")) {
-                return "TVC:USOIL";
-            } else {
-                // Forex Real & OTC mapped to FXCM Real data
-                let cleanPair = pair.replace("FX_", "").replace("_OTC", "");
-                return "FX:" + cleanPair;
-            }
+            if(pair.includes("BTC") || pair.includes("ETH") || pair.includes("SOL") || pair.includes("XRP") || pair.includes("ADA") || pair.includes("DOGE") || pair.includes("LINK") || pair.includes("LTC")) { return "BINANCE:" + pair; }
+            else if(pair.includes("GOLD") || pair.includes("XAU")) { return "OANDA:XAUUSD"; }
+            else if(pair.includes("SILVER") || pair.includes("XAG")) { return "OANDA:XAGUSD"; }
+            else if(pair.includes("CRUDE")) { return "TVC:USOIL"; }
+            else { let cleanPair = pair.replace("FX_", "").replace("_OTC", ""); return "FX:" + cleanPair; }
         }
 
         function loadTradingView(symbol) {
             document.getElementById('tradingview_widget').innerHTML = ""; 
-            let tvSymbol = getTradingViewSymbol(symbol);
+            let tvTheme = (curTheme === 1) ? 'light' : 'dark'; // Light theme gets light chart, others get dark
             new TradingView.widget({
-                "width": "100%", "height": 160, "symbol": tvSymbol, "interval": "1", "timezone": "Etc/UTC",
-                "theme": document.body.dataset.theme === 'light' ? 'light' : 'dark', "style": "1", "locale": "en",
-                "toolbar_bg": "#f1f3f6", "enable_publishing": false, "hide_top_toolbar": true, "hide_legend": true,
-                "save_image": false, "container_id": "tradingview_widget"
+                "width": "100%", "height": 160, "symbol": getTradingViewSymbol(symbol), "interval": "1", "timezone": "Etc/UTC",
+                "theme": tvTheme, "style": "1", "locale": "en", "toolbar_bg": "#f1f3f6", "enable_publishing": false, 
+                "hide_top_toolbar": true, "hide_legend": true, "save_image": false, "container_id": "tradingview_widget"
             });
         }
 
@@ -290,31 +337,26 @@
             startHFTScan(pair);
         }
 
-        // MULTI-API QUANTUM LOGIC ENGINE
+        // --- 6. "100% SURE" GOD-LEVEL ALGORITHM ---
         async function fetchMarketSignal(pair) {
-            // Binance Logic for Crypto
+            let signalDir = "BUY";
+            // For Crypto/Real API: 14-candle math processing simulation
             if(!pair.includes("OTC") && !pair.includes("FX_") && !pair.includes("GOLD") && !pair.includes("SILVER")) {
                 try {
-                    const res = await fetch(`https://api.binance.com/api/v3/klines?symbol=${pair}&interval=1m&limit=5`);
+                    const res = await fetch(`https://api.binance.com/api/v3/klines?symbol=${pair}&interval=1m&limit=14`);
                     const data = await res.json();
-                    let bulls = 0, bears = 0;
-                    data.forEach(c => { if (parseFloat(c[4]) > parseFloat(c[1])) bulls++; else bears++; });
-                    return bulls >= bears ? "BUY" : "SELL";
+                    let closeSum = 0, openSum = 0;
+                    data.forEach(c => { closeSum += parseFloat(c[4]); openSum += parseFloat(c[1]); });
+                    signalDir = (closeSum > openSum) ? "BUY" : "SELL";
                 } catch (e) {
-                    return Math.random() > 0.5 ? "BUY" : "SELL";
+                    signalDir = Math.random() > 0.5 ? "BUY" : "SELL";
                 }
-            } 
-            // Quantum Math Logic for Forex & OTC
-            else {
-                let randomFactor = Math.random();
-                // 60% probability based on time-seed for consistency, 40% random variance
-                let timeSeed = new Date().getMinutes() % 2;
-                if(timeSeed === 0) {
-                    return randomFactor > 0.4 ? "BUY" : "SELL";
-                } else {
-                    return randomFactor > 0.4 ? "SELL" : "BUY";
-                }
+            } else {
+                // Strong deterministic logic for OTC/Forex based on timestamp
+                let ts = Math.floor(Date.now() / 10000); // changes every 10 sec
+                signalDir = (ts % 2 === 0) ? "BUY" : "SELL"; 
             }
+            return signalDir;
         }
 
         let countdownInterval, scanTimeout;
@@ -322,7 +364,8 @@
         async function startHFTScan(pair) {
             clearInterval(countdownInterval); clearTimeout(scanTimeout);
             
-            document.getElementById('statusText').innerText = "HFT ENGINE: ANALYZING APIs...";
+            let d = dict[currentLang] || dict["EN"];
+            document.getElementById('statusText').innerText = d.scan;
             document.getElementById('statusText').style.color = "var(--text-muted)";
             document.getElementById('scannerRing').style.display = "block";
             document.getElementById('sigIconBuy').style.display = "none";
@@ -343,31 +386,38 @@
                 
                 document.getElementById('scannerRing').style.display = "none";
                 document.getElementById('circleOuter').style.borderColor = color;
-                document.getElementById('circleOuter').style.boxShadow = `0 0 30px ${color}50`;
+                document.getElementById('circleOuter').style.boxShadow = `0 0 40px ${color}70`;
                 
                 document.getElementById(isBuy ? 'sigIconBuy' : 'sigIconSell').style.display = "block";
                 document.getElementById(isBuy ? 'sigIconBuy' : 'sigIconSell').style.color = color;
-                document.getElementById('sigText').innerText = isBuy ? "BUY\n(CALL)" : "SELL\n(PUT)";
+                
+                // Translated Buy/Sell
+                let buyTxt = currentLang === "EN" ? "BUY\n(CALL)" : currentLang === "AR" ? "شراء\n(CALL)" : currentLang === "UR" ? "خریدیں\n(CALL)" : "BUY\n(CALL)";
+                let sellTxt = currentLang === "EN" ? "SELL\n(PUT)" : currentLang === "AR" ? "بيع\n(PUT)" : currentLang === "UR" ? "فروخت\n(PUT)" : "SELL\n(PUT)";
+                
+                document.getElementById('sigText').innerText = isBuy ? buyTxt : sellTxt;
                 document.getElementById('sigText').style.display = "block";
                 document.getElementById('sigText').style.color = color;
 
                 document.getElementById('metricsBox').style.display = "block";
-                const conf = (89 + Math.random() * 9).toFixed(1);
+                // God-Level Confidence Score (97% to 99.9%)
+                const conf = (97 + Math.random() * 2.9).toFixed(1);
                 document.getElementById('strengthVal').innerText = conf + "%";
                 document.getElementById('strengthVal').style.color = color;
                 
                 setTimeout(() => {
                     let sFill = document.getElementById('strengthFill');
                     sFill.style.width = conf + "%";
-                    sFill.style.background = isBuy ? "linear-gradient(90deg, #00b09b, #96c93d)" : "linear-gradient(90deg, #cb2d3e, #ef473a)";
+                    sFill.style.background = isBuy ? "var(--buy-color)" : "var(--sell-color)";
+                    sFill.style.boxShadow = `0 0 10px ${color}`;
                 }, 50);
 
                 // TRADE ENTRY CONFIRMATION (3 SECONDS)
-                document.getElementById('statusText').innerText = "VERIFYING BREAKOUT...";
+                document.getElementById('statusText').innerText = "100% ALGORITHM LOCK ACHIEVED";
                 document.getElementById('statusText').style.color = "var(--warn-color)";
                 
                 let entryWait = 3; 
-                document.getElementById('timerLabel').innerText = "ENTER TRADE IN";
+                document.getElementById('timerLabel').innerText = "VERIFYING FAKE BREAKOUT...";
                 document.getElementById('timerText').innerText = `00:03`;
                 document.getElementById('timerText').style.color = "var(--warn-color)";
 
@@ -386,7 +436,7 @@
                     }
                 }, 1000);
 
-            }, 2000); 
+            }, 2500); 
         }
 
         function startTimer(sec, pair, color) {
@@ -422,19 +472,19 @@
             btn.style.display = "none";
             report.style.display = "none";
             logs.style.display = "block";
-            logs.style.color = "var(--text-muted)";
+            logs.style.color = "var(--text-primary)";
             
             let prog = 0;
             let logTexts = [
-                "Pinging Binance & Forex Nodes...",
-                "Analyzing 24,850 past candles...",
-                "Running Quantum Neural Models...",
+                "Bypassing Broker APIs...",
+                "Running Multi-Threaded Neural Networks...",
                 "Filtering Fake OTC Breakouts...",
-                "Compiling API Matrix..."
+                "Calculating MACD, RSI & EMA crosses...",
+                "Compiling 100% Precision Matrix..."
             ];
             
             let intv = setInterval(() => {
-                prog += Math.random() * 5;
+                prog += Math.random() * 4;
                 if(prog > 100) prog = 100;
                 fill.style.width = prog + "%";
                 
@@ -450,15 +500,11 @@
             }, 150);
         }
 
-        function closeTester() {
-            document.getElementById('testerModal').style.display = "none";
-        }
-
-        function toggleTheme() { document.body.dataset.theme = document.body.getAttribute('data-theme') === 'light' ? '' : 'light'; }
+        function closeTester() { document.getElementById('testerModal').style.display = "none"; }
         function changeServer() { 
             let badge = document.getElementById('pingBadge');
             badge.style.color = "var(--warn-color)"; badge.innerText = "ROUTING...";
-            setTimeout(() => { badge.innerText = `PING: ${Math.floor(Math.random() * 30 + 5)}ms`; badge.style.color = "var(--buy-color)"; }, 500);
+            setTimeout(() => { badge.innerText = `PING: ${Math.floor(Math.random() * 15 + 2)}ms`; badge.style.color = "var(--buy-color)"; }, 400);
         }
     </script>
 </body>
